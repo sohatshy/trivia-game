@@ -1,0 +1,502 @@
+// ============================================================
+//  App: connects the screens (HTML) to the game rules (game.js).
+// ============================================================
+
+import { CONFIG } from './config.js';
+import { ICONS, starPoints } from './icons.js';
+import { getCategories, getPlayableCategories, getQuestionById } from './questions.js';
+import * as game from './game.js';
+import { sound } from './sound.js';
+
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+let categories = [];     // all categories from questions.json
+let catById = {};
+let playableIds = new Set();
+
+// ---------- helpers ----------
+function show(screenId) {
+  $$('.screen').forEach((s) => s.classList.toggle('is-active', s.id === screenId));
+  $('#btn-quit').hidden = !['screen-board', 'screen-question'].includes(screenId);
+  window.scrollTo(0, 0);
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = $('#toast');
+  el.textContent = msg;
+  el.classList.add('is-shown');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('is-shown'), 2600);
+}
+
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
+function teamVars(i) {
+  return i === 0 ? ['var(--t1)', 'var(--t1-ink)'] : ['var(--t2)', 'var(--t2-ink)'];
+}
+
+// ---------- boot ----------
+async function boot() {
+  $$('[data-icon]').forEach((el) => (el.outerHTML = ICONS[el.dataset.icon]));
+  $$('[data-game-name]').forEach((el) => (el.textContent = CONFIG.GAME_NAME));
+  setupMute();
+  $('#btn-quit').innerHTML = ICONS.home;
+  $('#btn-quit').addEventListener('click', quitGame);
+  document.addEventListener('pointerdown', () => sound.unlock(), { once: true });
+
+  try {
+    categories = await getCategories();
+    catById = Object.fromEntries(categories.map((c) => [c.id, c]));
+    playableIds = new Set((await getPlayableCategories(CONFIG.BOARD)).map((c) => c.id));
+  } catch (err) {
+    document.body.innerHTML = `<p style="padding:2rem;font-size:1.5rem">تعذّر تحميل الأسئلة. شغّل اللعبة عبر خادم محلي (مثلاً: python -m http.server).</p>`;
+    console.error(err);
+    return;
+  }
+
+  initLogin();
+  initSetup();
+
+  const saved = game.load();
+  if (saved && saved.phase === 'board') renderBoard();
+  else if (saved && saved.phase === 'question') openQuestion(true);
+  else if (saved && saved.phase === 'winner') renderWinner();
+  else show('screen-login');
+}
+
+// ---------- mute ----------
+function setupMute() {
+  const btn = $('#btn-mute');
+  const paint = () => {
+    const m = sound.isMuted();
+    btn.innerHTML = m ? ICONS.soundOff : ICONS.soundOn;
+    btn.setAttribute('aria-pressed', String(m));
+    btn.setAttribute('aria-label', m ? 'تشغيل الصوت' : 'كتم الصوت');
+  };
+  btn.addEventListener('click', () => {
+    sound.setMuted(!sound.isMuted());
+    paint();
+  });
+  paint();
+}
+
+function quitGame() {
+  if (!confirm('إنهاء هذه اللعبة والعودة لصفحة تجهيز الفريقين؟')) return;
+  stopTimer();
+  game.clear();
+  resetSetup();
+  show('screen-setup');
+}
+
+// ============================================================
+//  LOGIN
+// ============================================================
+function initLogin() {
+  $('#btn-guest').addEventListener('click', () => {
+    resetSetup();
+    show('screen-setup');
+  });
+  $('#btn-google').addEventListener('click', () => {
+    $('#login-note').textContent = 'الدخول بحساب Google قادم قريباً. العب كضيف الآن.';
+  });
+}
+
+// ============================================================
+//  SETUP
+// ============================================================
+const picks = [[], []];
+
+function initSetup() {
+  $$('.team-setup').forEach((section) => {
+    const team = Number(section.dataset.team);
+    const grid = $('.cat-grid', section);
+    grid.innerHTML = categories
+      .map((c) => {
+        const ready = playableIds.has(c.id);
+        return `<button type="button" class="cat-chip" data-cat="${c.id}" aria-pressed="false" ${ready ? '' : 'disabled'}>
+          ${ICONS[c.icon] || ''}<span>${esc(c.name)}</span>${ready ? '<span class="taken-by"></span>' : '<span class="taken-by">قريباً</span>'}
+        </button>`;
+      })
+      .join('');
+    grid.addEventListener('click', (e) => {
+      const chip = e.target.closest('.cat-chip');
+      if (!chip || chip.disabled) return;
+      togglePick(team, chip.dataset.cat);
+    });
+  });
+  $('#setup-form').addEventListener('submit', startGame);
+}
+
+function togglePick(team, catId) {
+  const mine = picks[team];
+  const other = picks[1 - team];
+  $('#setup-error').textContent = '';
+  if (mine.includes(catId)) {
+    mine.splice(mine.indexOf(catId), 1);
+  } else if (other.includes(catId)) {
+    return;
+  } else if (mine.length >= CONFIG.CATEGORIES_PER_TEAM) {
+    $('#setup-error').textContent = 'كل فريق يختار 3 فئات فقط. ألغِ واحدة أولاً.';
+    return;
+  } else {
+    mine.push(catId);
+  }
+  paintPicks();
+}
+
+function paintPicks() {
+  $$('.team-setup').forEach((section) => {
+    const team = Number(section.dataset.team);
+    $('[data-count]', section).textContent = picks[team].length;
+    $$('.cat-chip', section).forEach((chip) => {
+      const id = chip.dataset.cat;
+      if (!playableIds.has(id)) return;
+      const mine = picks[team].includes(id);
+      const taken = picks[1 - team].includes(id);
+      chip.setAttribute('aria-pressed', String(mine));
+      chip.classList.toggle('is-taken', taken);
+      chip.disabled = taken;
+      $('.taken-by', chip).textContent = taken ? 'اختارها الفريق الآخر' : '';
+    });
+  });
+}
+
+function resetSetup() {
+  picks[0].length = 0;
+  picks[1].length = 0;
+  $('#setup-error').textContent = '';
+  paintPicks();
+}
+
+async function startGame(e) {
+  e.preventDefault();
+  const names = [
+    $('#t0-name').value.trim() || 'الفريق الأول',
+    $('#t1-name').value.trim() || 'الفريق الثاني',
+  ];
+  if (names[0] === names[1]) {
+    $('#setup-error').textContent = 'اختاروا اسمين مختلفين للفريقين.';
+    $('#t1-name').focus();
+    return;
+  }
+  const n = CONFIG.CATEGORIES_PER_TEAM;
+  if (picks[0].length !== n || picks[1].length !== n) {
+    const who = picks[0].length !== n ? names[0] : names[1];
+    $('#setup-error').textContent = `${who}: اختاروا ${n} فئات.`;
+    return;
+  }
+  const btn = $('#btn-start');
+  btn.disabled = true;
+  btn.textContent = 'جارٍ التجهيز…';
+  try {
+    await game.newGame(names, [picks[0].slice(), picks[1].slice()]);
+    sound.open();
+    renderBoard();
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'ابدأ اللعب';
+  }
+}
+
+// ============================================================
+//  BOARD
+// ============================================================
+function renderTeamPanels(bumpTeam = null) {
+  const st = game.getState();
+  $$('.team-panel').forEach((panel) => {
+    const i = Number(panel.dataset.team);
+    const t = st.teams[i];
+    panel.classList.toggle('is-turn', st.turn === i);
+    panel.innerHTML = `
+      <span class="team-name">${esc(t.name)}</span>
+      <span class="team-score${bumpTeam === i ? ' bump' : ''}" aria-label="نقاط ${esc(t.name)}">${t.score}</span>`;
+  });
+  const [color, ink] = teamVars(st.turn);
+  const pill = $('#turn-pill');
+  pill.style.setProperty('--turn-color', color);
+  pill.style.setProperty('--turn-ink', ink);
+  pill.textContent = `الدور على: ${st.teams[st.turn].name}`;
+}
+
+function renderBoard(bumpTeam = null) {
+  const st = game.getState();
+  renderTeamPanels(bumpTeam);
+  const board = $('#board');
+  board.innerHTML = st.categories
+    .map((catId) => {
+      const cat = catById[catId];
+      const tiles = st.board[catId];
+      const rows = [];
+      for (let i = 0; i < tiles.length; i += 2) rows.push(tiles.slice(i, i + 2).map((t, k) => tileHtml(cat, t, i + k)).join(''));
+      return `<section class="board-col" aria-label="${esc(cat.name)}">
+        <h2 class="col-head" data-owner="${game.ownerOf(catId)}">${ICONS[cat.icon] || ''}<span>${esc(cat.name)}</span></h2>
+        ${rows.map((r) => `<div class="tile-row">${r}</div>`).join('')}
+      </section>`;
+    })
+    .join('');
+  show('screen-board');
+}
+
+function tileHtml(cat, t, index) {
+  const label = t.played ? `${cat.name} ${t.points} — تم لعبه` : `${cat.name}، ${t.points} نقطة`;
+  return `<button type="button" class="tile${t.played ? ' is-played' : ''}" data-cat="${cat.id}" data-index="${index}"
+    data-points="${t.points}" ${t.played ? `disabled data-won="${t.wonBy ?? ''}"` : ''} aria-label="${esc(label)}">${t.points}</button>`;
+}
+
+$('#board').addEventListener('click', (e) => {
+  const tile = e.target.closest('.tile');
+  if (!tile || tile.disabled) return;
+  if (!game.openTile(tile.dataset.cat, Number(tile.dataset.index))) return;
+  sound.open();
+  openQuestion();
+});
+
+// ============================================================
+//  QUESTION
+// ============================================================
+let timer = null;
+let currentQ = null;
+
+const STAR = starPoints(100, 100, 100, 78);
+$('#timer .track').setAttribute('points', STAR);
+$('#timer .fill').setAttribute('points', STAR);
+
+async function openQuestion(resumed = false) {
+  const st = game.getState();
+  const cur = st.current;
+  const q = await getQuestionById(cur.qid);
+  currentQ = q;
+  const cat = catById[cur.catId];
+
+  $('#q-cat').textContent = cat.name;
+  $('#q-points').textContent = cur.points;
+  $('#q-text').textContent = q.question;
+  const flag = $('#q-flag');
+  if (q.image) {
+    flag.src = q.image;
+    flag.hidden = false;
+  } else {
+    flag.hidden = true;
+    flag.removeAttribute('src');
+  }
+  $('#q-answer').hidden = true;
+  show('screen-question');
+
+  if (cur.awardedTo !== undefined) return showAnswer(true);
+  if (cur.stage === 'revealed') return showAnswer();
+  if (cur.stage === 'steal') return startStage('steal');
+  startStage('answer');
+}
+
+function startStage(stage) {
+  const st = game.getState();
+  const cur = st.current;
+  game.setStage(stage);
+  const team = stage === 'answer' ? cur.chooser : 1 - cur.chooser;
+  const seconds = stage === 'answer' ? CONFIG.ANSWER_TIME : CONFIG.STEAL_TIME;
+  const screen = $('#screen-question');
+  screen.dataset.team = team;
+  const who = $('#q-who');
+  who.textContent = stage === 'answer' ? `يجيب: ${st.teams[team].name}` : `فرصة سرقة: ${st.teams[team].name}`;
+  who.classList.toggle('is-steal', stage === 'steal');
+
+  $('#q-actions').innerHTML = `<button type="button" class="btn btn-big" id="btn-end">إنهاء وإظهار الإجابة</button>`;
+  $('#btn-end').addEventListener('click', () => {
+    stopTimer();
+    showAnswer();
+  });
+
+  runTimer(seconds, () => {
+    sound.timeUp();
+    if (stage === 'answer') {
+      toast(`انتهى الوقت! فرصة ${st.teams[1 - cur.chooser].name} للسرقة`);
+      startStage('steal');
+    } else {
+      showAnswer();
+    }
+  });
+}
+
+function runTimer(total, onEnd) {
+  stopTimer();
+  const el = $('#timer');
+  const num = $('#timer-num');
+  const fill = $('#timer .fill');
+  el.classList.remove('is-low', 'is-done');
+  const endAt = Date.now() + total * 1000;
+  let last = null;
+
+  // jump the ring to full instantly, then let CSS animate each second
+  fill.style.transition = 'none';
+  fill.style.strokeDashoffset = '0';
+  fill.getBoundingClientRect();
+  fill.style.transition = '';
+
+  const step = () => {
+    const left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+    if (left !== last) {
+      last = left;
+      num.textContent = left;
+      fill.style.strokeDashoffset = String(100 * (1 - (left - 1 < 0 ? 0 : left - 1) / total));
+      const low = left <= CONFIG.TICK_WARNING_AT;
+      el.classList.toggle('is-low', low && left > 0);
+      if (left > 0) sound.tick(low);
+    }
+    if (left <= 0) {
+      stopTimer();
+      el.classList.add('is-done');
+      onEnd();
+    }
+  };
+  step();
+  timer = setInterval(step, 200);
+}
+
+function stopTimer() {
+  clearInterval(timer);
+  timer = null;
+}
+
+function answerHtml(q) {
+  const isLetters = catById[q.category]?.type === 'letters';
+  const examples = q.examples?.length ? `<span class="ans-examples">أمثلة: ${q.examples.map(esc).join('، ')}</span>` : '';
+  const source = q.source ? `<span class="ans-source"><a href="${esc(q.source)}" target="_blank" rel="noopener">المصدر</a></span>` : '';
+  if (isLetters) {
+    return `<span class="ans-label">أي إجابة صحيحة تُحتسب — القرار للمقدّم</span>${examples || esc(q.answer)}`;
+  }
+  return `<span class="ans-label">الإجابة</span>${esc(q.answer)}${examples}${source}`;
+}
+
+function showAnswer(alreadyAwarded = false) {
+  stopTimer();
+  const st = game.getState();
+  const cur = st.current;
+  if (cur.stage !== 'revealed') game.setStage('revealed');
+  $('#timer').classList.add('is-done');
+  $('#q-who').classList.remove('is-steal');
+  const ans = $('#q-answer');
+  ans.innerHTML = answerHtml(currentQ);
+  ans.hidden = false;
+
+  if (alreadyAwarded) return showBack();
+
+  $('#q-actions').innerHTML = `
+    <p class="award-label" id="award-label">من يأخذ ${cur.points} نقطة؟</p>
+    <button type="button" class="btn btn-big btn-t1" data-award="0">${esc(st.teams[0].name)}</button>
+    <button type="button" class="btn btn-big btn-t2" data-award="1">${esc(st.teams[1].name)}</button>
+    <button type="button" class="btn btn-big btn-ghost" data-award="none">لا أحد</button>`;
+  $('#q-actions').addEventListener('click', onAward);
+}
+
+function onAward(e) {
+  const b = e.target.closest('[data-award]');
+  if (!b) return;
+  $('#q-actions').removeEventListener('click', onAward);
+  const team = b.dataset.award === 'none' ? null : Number(b.dataset.award);
+  game.award(team);
+  if (team === null) {
+    sound.wrong();
+    toast('لا نقاط لأحد هذه المرة');
+  } else {
+    sound.correct();
+    toast(`+${game.getState().current.points} لـ ${game.getState().teams[team].name}`);
+  }
+  showBack();
+}
+
+function showBack() {
+  $('#q-actions').innerHTML = `<button type="button" class="btn btn-big" id="btn-back">رجوع</button>`;
+  const btn = $('#btn-back');
+  btn.focus();
+  btn.addEventListener('click', () => {
+    const awarded = game.getState().current.awardedTo;
+    game.backToBoard();
+    if (game.getState().phase === 'winner') renderWinner();
+    else renderBoard(awarded ?? null);
+  });
+}
+
+// ============================================================
+//  WINNER
+// ============================================================
+function renderWinner() {
+  const st = game.getState();
+  const w = game.winner();
+  $('#win-kicker').textContent = w === null ? 'انتهت اللعبة' : 'الفائز';
+  const name = $('#win-name');
+  name.textContent = w === null ? 'تعادل!' : st.teams[w].name;
+  name.style.setProperty('--win-color', w === null ? 'var(--text)' : teamVars(w)[0]);
+  $('#win-scores').innerHTML = st.teams
+    .map((t, i) => `<div class="win-score" data-team="${i}"><span class="n">${esc(t.name)}</span><span class="s">${t.score}</span></div>`)
+    .join('');
+  show('screen-winner');
+  sound.win();
+  confetti(w);
+}
+
+$('#btn-new').addEventListener('click', () => {
+  stopConfetti();
+  game.clear();
+  resetSetup();
+  show('screen-setup');
+});
+
+let confettiRaf = null;
+function confetti(w) {
+  const canvas = $('#confetti');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const resize = () => {
+    canvas.width = innerWidth * dpr;
+    canvas.height = innerHeight * dpr;
+  };
+  resize();
+  const colors = w === 1 ? ['#1fc7b3', '#f1ecff', '#7fe8da'] : w === 0 ? ['#ffb627', '#f1ecff', '#ffd77a'] : ['#ffb627', '#1fc7b3', '#f1ecff'];
+  const parts = Array.from({ length: reduce ? 40 : 160 }, () => ({
+    x: Math.random() * canvas.width,
+    y: reduce ? Math.random() * canvas.height : -Math.random() * canvas.height,
+    r: (6 + Math.random() * 10) * dpr,
+    vy: (1.5 + Math.random() * 3) * dpr,
+    vx: (Math.random() - 0.5) * 2 * dpr,
+    rot: Math.random() * Math.PI,
+    vr: (Math.random() - 0.5) * 0.1,
+    c: colors[Math.floor(Math.random() * colors.length)],
+  }));
+  const drawStar = (p) => {
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.fillStyle = p.c;
+    ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r);
+    ctx.rotate(Math.PI / 4);
+    ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r);
+    ctx.restore();
+  };
+  stopConfetti();
+  const frame = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    parts.forEach((p) => {
+      if (!reduce) {
+        p.y += p.vy;
+        p.x += p.vx;
+        p.rot += p.vr;
+        if (p.y > canvas.height + 20) p.y = -20;
+      }
+      drawStar(p);
+    });
+    if (!reduce) confettiRaf = requestAnimationFrame(frame);
+  };
+  frame();
+}
+function stopConfetti() {
+  cancelAnimationFrame(confettiRaf);
+  const c = $('#confetti');
+  c.getContext('2d').clearRect(0, 0, c.width, c.height);
+}
+
+boot();

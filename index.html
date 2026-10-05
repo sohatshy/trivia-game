@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ميدان — لعبة أسئلة للفريقين</title>
+  <meta name="description" content="لعبة أسئلة عربية لفريقين على شاشة واحدة">
+  <meta name="theme-color" content="#1e1650">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ========== LOGIN ========== -->
+  <main id="screen-login" class="screen" aria-labelledby="login-title">
+    <h1 id="login-title" class="logo login-logo"><span data-icon="logo"></span><span class="logo-word" data-game-name>ميدان</span></h1>
+    <p class="login-tagline">فريقان، ستّ فئات، وشاشة واحدة.</p>
+    <div class="login-actions">
+      <button type="button" class="btn btn-big btn-google" id="btn-google"><span data-icon="google"></span>الدخول بحساب Google</button>
+      <button type="button" class="btn btn-big btn-ghost" id="btn-guest">العب كضيف</button>
+      <p class="login-note" id="login-note" role="status" aria-live="polite"></p>
+    </div>
+  </main>
+
+  <!-- ========== SETUP ========== -->
+  <main id="screen-setup" class="screen" aria-labelledby="setup-title">
+    <div class="setup-head">
+      <span class="logo"><span data-icon="logo"></span><span class="logo-word" data-game-name>ميدان</span></span>
+      <h1 id="setup-title">جهّزوا الفريقين</h1>
+    </div>
+    <form id="setup-form" novalidate>
+      <div class="setup-teams">
+        <section class="team-setup" data-team="0" aria-labelledby="t0-label">
+          <label id="t0-label" for="t0-name">اسم الفريق الأول</label>
+          <input id="t0-name" class="team-name-input" name="team0" autocomplete="off" spellcheck="false" maxlength="24" placeholder="مثلاً: الصقور…">
+          <p class="pick-count">اختاروا <strong>3</strong> فئات — <span data-count>0</span> من 3</p>
+          <div class="cat-grid" role="group" aria-label="فئات الفريق الأول"></div>
+        </section>
+        <section class="team-setup" data-team="1" aria-labelledby="t1-label">
+          <label id="t1-label" for="t1-name">اسم الفريق الثاني</label>
+          <input id="t1-name" class="team-name-input" name="team1" autocomplete="off" spellcheck="false" maxlength="24" placeholder="مثلاً: النجوم…">
+          <p class="pick-count">اختاروا <strong>3</strong> فئات — <span data-count>0</span> من 3</p>
+          <div class="cat-grid" role="group" aria-label="فئات الفريق الثاني"></div>
+        </section>
+      </div>
+      <div class="setup-foot">
+        <p class="setup-error" id="setup-error" role="alert"></p>
+        <button type="submit" class="btn btn-big btn-t1" id="btn-start">ابدأ اللعب</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- ========== BOARD ========== -->
+  <main id="screen-board" class="screen" aria-label="لوحة الأسئلة">
+    <header class="topbar">
+      <div class="team-panel" data-team="0"></div>
+      <div class="turn-center">
+        <span class="logo"><span data-icon="logo"></span><span class="logo-word" data-game-name>ميدان</span></span>
+        <span class="turn-pill" id="turn-pill" aria-live="polite"></span>
+      </div>
+      <div class="team-panel" data-team="1"></div>
+    </header>
+    <div class="board" id="board"></div>
+  </main>
+
+  <!-- ========== QUESTION ========== -->
+  <main id="screen-question" class="screen" aria-labelledby="q-text">
+    <div class="q-top">
+      <span class="q-tag"><span id="q-cat"></span><span class="q-points" id="q-points"></span></span>
+      <span class="q-who" id="q-who" aria-live="polite"></span>
+    </div>
+    <div class="q-main">
+      <div class="q-body">
+        <h1 class="q-text" id="q-text"></h1>
+        <img class="q-flag" id="q-flag" alt="علم الدولة المطلوبة" width="520" height="390" hidden>
+        <div class="q-answer" id="q-answer" hidden aria-live="polite"></div>
+      </div>
+      <div class="timer" id="timer" role="timer" aria-label="الوقت المتبقي">
+        <svg viewBox="-10 -10 220 220" aria-hidden="true"><polygon class="track"/><polygon class="fill" pathLength="100" stroke-dasharray="100"/></svg>
+        <span class="num" id="timer-num">60</span>
+      </div>
+    </div>
+    <div class="q-actions" id="q-actions"></div>
+  </main>
+
+  <!-- ========== WINNER ========== -->
+  <main id="screen-winner" class="screen" aria-labelledby="win-name">
+    <canvas id="confetti" aria-hidden="true"></canvas>
+    <p class="win-kicker" id="win-kicker">الفائز</p>
+    <h1 class="win-name" id="win-name"></h1>
+    <div class="win-scores" id="win-scores"></div>
+    <button type="button" class="btn btn-big btn-t1" id="btn-new">لعبة جديدة</button>
+  </main>
+
+  <div class="corner-tools">
+    <button type="button" class="icon-btn" id="btn-mute" aria-label="كتم الصوت" aria-pressed="false"></button>
+    <button type="button" class="icon-btn" id="btn-quit" aria-label="إنهاء اللعبة والعودة للبداية" hidden></button>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

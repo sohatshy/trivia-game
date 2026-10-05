@@ -1,0 +1,15 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Load test state</title>
+<!-- Test helper: loads a saved game from tests/states/<name>.json into localStorage, then opens the game.
+     Usage: tests/load-state.html?state=board&data=tests/sample-6cats.json   (state=none clears the game) -->
+<script type="module">
+  const p = new URLSearchParams(location.search);
+  const name = p.get('state');
+  p.delete('state');
+  if (name && name !== 'none' && /^[\w-]+$/.test(name)) {
+    const s = await (await fetch(`states/${name}.json`)).text();
+    localStorage.setItem('maydan.game', s);
+  } else localStorage.removeItem('maydan.game');
+  location.replace('../index.html?' + p.toString());
+</script>
