@@ -91,6 +91,9 @@ The dev server is like `python -m http.server` but also lets review.html save in
 - Headless Edge has a minimum window width (~500px), so phone screenshots must be taken in the in-app browser with resize_window preset "mobile".
 - Step 6 code: auth.js loads supabase-js from jsdelivr only when configured; login screen shows Google button / welcome + sign out; guest limit (GUEST_FREE_GAMES=1, counted when a guest reaches the winner screen, only enforced when Supabase is configured); history synced to Supabase for signed-in users; review gate with sign-in button.
 - Tested: without config (unchanged behaviour) and with FAKE config (guest blocked after 1 game, new game → login, review gate shows sign-in). Real Google round trip NOT tested yet (needs the user's Supabase project).
-- NEXT: user follows SETUP_LOGIN.md → paste URL + anon key → test real sign-in. Then (ask first!) publish to GitHub Pages: needs a GitHub repo — ask before creating/pushing.
+- NEXT: user follows SETUP_LOGIN.md → paste URL + anon key → test real sign-in (add the GitHub Pages URL to Google origins + Supabase redirect URLs).
+- PUBLISHED 2026-10-04: repo https://github.com/sohatshy/trivia-game (public), site https://sohatshy.github.io/trivia-game/ (Pages from main, root, .nojekyll).
+  - GitHub CLI installed at C:\Program Files\GitHub CLI\gh.exe, logged in as sohatshy (keyring). Always ask the user before pushing.
+  - Before the first push the history was rewritten: commit emails → 266081240+sohatshy@users.noreply.github.com, and the Gmail removed from old js/config.js versions (owner check now uses OWNER_EMAIL_SHA256). Pre-rewrite backup: .work/before-rewrite.bundle (local only). Never commit the Gmail address.
 - Later ideas: review verdicts saved to Supabase when online; paid packs from Supabase (questions.js is the only loader); daily video generator from questions.json.
 - Note: Windows Python can't open files in the long scratchpad path; helper scripts live in `.work/` (gitignored).
