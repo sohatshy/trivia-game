@@ -7,6 +7,8 @@ import { ICONS, starPoints } from './icons.js';
 import { getCategories, getPlayableCategories, getQuestionById } from './questions.js';
 import * as game from './game.js';
 import { sound } from './sound.js';
+import * as auth from './auth.js';
+import { setPlayer } from './history.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -14,6 +16,8 @@ const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 let categories = [];     // all categories from questions.json
 let catById = {};
 let playableIds = new Set();
+let user = null;         // signed-in account, or null for guests
+const GUEST_KEY = 'maydan.guestGames';
 
 // ---------- helpers ----------
 function show(screenId) {
@@ -61,6 +65,10 @@ async function boot() {
     return;
   }
 
+  // Sign-in (only does anything once Supabase is configured in config.js)
+  user = await auth.getUser();
+  await setPlayer(user?.id || 'guest', user ? await auth.getClient() : null);
+
   initLogin();
   initSetup();
 
@@ -97,14 +105,57 @@ function quitGame() {
 // ============================================================
 //  LOGIN
 // ============================================================
+function guestGamesPlayed() {
+  try {
+    return Number(localStorage.getItem(GUEST_KEY)) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+/** Guests get CONFIG.GUEST_FREE_GAMES games, but only once sign-in exists. */
+function guestBlocked() {
+  return !user && auth.isConfigured() && guestGamesPlayed() >= CONFIG.GUEST_FREE_GAMES;
+}
+
+function paintLogin() {
+  const note = $('#login-note');
+  $('#btn-google').hidden = Boolean(user);
+  $('#btn-signout').hidden = !user;
+  $('#login-user').hidden = !user;
+  $('#login-user').textContent = user ? `أهلاً ${user.name}` : '';
+  const guest = $('#btn-guest');
+  guest.textContent = user ? 'ابدأ اللعب' : 'العب كضيف';
+  guest.disabled = guestBlocked();
+  note.textContent = guestBlocked() ? 'انتهت لعبتك المجانية. سجّل الدخول بحساب Google لتكمل اللعب.' : '';
+}
+
 function initLogin() {
   $('#btn-guest').addEventListener('click', () => {
+    if (guestBlocked()) return;
     resetSetup();
     show('screen-setup');
   });
-  $('#btn-google').addEventListener('click', () => {
-    $('#login-note').textContent = 'الدخول بحساب Google قادم قريباً. العب كضيف الآن.';
+  $('#btn-google').addEventListener('click', async () => {
+    const note = $('#login-note');
+    if (!auth.isConfigured()) {
+      note.textContent = 'الدخول بحساب Google غير مفعّل بعد. العب كضيف الآن.';
+      return;
+    }
+    note.textContent = 'جارٍ فتح Google…';
+    try {
+      await auth.signInWithGoogle(); // leaves the page and comes back signed in
+    } catch {
+      note.textContent = 'تعذّر فتح تسجيل الدخول. تحقّق من الاتصال وحاول مرة أخرى.';
+    }
   });
+  $('#btn-signout').addEventListener('click', async () => {
+    await auth.signOut();
+    user = null;
+    await setPlayer('guest');
+    paintLogin();
+  });
+  paintLogin();
 }
 
 // ============================================================
@@ -525,6 +576,16 @@ function renderWinner() {
   $('#win-scores').innerHTML = st.teams
     .map((t, i) => `<div class="win-score" data-team="${i}"><span class="n">${esc(t.name)}</span><span class="s">${t.score}</span></div>`)
     .join('');
+  if (!user && !st.guestCounted) {
+    // count this finished game against the guest's free games (once)
+    st.guestCounted = true;
+    game.save();
+    try {
+      localStorage.setItem(GUEST_KEY, String(guestGamesPlayed() + 1));
+    } catch {
+      /* ignore */
+    }
+  }
   show('screen-winner');
   sound.win();
   confetti(w);
@@ -534,7 +595,10 @@ $('#btn-new').addEventListener('click', () => {
   stopConfetti();
   game.clear();
   resetSetup();
-  show('screen-setup');
+  if (guestBlocked()) {
+    paintLogin();
+    show('screen-login');
+  } else show('screen-setup');
 });
 
 let confettiRaf = null;

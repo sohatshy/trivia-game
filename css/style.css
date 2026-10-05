@@ -108,6 +108,10 @@ h1, h2 { text-wrap: balance; }
 .login-actions .btn { width: 100%; }
 .login-note { color: var(--muted); font-size: 0.95rem; min-height: 1.5em; margin: 0; }
 .btn-google svg { width: 1.4em; height: 1.4em; }
+.btn[hidden] { display: none; }
+.btn-small { min-height: 44px; font-size: 1rem; align-self: center; width: auto !important; }
+.login-user { margin: 0; font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 700; overflow-wrap: anywhere; }
+.login-user[hidden] { display: none; }
 
 /* ============================================================
    SETUP

@@ -14,7 +14,9 @@ The dev server is like `python -m http.server` but also lets review.html save in
 |---|---|
 | `index.html` | The game (one page; screens are shown/hidden: login → setup → board → question → winner) |
 | `review.html` + `js/review.js` + `css/review.css` | Owner-only question review page (approve / wrong / edit) |
-| `js/auth.js` | Sign-in + `isOwner()` (placeholder until step 6: review only works on localhost) |
+| `js/auth.js` | Supabase Google sign-in, `getUser()`, `isOwner()` (before config: review works only on localhost) |
+| `supabase/schema.sql` | Table `played_questions` + row-level security (user runs it in Supabase SQL editor) |
+| `SETUP_LOGIN.md` | Step-by-step guide for the user: Supabase project, Google OAuth client, redirect URLs |
 | `tools/dev_server.py` | Local server with the save endpoint for the review page |
 | `css/style.css` | All game styles + design tokens |
 | `js/config.js` | **Settings you can change**: timer lengths, owner email, Supabase keys |
@@ -56,7 +58,7 @@ The dev server is like `python -m http.server` but also lets review.html save in
 - [x] Step 3 — all 6 categories (180 questions, all verified with sources)
 - [x] Step 4 — review page
 - [x] Step 5 — design polish + web-design-guidelines review
-- [ ] Step 6 — Supabase Google login
+- [~] Step 6 — Supabase Google login: code done & tested with fake config; WAITING for user to create Supabase + Google OAuth (SETUP_LOGIN.md) and paste URL + anon key into js/config.js, then test a real sign-in
 
 ## Decisions / open questions
 - Helpers chosen by user: الرهان (bet: before opening a tile; right = double, wrong/stolen/nobody = lose the points; stealer gets normal points; can be cancelled before opening), نَفَس (+20s, `BREATHER_SECONDS` in config), لمحة (first letter + dash per letter; text in parentheses is ignored; disabled for حروف).
@@ -86,5 +88,8 @@ The dev server is like `python -m http.server` but also lets review.html save in
 - The in-app preview tool reads launch.json from the session's ORIGINAL scratch folder; it was updated to run tools/dev_server.py.
 - Step 5 done (web-design-guidelines review, fixes): one visible <main> at a time (hidden attr), safe-area padding for phone notches, translate="no" on the game name, mute button keeps one label + aria-pressed, focus moves to إنهاء / award buttons, long team names truncate/wrap, text-wrap: balance on headings, flag image height fix on phones, review page: content-visibility for 180 cards, filters in URL, leave-page warning, scroll-margin under sticky header, flag alt text.
 - Headless Edge has a minimum window width (~500px), so phone screenshots must be taken in the in-app browser with resize_window preset "mobile".
-- NEXT: Step 6 Supabase Google login (user creates the Supabase project + Google OAuth client; guide step by step, never ask for passwords).
+- Step 6 code: auth.js loads supabase-js from jsdelivr only when configured; login screen shows Google button / welcome + sign out; guest limit (GUEST_FREE_GAMES=1, counted when a guest reaches the winner screen, only enforced when Supabase is configured); history synced to Supabase for signed-in users; review gate with sign-in button.
+- Tested: without config (unchanged behaviour) and with FAKE config (guest blocked after 1 game, new game → login, review gate shows sign-in). Real Google round trip NOT tested yet (needs the user's Supabase project).
+- NEXT: user follows SETUP_LOGIN.md → paste URL + anon key → test real sign-in. Then (ask first!) publish to GitHub Pages: needs a GitHub repo — ask before creating/pushing.
+- Later ideas: review verdicts saved to Supabase when online; paid packs from Supabase (questions.js is the only loader); daily video generator from questions.json.
 - Note: Windows Python can't open files in the long scratchpad path; helper scripts live in `.work/` (gitignored).

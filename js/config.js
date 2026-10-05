@@ -33,10 +33,15 @@ export const CONFIG = {
   // Set to true before launch so the game only uses questions you approved.
   REQUIRE_REVIEW: false,
 
+  // Guests (not signed in) can play this many full games, then must sign in.
+  // Only enforced once Supabase is configured below.
+  GUEST_FREE_GAMES: 1,
+
   // Only this account can open review.html
   OWNER_EMAIL: 'owner@example.com',
 
-  // Supabase (filled in at step 6). The anon key is safe to be public.
+  // Supabase: Project Settings → API. Paste the Project URL and the "anon public" key.
+  // The anon key is meant to be public (security comes from row-level security rules).
   SUPABASE_URL: '',
   SUPABASE_ANON_KEY: '',
 };

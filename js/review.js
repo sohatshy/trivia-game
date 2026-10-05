@@ -7,7 +7,7 @@
 import { CONFIG } from './config.js';
 import { ICONS } from './icons.js';
 import { getRawData } from './questions.js';
-import { isOwner } from './auth.js';
+import { isOwner, isConfigured, getUser, signInWithGoogle, signOut } from './auth.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 const DRAFT_KEY = 'maydan.review.draft';
@@ -26,7 +26,19 @@ async function boot() {
   document.querySelectorAll('[data-icon]').forEach((el) => (el.outerHTML = ICONS[el.dataset.icon]));
   document.querySelectorAll('[data-game-name]').forEach((el) => (el.textContent = CONFIG.GAME_NAME));
   if (!(await isOwner())) {
+    const user = await getUser();
     $('#gate').hidden = false;
+    if (!isConfigured()) {
+      $('#gate-msg').textContent = 'تسجيل الدخول غير مفعّل بعد، لذلك تفتح هذه الصفحة على جهازك فقط (localhost).';
+    } else if (user) {
+      $('#gate-msg').textContent = `أنت مسجّل بحساب ${user.email}، وهذا ليس حساب صاحب اللعبة.`;
+      $('#gate-signout').hidden = false;
+      $('#gate-signout').onclick = () => signOut().then(() => location.reload());
+    } else {
+      $('#gate-signin').hidden = false;
+      $('#gate-signin').insertAdjacentHTML('afterbegin', ICONS.google);
+      $('#gate-signin').onclick = () => signInWithGoogle();
+    }
     return;
   }
   data = structuredClone(await getRawData());
