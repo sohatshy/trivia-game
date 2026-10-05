@@ -4,15 +4,18 @@ This file is the hand-off note. A new session should read it first and continue 
 
 ## How to run locally
 ```
-python -m http.server 8080
+python tools/dev_server.py
 ```
-Then open http://localhost:8080 (the app uses ES modules + fetch, so it must be served, not opened as a file).
+Then open http://localhost:8080 (game) or http://localhost:8080/review.html (review).
+The dev server is like `python -m http.server` but also lets review.html save into data/questions.json (backups go to .work/backups/).
 
 ## File map
 | File | What it does |
 |---|---|
 | `index.html` | The game (one page; screens are shown/hidden: login → setup → board → question → winner) |
-| `review.html` | Owner-only question review page |
+| `review.html` + `js/review.js` + `css/review.css` | Owner-only question review page (approve / wrong / edit) |
+| `js/auth.js` | Sign-in + `isOwner()` (placeholder until step 6: review only works on localhost) |
+| `tools/dev_server.py` | Local server with the save endpoint for the review page |
 | `css/style.css` | All game styles + design tokens |
 | `js/config.js` | **Settings you can change**: timer lengths, owner email, Supabase keys |
 | `js/questions.js` | The ONLY module that loads questions. Swap its source to Supabase later for paid packs |
@@ -34,6 +37,8 @@ Then open http://localhost:8080 (the app uses ES modules + fetch, so it must be 
 - `examples`: only for the حروف category (answer is "any correct answer").
 - `image`: path to a flag for أعلام الدول.
 - `note`: e.g. the Marvel Rivals season a fact was checked in.
+- `review`: set by the owner on review.html — `"approved"`, `"rejected"`, or missing (= not reviewed). Also `reviewedAt`, `edited`.
+- Game uses: `verified === true` AND `review !== "rejected"` (AND `review === "approved"` when `CONFIG.REQUIRE_REVIEW` is true — turn this on before launch).
 - The game uses only `verified: true`.
 
 ## Design plan (frontend-design skill)
@@ -49,7 +54,7 @@ Then open http://localhost:8080 (the app uses ES modules + fetch, so it must be 
 - [x] Step 1 — board with geography (30 verified questions)
 - [x] Step 2 — full flow setup → board → question → winner + helpers
 - [x] Step 3 — all 6 categories (180 questions, all verified with sources)
-- [ ] Step 4 — review page
+- [x] Step 4 — review page
 - [ ] Step 5 — design polish + web-design-guidelines review
 - [ ] Step 6 — Supabase Google login
 
@@ -76,5 +81,8 @@ Then open http://localhost:8080 (the app uses ES modules + fetch, so it must be 
   - math: answers computed by the build script.
   - riddles: answers matched on mawdoo3.com / sayidaty.net collections; dropped riddles with disputed answers (comb vs zipper). Letter-trick riddles checked by code.
   - letters: every example checked to exist on Arabic Wikipedia (`.work/wiki.py`).
-- NEXT: Step 4 review page.
+- Step 4 done: review page tested (approve/reject/undo/edit, saves to file, rejected questions leave the game, filters, progress bar).
+- Owner check: before Supabase exists, review.html opens only on localhost. After step 6 it requires the owner's Google account. NOTE: questions.json is a public file, so this check hides the editor, it does not hide the questions; paid questions must come from Supabase with row-level security.
+- The in-app preview tool reads launch.json from the session's ORIGINAL scratch folder; it was updated to run tools/dev_server.py.
+- NEXT: Step 5 design polish + web-design-guidelines review.
 - Note: Windows Python can't open files in the long scratchpad path; helper scripts live in `.work/` (gitignored).

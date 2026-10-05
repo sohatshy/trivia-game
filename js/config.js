@@ -29,6 +29,10 @@ export const CONFIG = {
   ],
   CATEGORIES_PER_TEAM: 3,
 
+  // Your own review (review.html). false = play every fact-checked question except ones you marked wrong.
+  // Set to true before launch so the game only uses questions you approved.
+  REQUIRE_REVIEW: false,
+
   // Only this account can open review.html
   OWNER_EMAIL: 'owner@example.com',
 

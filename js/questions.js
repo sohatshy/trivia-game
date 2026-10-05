@@ -4,6 +4,8 @@
 //  Later: paid packs can be fetched from Supabase here, without touching the game.
 // ============================================================
 
+import { CONFIG } from './config.js';
+
 // For testing, ?data=tests/some-file.json loads another local file instead.
 const override = new URLSearchParams(location.search).get('data');
 const SOURCE_URL = override && /^[\w/-]+\.json$/.test(override) ? override : 'data/questions.json';
@@ -49,6 +51,9 @@ export async function getRawData() {
   return loadAll();
 }
 
+/** Questions allowed in the game: fact-checked, not marked wrong in review (and approved, if required). */
 function verified(questions) {
-  return questions.filter((q) => q.verified === true);
+  return questions.filter(
+    (q) => q.verified === true && q.review !== 'rejected' && (!CONFIG.REQUIRE_REVIEW || q.review === 'approved'),
+  );
 }
