@@ -43,6 +43,8 @@
   background: var(--night-2); border-radius: var(--r-md); padding: 14px 18px;
   border-inline-start: 6px solid var(--night-3);
   display: grid; grid-template-columns: 1fr auto; gap: 10px 18px; align-items: center;
+  scroll-margin-top: 140px; /* keep the focused card below the sticky header */
+  content-visibility: auto; contain-intrinsic-size: auto 170px; /* 180 cards: only draw what's on screen */
 }
 .rv-card[data-status='approved'] { border-inline-start-color: var(--t2); }
 .rv-card[data-status='rejected'] { border-inline-start-color: var(--danger); opacity: 0.75; }
@@ -57,7 +59,7 @@
 .rv-status[data-status='rejected'] { color: var(--danger); }
 .rv-body { display: flex; gap: 16px; align-items: flex-start; min-width: 0; }
 .rv-img { width: 160px; height: auto; border-radius: 8px; background: rgba(255, 255, 255, 0.06); padding: 4px; flex: none; }
-.rv-text { min-width: 0; }
+.rv-text { min-width: 0; overflow-wrap: anywhere; }
 .rv-text p { margin: 0 0 6px; line-height: 1.5; }
 .rv-q { font-size: 1.25rem; font-weight: 700; }
 .rv-a span, .rv-ex span { color: var(--muted); font-weight: 600; }

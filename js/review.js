@@ -34,12 +34,32 @@ async function boot() {
   catName = Object.fromEntries(data.categories.map((c) => [c.id, c.name]));
   $('#f-category').insertAdjacentHTML('beforeend', data.categories.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join(''));
   $('#app').hidden = false;
-  $('#filters').addEventListener('input', render);
+  readFiltersFromUrl();
+  $('#filters').addEventListener('input', () => {
+    writeFiltersToUrl();
+    render();
+  });
+  // Warn before leaving with an open edit form or a save that hasn't finished
+  window.addEventListener('beforeunload', (e) => {
+    if (editingId || saving) e.preventDefault();
+  });
   $('#filters').addEventListener('submit', (e) => e.preventDefault());
   $('#list').addEventListener('click', onListClick);
   $('#list').addEventListener('submit', onEditSubmit);
   $('#btn-download').addEventListener('click', download);
   render();
+}
+
+// ---------- filters live in the URL (?category=geo&status=pending…) so a reload keeps them ----------
+function readFiltersFromUrl() {
+  const p = new URLSearchParams(location.search);
+  for (const el of $('#filters').elements) if (el.name && p.has(el.name)) el.value = p.get(el.name);
+}
+
+function writeFiltersToUrl() {
+  const p = new URLSearchParams();
+  for (const [k, v] of new FormData($('#filters'))) if (v) p.set(k, v);
+  history.replaceState(null, '', `${location.pathname}${p.size ? `?${p}` : ''}`);
 }
 
 // ---------- filtering + rendering ----------
@@ -87,7 +107,7 @@ function cardHtml(q) {
       <span class="rv-status" data-status="${st}">${st === 'approved' ? 'صحيح' : st === 'rejected' ? 'خطأ' : 'لم يُراجع'}</span>
     </div>
     <div class="rv-body">
-      ${q.image ? `<img class="rv-img" src="${esc(q.image)}" alt="" width="160" height="120" loading="lazy">` : ''}
+      ${q.image ? `<img class="rv-img" src="${esc(q.image)}" alt="${esc(`العلم المعروض في السؤال (${q.answer})`)}" width="160" height="120" loading="lazy">` : ''}
       <div class="rv-text">
         <p class="rv-q">${esc(q.question)}</p>
         <p class="rv-a"><span>${isLetters ? 'القاعدة' : 'الإجابة'}:</span> ${esc(q.answer)}</p>
@@ -176,7 +196,9 @@ function focusNext(id, same = false) {
 
 // ---------- saving ----------
 let saveTimer;
+let saving = false;
 function persist() {
+  saving = true;
   try {
     localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
   } catch {
@@ -192,6 +214,7 @@ async function saveToFile() {
     const res = await fetch('api/questions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
     if (!res.ok) throw new Error(res.status);
     localStorage.removeItem(DRAFT_KEY);
+    saving = false;
     setStatus('تم الحفظ في data/questions.json', 'ok');
   } catch {
     setStatus('لم يُحفظ في الملف — التغييرات محفوظة في هذا المتصفح. استخدم «تنزيل».', 'bad');

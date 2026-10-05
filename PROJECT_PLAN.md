@@ -55,7 +55,7 @@ The dev server is like `python -m http.server` but also lets review.html save in
 - [x] Step 2 — full flow setup → board → question → winner + helpers
 - [x] Step 3 — all 6 categories (180 questions, all verified with sources)
 - [x] Step 4 — review page
-- [ ] Step 5 — design polish + web-design-guidelines review
+- [x] Step 5 — design polish + web-design-guidelines review
 - [ ] Step 6 — Supabase Google login
 
 ## Decisions / open questions
@@ -84,5 +84,7 @@ The dev server is like `python -m http.server` but also lets review.html save in
 - Step 4 done: review page tested (approve/reject/undo/edit, saves to file, rejected questions leave the game, filters, progress bar).
 - Owner check: before Supabase exists, review.html opens only on localhost. After step 6 it requires the owner's Google account. NOTE: questions.json is a public file, so this check hides the editor, it does not hide the questions; paid questions must come from Supabase with row-level security.
 - The in-app preview tool reads launch.json from the session's ORIGINAL scratch folder; it was updated to run tools/dev_server.py.
-- NEXT: Step 5 design polish + web-design-guidelines review.
+- Step 5 done (web-design-guidelines review, fixes): one visible <main> at a time (hidden attr), safe-area padding for phone notches, translate="no" on the game name, mute button keeps one label + aria-pressed, focus moves to إنهاء / award buttons, long team names truncate/wrap, text-wrap: balance on headings, flag image height fix on phones, review page: content-visibility for 180 cards, filters in URL, leave-page warning, scroll-margin under sticky header, flag alt text.
+- Headless Edge has a minimum window width (~500px), so phone screenshots must be taken in the in-app browser with resize_window preset "mobile".
+- NEXT: Step 6 Supabase Google login (user creates the Supabase project + Google OAuth client; guide step by step, never ask for passwords).
 - Note: Windows Python can't open files in the long scratchpad path; helper scripts live in `.work/` (gitignored).

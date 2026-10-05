@@ -17,7 +17,10 @@ let playableIds = new Set();
 
 // ---------- helpers ----------
 function show(screenId) {
-  $$('.screen').forEach((s) => s.classList.toggle('is-active', s.id === screenId));
+  $$('.screen').forEach((s) => {
+    s.classList.toggle('is-active', s.id === screenId);
+    s.hidden = s.id !== screenId; // only one <main> is exposed at a time
+  });
   $('#btn-quit').hidden = !['screen-board', 'screen-question'].includes(screenId);
   window.scrollTo(0, 0);
 }
@@ -53,7 +56,7 @@ async function boot() {
     catById = Object.fromEntries(categories.map((c) => [c.id, c]));
     playableIds = new Set((await getPlayableCategories(CONFIG.BOARD)).map((c) => c.id));
   } catch (err) {
-    document.body.innerHTML = `<p style="padding:2rem;font-size:1.5rem">تعذّر تحميل الأسئلة. شغّل اللعبة عبر خادم محلي (مثلاً: python -m http.server).</p>`;
+    document.body.innerHTML = `<p style="padding:2rem;font-size:1.5rem">تعذّر تحميل الأسئلة. شغّل اللعبة عبر خادم محلي: python tools/dev_server.py ثم افتح http://localhost:8080</p>`;
     console.error(err);
     return;
   }
@@ -74,8 +77,7 @@ function setupMute() {
   const paint = () => {
     const m = sound.isMuted();
     btn.innerHTML = m ? ICONS.soundOff : ICONS.soundOn;
-    btn.setAttribute('aria-pressed', String(m));
-    btn.setAttribute('aria-label', m ? 'تشغيل الصوت' : 'كتم الصوت');
+    btn.setAttribute('aria-pressed', String(m)); // label stays "كتم الصوت"; pressed = muted
   };
   btn.addEventListener('click', () => {
     sound.setMuted(!sound.isMuted());
@@ -339,6 +341,7 @@ function startStage(stage) {
   renderQuestionHelpers(team);
 
   $('#q-actions').innerHTML = `<button type="button" class="btn btn-big" id="btn-end">إنهاء وإظهار الإجابة</button>`;
+  if (!document.activeElement?.closest('#q-helpers')) $('#btn-end').focus({ preventScroll: true });
   $('#btn-end').addEventListener('click', () => {
     stopTimer();
     showAnswer();
@@ -479,6 +482,7 @@ function showAnswer(alreadyAwarded = false) {
     <button type="button" class="btn btn-big btn-t2" data-award="1">${esc(st.teams[1].name)}</button>
     <button type="button" class="btn btn-big btn-ghost" data-award="none">لا أحد</button>`;
   $('#q-actions').addEventListener('click', onAward);
+  $('#q-actions [data-award]').focus({ preventScroll: true });
 }
 
 function onAward(e) {

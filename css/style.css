@@ -54,7 +54,12 @@ button:disabled { cursor: not-allowed; }
 }
 
 /* ---------- screens ---------- */
-.screen { display: none; min-height: 100dvh; padding: clamp(12px, 2vw, 32px); }
+.screen { display: none; min-height: 100dvh; padding: clamp(12px, 2vw, 32px);
+  padding-top: max(clamp(12px, 2vw, 32px), env(safe-area-inset-top));
+  padding-bottom: max(clamp(12px, 2vw, 32px), env(safe-area-inset-bottom));
+  padding-inline: max(clamp(12px, 2vw, 32px), env(safe-area-inset-left), env(safe-area-inset-right)); }
+.screen[hidden] { display: none !important; }
+h1, h2 { text-wrap: balance; }
 .screen.is-active { display: flex; flex-direction: column; }
 
 /* ---------- logo ---------- */
@@ -82,7 +87,7 @@ button:disabled { cursor: not-allowed; }
 .btn-danger { background: var(--danger); color: #fff; }
 
 /* mute + corner tools */
-.corner-tools { position: fixed; bottom: 14px; left: 14px; z-index: 50; display: flex; gap: 8px; }
+.corner-tools { position: fixed; bottom: max(14px, env(safe-area-inset-bottom)); left: max(14px, env(safe-area-inset-left)); z-index: 50; display: flex; gap: 8px; }
 .icon-btn {
   width: 52px; height: 52px; border-radius: 50%; border: 0;
   background: var(--night-2); color: var(--text);
@@ -186,14 +191,14 @@ button:disabled { cursor: not-allowed; }
 .helper-btn.is-armed { background: var(--team-color); color: var(--team-ink); animation: pulse 1s ease-in-out infinite; opacity: 1; }
 .helper-btn.is-used { opacity: 0.25; box-shadow: inset 0 0 0 2px var(--played); color: var(--muted); }
 
-.turn-center { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; }
+.turn-center { min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; }
 .turn-center .logo { font-size: clamp(1.4rem, 2.2vw, 2.2rem); }
 .turn-pill {
   padding: 0.25em 1em; border-radius: 999px; font-weight: 700;
   font-size: clamp(0.9rem, 1.3vw, 1.3rem);
   background: var(--turn-color, var(--t1)); color: var(--turn-ink, var(--t1-ink));
   transition: background-color 0.3s ease;
-  white-space: nowrap;
+  white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis;
 }
 
 /* ============================================================
@@ -258,7 +263,7 @@ button:disabled { cursor: not-allowed; }
   font-size: clamp(1.8rem, 4.4vw, 4.8rem);
   text-wrap: balance;
 }
-.q-flag { width: min(520px, 80%); aspect-ratio: 4 / 3; object-fit: contain; border-radius: var(--r-md); background: rgba(255,255,255,0.06); padding: 10px; }
+.q-flag { width: min(520px, 80%); height: auto; aspect-ratio: 4 / 3; object-fit: contain; border-radius: var(--r-md); background: rgba(255,255,255,0.06); padding: 10px; }
 .q-flag[hidden] { display: none; }
 
 .q-answer {
@@ -309,7 +314,7 @@ button:disabled { cursor: not-allowed; }
 #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 #screen-winner > *:not(canvas) { position: relative; z-index: 1; }
 .win-kicker { margin: 0; color: var(--muted); font-size: clamp(1.2rem, 2.4vw, 2rem); font-weight: 600; }
-.win-name { margin: 0; font-family: var(--font-display); font-weight: 400; line-height: 1.1; font-size: clamp(3.5rem, 11vw, 10rem); color: var(--win-color, var(--text)); animation: reveal 0.8s var(--ease-pop); }
+.win-name { margin: 0; font-family: var(--font-display); font-weight: 400; line-height: 1.1; font-size: clamp(3.5rem, 11vw, 10rem); color: var(--win-color, var(--text)); animation: reveal 0.8s var(--ease-pop); overflow-wrap: anywhere; max-width: 100%; }
 .win-scores { display: flex; gap: clamp(12px, 3vw, 40px); flex-wrap: wrap; justify-content: center; }
 .win-score { background: var(--night-2); border-radius: var(--r-lg); padding: 1rem 2rem; border-top: 6px solid var(--team-color); min-width: 200px; }
 .win-score[data-team='0'] { --team-color: var(--t1); }

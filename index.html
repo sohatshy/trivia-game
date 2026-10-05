@@ -14,8 +14,8 @@
 </head>
 <body>
   <!-- ========== LOGIN ========== -->
-  <main id="screen-login" class="screen" aria-labelledby="login-title">
-    <h1 id="login-title" class="logo login-logo"><span data-icon="logo"></span><span class="logo-word" data-game-name>ميدان</span></h1>
+  <main id="screen-login" class="screen" hidden aria-labelledby="login-title">
+    <h1 id="login-title" class="logo login-logo"><span data-icon="logo"></span><span class="logo-word" data-game-name translate="no">ميدان</span></h1>
     <p class="login-tagline">فريقان، ستّ فئات، وشاشة واحدة.</p>
     <div class="login-actions">
       <button type="button" class="btn btn-big btn-google" id="btn-google"><span data-icon="google"></span>الدخول بحساب Google</button>
@@ -25,9 +25,9 @@
   </main>
 
   <!-- ========== SETUP ========== -->
-  <main id="screen-setup" class="screen" aria-labelledby="setup-title">
+  <main id="screen-setup" class="screen" hidden aria-labelledby="setup-title">
     <div class="setup-head">
-      <span class="logo"><span data-icon="logo"></span><span class="logo-word" data-game-name>ميدان</span></span>
+      <span class="logo"><span data-icon="logo"></span><span class="logo-word" data-game-name translate="no">ميدان</span></span>
       <h1 id="setup-title">جهّزوا الفريقين</h1>
     </div>
     <form id="setup-form" novalidate>
@@ -53,11 +53,11 @@
   </main>
 
   <!-- ========== BOARD ========== -->
-  <main id="screen-board" class="screen" aria-label="لوحة الأسئلة">
+  <main id="screen-board" class="screen" hidden aria-label="لوحة الأسئلة">
     <header class="topbar">
       <div class="team-panel" data-team="0"></div>
       <div class="turn-center">
-        <span class="logo"><span data-icon="logo"></span><span class="logo-word" data-game-name>ميدان</span></span>
+        <span class="logo"><span data-icon="logo"></span><span class="logo-word" data-game-name translate="no">ميدان</span></span>
         <span class="turn-pill" id="turn-pill" aria-live="polite"></span>
       </div>
       <div class="team-panel" data-team="1"></div>
@@ -66,7 +66,7 @@
   </main>
 
   <!-- ========== QUESTION ========== -->
-  <main id="screen-question" class="screen" aria-labelledby="q-text">
+  <main id="screen-question" class="screen" hidden aria-labelledby="q-text">
     <div class="q-top">
       <span class="q-tag"><span id="q-cat"></span><span class="q-points" id="q-points"></span><span class="q-bet" id="q-bet" hidden>رهان ×2</span></span>
       <div class="q-helpers" id="q-helpers" role="group" aria-label="المساعدات"></div>
@@ -88,7 +88,7 @@
   </main>
 
   <!-- ========== WINNER ========== -->
-  <main id="screen-winner" class="screen" aria-labelledby="win-name">
+  <main id="screen-winner" class="screen" hidden aria-labelledby="win-name">
     <canvas id="confetti" aria-hidden="true"></canvas>
     <p class="win-kicker" id="win-kicker">الفائز</p>
     <h1 class="win-name" id="win-name"></h1>
