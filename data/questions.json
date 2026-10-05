@@ -50,7 +50,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Cairo",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:36:44.631Z"
   },
   {
    "id": "geo-e-02",
@@ -63,7 +65,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Paris",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:36:46.003Z"
   },
   {
    "id": "geo-e-03",
@@ -76,7 +80,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Asia",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:36:48.094Z"
   },
   {
    "id": "geo-e-04",
@@ -89,7 +95,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Cairo",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:36:50.293Z"
   },
   {
    "id": "geo-e-05",
@@ -102,7 +110,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Saudi_Arabia",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:36:51.846Z"
   },
   {
    "id": "geo-e-06",
@@ -115,7 +125,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Tokyo",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:36:53.224Z"
   },
   {
    "id": "geo-e-07",
@@ -128,7 +140,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Brazil",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:36:55.679Z"
   },
   {
    "id": "geo-e-08",
@@ -141,7 +155,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Pacific_Ocean",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:36:56.181Z"
   },
   {
    "id": "geo-e-09",
@@ -154,7 +170,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/List_of_national_capitals",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:36:59.055Z"
   },
   {
    "id": "geo-e-10",
@@ -167,7 +185,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Mount_Everest",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:36:59.659Z"
   },
   {
    "id": "geo-m-01",
@@ -180,7 +200,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Morocco",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:36:59.955Z"
   },
   {
    "id": "geo-m-02",
@@ -193,7 +215,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Mesopotamia",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:00.112Z"
   },
   {
    "id": "geo-m-03",
@@ -206,7 +230,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/List_of_national_capitals",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:00.285Z"
   },
   {
    "id": "geo-m-04",
@@ -219,7 +245,9 @@
    "image": null,
    "source": "https://ar.wikipedia.org/wiki/%D8%A7%D9%84%D8%AC%D8%B2%D8%A7%D8%A6%D8%B1",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:00.457Z"
   },
   {
    "id": "geo-m-05",
@@ -232,7 +260,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Canada",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:00.650Z"
   },
   {
    "id": "geo-m-06",
@@ -245,7 +275,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Red_Sea",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:00.822Z"
   },
   {
    "id": "geo-m-07",
@@ -258,7 +290,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/List_of_national_capitals",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:01.008Z"
   },
   {
    "id": "geo-m-08",
@@ -271,7 +305,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Petra",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:01.179Z"
   },
   {
    "id": "geo-m-09",
@@ -284,7 +320,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Continent",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:01.351Z"
   },
   {
    "id": "geo-m-10",
@@ -297,7 +335,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Sahara",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:01.567Z"
   },
   {
    "id": "geo-h-01",
@@ -310,7 +350,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/List_of_national_capitals",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:02.067Z"
   },
   {
    "id": "geo-h-02",
@@ -323,7 +365,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Mount_Kilimanjaro",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:02.402Z"
   },
   {
    "id": "geo-h-03",
@@ -336,7 +380,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Mauritania",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:02.631Z"
   },
   {
    "id": "geo-h-04",
@@ -349,7 +395,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Andes",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:02.825Z"
   },
   {
    "id": "geo-h-05",
@@ -362,7 +410,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Strait_of_Gibraltar",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:03.041Z"
   },
   {
    "id": "geo-h-06",
@@ -375,7 +425,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/List_of_national_capitals",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:03.893Z"
   },
   {
    "id": "geo-h-07",
@@ -388,7 +440,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Toubkal",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:05.197Z"
   },
   {
    "id": "geo-h-08",
@@ -401,20 +455,25 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Dead_Sea",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:06.456Z"
   },
   {
    "id": "geo-h-09",
    "category": "geo",
    "difficulty": "hard",
    "points": 600,
-   "question": "ما عاصمة كازاخستان؟",
-   "answer": "أستانا",
+   "question": "وش اقوى دولتين في العالم؟",
+   "answer": "ليبيا و كندا",
    "examples": [],
    "image": null,
-   "source": "https://en.wikipedia.org/wiki/List_of_national_capitals",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:48.695Z",
+   "edited": true
   },
   {
    "id": "geo-h-10",
@@ -427,7 +486,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Khartoum",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:37:51.142Z"
   },
   {
    "id": "flags-e-01",
@@ -440,7 +501,9 @@
    "image": "assets/flags/sa.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Saudi_Arabia",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:13.460Z"
   },
   {
    "id": "flags-e-02",
@@ -453,7 +516,9 @@
    "image": "assets/flags/eg.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Egypt",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:14.042Z"
   },
   {
    "id": "flags-e-03",
@@ -466,7 +531,9 @@
    "image": "assets/flags/us.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_the_United_States",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:14.647Z"
   },
   {
    "id": "flags-e-04",
@@ -479,7 +546,9 @@
    "image": "assets/flags/jp.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Japan",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:15.084Z"
   },
   {
    "id": "flags-e-05",
@@ -492,7 +561,9 @@
    "image": "assets/flags/br.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Brazil",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:15.825Z"
   },
   {
    "id": "flags-e-06",
@@ -505,7 +576,9 @@
    "image": "assets/flags/gb.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_the_United_Kingdom",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:16.396Z"
   },
   {
    "id": "flags-e-07",
@@ -518,7 +591,9 @@
    "image": "assets/flags/ca.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Canada",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:16.864Z"
   },
   {
    "id": "flags-e-08",
@@ -531,7 +606,9 @@
    "image": "assets/flags/de.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Germany",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:17.344Z"
   },
   {
    "id": "flags-e-09",
@@ -544,7 +621,9 @@
    "image": "assets/flags/ae.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_the_United_Arab_Emirates",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:17.785Z"
   },
   {
    "id": "flags-e-10",
@@ -557,7 +636,9 @@
    "image": "assets/flags/ma.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Morocco",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:17.972Z"
   },
   {
    "id": "flags-m-01",
@@ -570,7 +651,9 @@
    "image": "assets/flags/kw.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Kuwait",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:18.129Z"
   },
   {
    "id": "flags-m-02",
@@ -583,7 +666,9 @@
    "image": "assets/flags/qa.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Qatar",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:18.294Z"
   },
   {
    "id": "flags-m-03",
@@ -596,7 +681,9 @@
    "image": "assets/flags/dz.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Algeria",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:18.452Z"
   },
   {
    "id": "flags-m-04",
@@ -609,7 +696,9 @@
    "image": "assets/flags/tn.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Tunisia",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:18.615Z"
   },
   {
    "id": "flags-m-05",
@@ -622,7 +711,9 @@
    "image": "assets/flags/lb.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Lebanon",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:18.758Z"
   },
   {
    "id": "flags-m-06",
@@ -635,7 +726,9 @@
    "image": "assets/flags/kr.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_South_Korea",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:18.916Z"
   },
   {
    "id": "flags-m-07",
@@ -648,7 +741,9 @@
    "image": "assets/flags/mx.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Mexico",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:19.094Z"
   },
   {
    "id": "flags-m-08",
@@ -661,7 +756,9 @@
    "image": "assets/flags/in.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_India",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:19.251Z"
   },
   {
    "id": "flags-m-09",
@@ -674,7 +771,9 @@
    "image": "assets/flags/ar.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Argentina",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:19.423Z"
   },
   {
    "id": "flags-m-10",
@@ -687,7 +786,9 @@
    "image": "assets/flags/gr.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Greece",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:19.567Z"
   },
   {
    "id": "flags-h-01",
@@ -700,7 +801,9 @@
    "image": "assets/flags/td.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Chad",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:19.738Z"
   },
   {
    "id": "flags-h-02",
@@ -713,7 +816,9 @@
    "image": "assets/flags/ro.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Chad",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:19.889Z"
   },
   {
    "id": "flags-h-03",
@@ -726,7 +831,9 @@
    "image": "assets/flags/mc.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Monaco",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:20.125Z"
   },
   {
    "id": "flags-h-04",
@@ -739,7 +846,9 @@
    "image": "assets/flags/ci.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Ivory_Coast",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:20.326Z"
   },
   {
    "id": "flags-h-05",
@@ -752,7 +861,9 @@
    "image": "assets/flags/nz.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_New_Zealand",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:20.519Z"
   },
   {
    "id": "flags-h-06",
@@ -765,7 +876,9 @@
    "image": "assets/flags/lu.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Luxembourg",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:20.676Z"
   },
   {
    "id": "flags-h-07",
@@ -778,7 +891,9 @@
    "image": "assets/flags/km.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_the_Comoros",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:20.895Z"
   },
   {
    "id": "flags-h-08",
@@ -791,7 +906,9 @@
    "image": "assets/flags/bt.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Bhutan",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:21.176Z"
   },
   {
    "id": "flags-h-09",
@@ -804,7 +921,9 @@
    "image": "assets/flags/np.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Nepal",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:21.343Z"
   },
   {
    "id": "flags-h-10",
@@ -817,7 +936,9 @@
    "image": "assets/flags/dj.svg",
    "source": "https://en.wikipedia.org/wiki/Flag_of_Djibouti",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:21.564Z"
   },
   {
    "id": "rivals-e-01",
@@ -830,59 +951,73 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Marvel_Rivals",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T02:58:05.703Z"
   },
   {
    "id": "rivals-e-02",
    "category": "rivals",
    "difficulty": "easy",
    "points": 200,
-   "question": "كم عدد اللاعبين في كل فريق في المباراة العادية؟",
-   "answer": "6 لاعبين (6 ضد 6)",
+   "question": "مين افضل لاعب في اللعبه؟",
+   "answer": "صهيب / sohatshy",
    "examples": [],
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Marvel_Rivals",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T02:54:02.704Z",
+   "edited": true
   },
   {
    "id": "rivals-e-03",
    "category": "rivals",
    "difficulty": "easy",
    "points": 200,
-   "question": "ما الأدوار الثلاثة التي يُقسَّم إليها الأبطال في اللعبة؟",
-   "answer": "Vanguard وDuelist وStrategist (فانغارد، دويلست، ستراتيجست)",
+   "question": "كم عدد التانكات باللعبه؟",
+   "answer": "15",
    "examples": [],
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Marvel_Rivals",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T02:55:11.148Z",
+   "edited": true
   },
   {
    "id": "rivals-e-04",
    "category": "rivals",
    "difficulty": "easy",
    "points": 200,
-   "question": "ما اسم المطرقة التي يحملها ثور في اللعبة؟",
-   "answer": "ميولنير (Mjölnir)",
+   "question": "كم تحتاج elo عشان ترفع من دايموند 3 لسلس 3؟",
+   "answer": "600",
    "examples": [],
    "image": null,
-   "source": "https://marvelrivals.fandom.com/wiki/Thor",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T02:59:59.510Z",
+   "edited": true
   },
   {
    "id": "rivals-e-05",
    "category": "rivals",
    "difficulty": "easy",
    "points": 200,
-   "question": "ما دور القرش الصغير «جيف» في اللعبة: مدافع أم مهاجم أم داعم (Strategist)؟",
-   "answer": "داعم (Strategist)",
+   "question": "في اي سيزون نزلت انفز",
+   "answer": "سيزون 1",
    "examples": [],
    "image": null,
-   "source": "https://marvelrivals.fandom.com/wiki/Jeff_the_Land_Shark",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:00:35.512Z",
+   "edited": true
   },
   {
    "id": "rivals-e-06",
@@ -895,7 +1030,9 @@
    "image": null,
    "source": "https://marvelrivals.fandom.com/wiki/Black_Panther",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:00:43.241Z"
   },
   {
    "id": "rivals-e-07",
@@ -903,51 +1040,63 @@
    "difficulty": "easy",
    "points": 200,
    "question": "غروت كائن من أي نوع؟",
-   "answer": "كائن نباتي ضخم (شجرة) من الكوكب X",
+   "answer": "شجر",
    "examples": [],
    "image": null,
    "source": "https://marvelrivals.fandom.com/wiki/Groot",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:00:51.431Z",
+   "edited": true
   },
   {
    "id": "rivals-e-08",
    "category": "rivals",
    "difficulty": "easy",
    "points": 200,
-   "question": "أي بطل يتحوّل من العالِم بروس بانر؟",
-   "answer": "هالك",
+   "question": "وش اخر سكن في باتل باس سيزون 0؟",
+   "answer": "سكن مانتس",
    "examples": [],
    "image": null,
-   "source": "https://marvelrivals.fandom.com/wiki/Hulk",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:01:36.056Z",
+   "edited": true
   },
   {
    "id": "rivals-e-09",
    "category": "rivals",
    "difficulty": "easy",
    "points": 200,
-   "question": "من أي معدن صُنع درع كابتن أمريكا في اللعبة؟",
-   "answer": "الفايبرانيوم",
+   "question": "لاعب سبورت جاب التوب ون اكثر من مره ؟",
+   "answer": "سايفا",
    "examples": [],
    "image": null,
-   "source": "https://marvelrivals.fandom.com/wiki/Captain_America",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:08:44.252Z",
+   "edited": true
   },
   {
    "id": "rivals-e-10",
    "category": "rivals",
    "difficulty": "easy",
    "points": 200,
-   "question": "ما دور روكيت راكون في اللعبة: مدافع أم مهاجم أم داعم؟",
-   "answer": "داعم (Strategist)",
+   "question": "مين الشخصين الي صارت بينهم الدراما المشهوره بمارفل؟",
+   "answer": "كنقزمان وزازا",
    "examples": [],
    "image": null,
-   "source": "https://marvelrivals.fandom.com/wiki/Rocket_Raccoon",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:09:16.819Z",
+   "edited": true
   },
   {
    "id": "rivals-m-01",
@@ -960,7 +1109,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Marvel_Rivals",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:01:55.314Z"
   },
   {
    "id": "rivals-m-02",
@@ -973,7 +1124,9 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Marvel_Rivals",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:01:57.106Z"
   },
   {
    "id": "rivals-m-03",
@@ -986,33 +1139,41 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Marvel_Rivals",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:02:03.775Z"
   },
   {
    "id": "rivals-m-04",
    "category": "rivals",
    "difficulty": "medium",
    "points": 400,
-   "question": "أي فريق أبطال انضم إلى اللعبة في الموسم الأول؟",
-   "answer": "الرباعي المذهل (Fantastic Four)",
+   "question": "وش اول شخصيتين انضافت للعبه بالموسم الاول؟",
+   "answer": "انفز و فنتاستك",
    "examples": [],
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Marvel_Rivals",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:02:33.259Z",
+   "edited": true
   },
   {
    "id": "rivals-m-05",
    "category": "rivals",
    "difficulty": "medium",
    "points": 400,
-   "question": "ما اسم الميزة التي تمنح البطل قدرة إضافية عندما يكون بطل معيّن في فريقه؟",
-   "answer": "Team-Up (التحالف)",
+   "question": "وش اكثر شخصية عندها سكنات بمارفل رايفلز؟ (مع الريكولور)",
+   "answer": "انفز 24 سكن",
    "examples": [],
    "image": null,
-   "source": "https://en.wikipedia.org/wiki/Marvel_Rivals",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:10:53.128Z",
+   "edited": true
   },
   {
    "id": "rivals-m-06",
@@ -1025,20 +1186,25 @@
    "image": null,
    "source": "https://en.wikipedia.org/wiki/Marvel_Rivals",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:03:36.650Z"
   },
   {
    "id": "rivals-m-07",
    "category": "rivals",
    "difficulty": "medium",
    "points": 400,
-   "question": "لونا سنو نجمة غناء وبطلة خارقة، فما نوع قواها؟",
-   "answer": "قوى الجليد",
+   "question": "وش الشخصيتين الي ما كانت معروفة قبل مارفل؟",
+   "answer": "ولونا وجيف",
    "examples": [],
    "image": null,
    "source": "https://marvelrivals.fandom.com/wiki/Luna_Snow",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:04:04.762Z",
+   "edited": true
   },
   {
    "id": "rivals-m-08",
@@ -1051,7 +1217,9 @@
    "image": null,
    "source": "https://marvelrivals.fandom.com/wiki/Peni_Parker",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:04:16.476Z"
   },
   {
    "id": "rivals-m-09",
@@ -1064,72 +1232,89 @@
    "image": null,
    "source": "https://marvelrivals.fandom.com/wiki/Magik",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:04:21.461Z"
   },
   {
    "id": "rivals-m-10",
    "category": "rivals",
    "difficulty": "medium",
    "points": 400,
-   "question": "إلى أي شكلين يستطيع بروس بانر التحوّل في اللعبة؟",
-   "answer": "هالك البطل (Hero Hulk) وهالك الوحش (Monster Hulk)",
+   "question": "مين من الشخصيات يقدر يتكلم مع قلكتا ؟",
+   "answer": "ديدبول",
    "examples": [],
    "image": null,
-   "source": "https://marvelrivals.fandom.com/wiki/Hulk",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:27:36.200Z",
+   "edited": true
   },
   {
    "id": "rivals-h-01",
    "category": "rivals",
    "difficulty": "hard",
    "points": 600,
-   "question": "ما اسم النسخة المستقبلية من دكتور دوم التي تتصارع معه في قصة اللعبة؟",
-   "answer": "دوم 2099 (Doom 2099)",
+   "question": "وش يقول نامور لمن يألت؟",
+   "answer": "مايقول شيء",
    "examples": [],
    "image": null,
-   "source": "https://marvelrivals.fandom.com/wiki/Doom_2099",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:28:08.962Z",
+   "edited": true
   },
   {
    "id": "rivals-h-02",
    "category": "rivals",
    "difficulty": "hard",
    "points": 600,
-   "question": "ما اسم الحدث الذي خلطَ العوالم ببعضها في قصة اللعبة؟",
-   "answer": "Timestream Entanglement (تشابك الخط الزمني)",
+   "question": "وش شخصيات guard of galaxy الي باللعبه ؟",
+   "answer": "قروت, راكون, ادم, مانتس, ستار لورد",
    "examples": [],
    "image": null,
-   "source": "https://marvelrivals.fandom.com/wiki/Doom_2099",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:30:09.380Z",
+   "edited": true
   },
   {
    "id": "rivals-h-03",
    "category": "rivals",
    "difficulty": "hard",
    "points": 600,
-   "question": "من الشرير الرئيسي في الموسم الأول؟",
-   "answer": "دراكولا",
+   "question": "متى انضاف ديرديفل في اي سيزون؟",
+   "answer": "4.5",
    "examples": [],
    "image": null,
-   "source": "https://marvelrivals.fandom.com/wiki/Dracula",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:30:56.428Z",
+   "edited": true
   },
   {
    "id": "rivals-h-04",
    "category": "rivals",
    "difficulty": "hard",
    "points": 600,
-   "question": "كوكب «كلينتار» هو الموطن الأصلي لأي كائنات؟",
-   "answer": "السيمبيوت (Symbiotes)",
+   "question": "وش الشخصية الي انضافت بقامبت؟",
+   "answer": "روغ",
    "examples": [],
    "image": null,
-   "source": "https://marvelrivals.fandom.com/wiki/Klyntar",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:32:00.823Z",
+   "edited": true
   },
   {
    "id": "rivals-h-05",
@@ -1142,20 +1327,25 @@
    "image": null,
    "source": "https://marvelrivals.fandom.com/wiki/Iron_Fist",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:32:08.611Z"
   },
   {
    "id": "rivals-h-06",
    "category": "rivals",
    "difficulty": "hard",
    "points": 600,
-   "question": "ما البطل الجديد الوحيد الذي أُضيف في الموسم العاشر؟",
+   "question": "ما اسم الشصخية الجديدة التي أُضيفت في الموسم العاشر؟",
    "answer": "غور قاتل الآلهة (Gorr the God Butcher)",
    "examples": [],
    "image": null,
    "source": "https://marvelrivals.fandom.com/wiki/Gorr",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:32:34.602Z",
+   "edited": true
   },
   {
    "id": "rivals-h-07",
@@ -1168,7 +1358,9 @@
    "image": null,
    "source": "https://marvelrivals.fandom.com/wiki/Magik",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:32:56.190Z"
   },
   {
    "id": "rivals-h-08",
@@ -1181,33 +1373,41 @@
    "image": null,
    "source": "https://marvelrivals.fandom.com/wiki/Luna_Snow",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:33:00.555Z"
   },
   {
    "id": "rivals-h-09",
    "category": "rivals",
    "difficulty": "hard",
    "points": 600,
-   "question": "ما اسم السيف الذي يقاتل به غور؟",
-   "answer": "All-Black the Necrosword (النيكروسورد)",
+   "question": "وش الشخصيات الي تقدر تطير باللعبه ؟",
+   "answer": "ستورم , تورش, سترينج. روغ, ادم, الترون, ايرون مان, فينيكس, ستار لورد",
    "examples": [],
    "image": null,
    "source": "https://marvelrivals.fandom.com/wiki/Gorr",
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:34:45.848Z",
+   "edited": true
   },
   {
    "id": "rivals-h-10",
    "category": "rivals",
    "difficulty": "hard",
    "points": 600,
-   "question": "على أي سلسلة قصص مصوّرة بُنيت قصة الموسم الأول؟",
-   "answer": "Blood Hunt (بلود هنت)",
+   "question": "مين اسوء هيلر باللعبه؟",
+   "answer": "شهد",
    "examples": [],
    "image": null,
-   "source": "https://en.wikipedia.org/wiki/Marvel_Rivals",
+   "source": null,
    "verified": true,
-   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026"
+   "note": "تم التحقق في الموسم 10 (Butcher's Blasphemy) — أكتوبر 2026",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:35:56.824Z",
+   "edited": true
   },
   {
    "id": "math-e-01",
@@ -1220,7 +1420,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:31.219Z"
   },
   {
    "id": "math-e-02",
@@ -1233,7 +1435,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:34.628Z"
   },
   {
    "id": "math-e-03",
@@ -1246,7 +1450,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:35.128Z"
   },
   {
    "id": "math-e-04",
@@ -1259,7 +1465,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:35.392Z"
   },
   {
    "id": "math-e-05",
@@ -1272,7 +1480,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:35.629Z"
   },
   {
    "id": "math-e-06",
@@ -1285,7 +1495,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:35.802Z"
   },
   {
    "id": "math-e-07",
@@ -1298,7 +1510,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:35.974Z"
   },
   {
    "id": "math-e-08",
@@ -1311,7 +1525,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:36.137Z"
   },
   {
    "id": "math-e-09",
@@ -1324,7 +1540,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:36.317Z"
   },
   {
    "id": "math-e-10",
@@ -1337,7 +1555,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:36.524Z"
   },
   {
    "id": "math-m-01",
@@ -1350,7 +1570,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:36.749Z"
   },
   {
    "id": "math-m-02",
@@ -1363,7 +1585,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:37.111Z"
   },
   {
    "id": "math-m-03",
@@ -1376,7 +1600,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:37.337Z"
   },
   {
    "id": "math-m-04",
@@ -1389,7 +1615,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:38.632Z"
   },
   {
    "id": "math-m-05",
@@ -1402,7 +1630,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:40.491Z"
   },
   {
    "id": "math-m-06",
@@ -1415,7 +1645,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:41.905Z"
   },
   {
    "id": "math-m-07",
@@ -1428,7 +1660,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:42.932Z"
   },
   {
    "id": "math-m-08",
@@ -1441,7 +1675,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:43.153Z"
   },
   {
    "id": "math-m-09",
@@ -1454,7 +1690,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:43.489Z"
   },
   {
    "id": "math-m-10",
@@ -1467,7 +1705,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:43.661Z"
   },
   {
    "id": "math-h-01",
@@ -1480,7 +1720,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:43.832Z"
   },
   {
    "id": "math-h-02",
@@ -1493,7 +1735,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:44.004Z"
   },
   {
    "id": "math-h-03",
@@ -1506,7 +1750,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:44.169Z"
   },
   {
    "id": "math-h-04",
@@ -1519,7 +1765,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:44.340Z"
   },
   {
    "id": "math-h-05",
@@ -1532,7 +1780,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:44.512Z"
   },
   {
    "id": "math-h-06",
@@ -1545,7 +1795,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:44.691Z"
   },
   {
    "id": "math-h-07",
@@ -1558,7 +1810,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:44.855Z"
   },
   {
    "id": "math-h-08",
@@ -1571,7 +1825,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:45.084Z"
   },
   {
    "id": "math-h-09",
@@ -1584,7 +1840,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:45.553Z"
   },
   {
    "id": "math-h-10",
@@ -1597,7 +1855,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "الإجابة محسوبة ومُتحقق منها برمجياً"
+   "note": "الإجابة محسوبة ومُتحقق منها برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:47.134Z"
   },
   {
    "id": "riddles-e-01",
@@ -1610,72 +1870,89 @@
    "image": null,
    "source": "https://www.sayidaty.net/node/1814775",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:38:55.905Z"
   },
   {
    "id": "riddles-e-02",
    "category": "riddles",
    "difficulty": "easy",
    "points": 200,
-   "question": "ما الشيء الذي له عين واحدة ولا يرى؟",
+   "question": "وش الشيء الي تبوسه وتدوسه وتبكي على فلوسه",
    "answer": "الإبرة",
    "examples": [],
    "image": null,
-   "source": "https://www.sayidaty.net/node/1814775",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:39:13.733Z",
+   "edited": true
   },
   {
    "id": "riddles-e-03",
    "category": "riddles",
    "difficulty": "easy",
    "points": 200,
-   "question": "ما الشيء الذي كلما أخذتَ منه كَبُر؟",
+   "question": "وش الشيء الي كل ما اخذت منه صار اكبر؟",
    "answer": "الحفرة",
    "examples": [],
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:39:45.702Z",
+   "edited": true
   },
   {
    "id": "riddles-e-04",
    "category": "riddles",
    "difficulty": "easy",
    "points": 200,
-   "question": "ما الشيء الذي يجب أن نكسره قبل أن نستعمله؟",
+   "question": "وش الشيء الي نكسره قبل ما نستعمله",
    "answer": "البيض",
    "examples": [],
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:39:59.130Z",
+   "edited": true
   },
   {
    "id": "riddles-e-05",
    "category": "riddles",
    "difficulty": "easy",
    "points": 200,
-   "question": "ما الشيء الذي يقرصك ولا تراه؟",
-   "answer": "الجوع",
+   "question": "وش الشيء الي دايم قدامك بس ما تقدر تشوفه؟",
+   "answer": "المستقبل",
    "examples": [],
    "image": null,
-   "source": "https://www.sayidaty.net/node/1814775",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:40:53.777Z",
+   "edited": true
   },
   {
    "id": "riddles-e-06",
    "category": "riddles",
    "difficulty": "easy",
    "points": 200,
-   "question": "ما الشيء الذي تأكل منه ولكنه لا يؤكل؟",
-   "answer": "الطبق",
+   "question": "مدينة على البحر الأحمر، مشهورة بالكورنيش والأسماك والميناء؛ ما هي؟",
+   "answer": "جدة",
    "examples": [],
    "image": null,
-   "source": "https://www.sayidaty.net/node/1814775",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:43:54.217Z",
+   "edited": true
   },
   {
    "id": "riddles-e-07",
@@ -1688,7 +1965,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:43:57.816Z"
   },
   {
    "id": "riddles-e-08",
@@ -1701,20 +1980,25 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:44:02.308Z"
   },
   {
    "id": "riddles-e-09",
    "category": "riddles",
    "difficulty": "easy",
    "points": 200,
-   "question": "شيء إذا نزعتَ قشرته لا يبكي، لكنك أنت تبكي عليه. ما هو؟",
-   "answer": "البصل",
+   "question": "في السعودية، قطعة من النخلة تُستخدم لصنع الحصير والسلال؛ ما هي؟",
+   "answer": "سعف النخل",
    "examples": [],
    "image": null,
-   "source": "https://www.sayidaty.net/node/1795749",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:44:48.113Z",
+   "edited": true
   },
   {
    "id": "riddles-e-10",
@@ -1727,20 +2011,25 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:44:52.300Z"
   },
   {
    "id": "riddles-m-01",
    "category": "riddles",
    "difficulty": "medium",
    "points": 400,
-   "question": "ما الشيء الذي يكون أمامك دائماً ولا تستطيع رؤيته؟",
-   "answer": "المستقبل",
+   "question": "ما هو الشيء الذي له جلد وليس حيواناً، وله ورق وليس نباتاً، وله لسان وليس بشراً؟",
+   "answer": "الكتاب",
    "examples": [],
    "image": null,
-   "source": "https://mawdoo3.com/ألغاز_ذكاء_مع_الحلول",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:45:35.992Z",
+   "edited": true
   },
   {
    "id": "riddles-m-02",
@@ -1753,7 +2042,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_ذكاء_مع_الحلول",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:45:41.059Z"
   },
   {
    "id": "riddles-m-03",
@@ -1766,7 +2057,9 @@
    "image": null,
    "source": "https://www.sayidaty.net/node/1814775",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:45:46.703Z"
   },
   {
    "id": "riddles-m-04",
@@ -1779,7 +2072,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:45:49.764Z"
   },
   {
    "id": "riddles-m-05",
@@ -1792,7 +2087,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:45:57.678Z"
   },
   {
    "id": "riddles-m-06",
@@ -1805,7 +2102,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:46:06.007Z"
   },
   {
    "id": "riddles-m-07",
@@ -1818,7 +2117,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:46:10.095Z"
   },
   {
    "id": "riddles-m-08",
@@ -1831,7 +2132,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:01.523Z"
   },
   {
    "id": "riddles-m-09",
@@ -1844,7 +2147,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_ذكاء_مع_الحلول",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:05.249Z"
   },
   {
    "id": "riddles-m-10",
@@ -1857,7 +2162,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_ذكاء_مع_الحلول",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:10.382Z"
   },
   {
    "id": "riddles-h-01",
@@ -1870,7 +2177,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:16.954Z"
   },
   {
    "id": "riddles-h-02",
@@ -1883,7 +2192,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:21.574Z"
   },
   {
    "id": "riddles-h-03",
@@ -1896,7 +2207,9 @@
    "image": null,
    "source": "https://www.sayidaty.net/node/1814775",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:27.669Z"
   },
   {
    "id": "riddles-h-04",
@@ -1909,7 +2222,9 @@
    "image": null,
    "source": null,
    "verified": true,
-   "note": "لغز حروف: تم التحقق بعدّ الحروف برمجياً"
+   "note": "لغز حروف: تم التحقق بعدّ الحروف برمجياً",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:35.452Z"
   },
   {
    "id": "riddles-h-05",
@@ -1922,7 +2237,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:40.055Z"
   },
   {
    "id": "riddles-h-06",
@@ -1935,7 +2252,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:40.280Z"
   },
   {
    "id": "riddles-h-07",
@@ -1948,7 +2267,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:40.656Z"
   },
   {
    "id": "riddles-h-08",
@@ -1961,7 +2282,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:46.022Z"
   },
   {
    "id": "riddles-h-09",
@@ -1974,7 +2297,9 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:51.143Z"
   },
   {
    "id": "riddles-h-10",
@@ -1987,537 +2312,493 @@
    "image": null,
    "source": "https://mawdoo3.com/ألغاز_لتنمية_الذكاء_عند_الأطفال",
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:47:54.000Z"
   },
   {
    "id": "letters-e-01",
    "category": "letters",
    "difficulty": "easy",
    "points": 200,
-   "question": "حيوان يبدأ بحرف «ج»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
+   "question": "سورة في القرآن الكريم يطلق عليها أخت الطويلتين ؟ (حرف الالف)",
+   "answer": "الأعراف",
    "examples": [
     "جمل",
     "جاموس",
     "جرذ"
    ],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/جمل",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:49:56.135Z",
+   "edited": true
   },
   {
    "id": "letters-e-02",
    "category": "letters",
    "difficulty": "easy",
    "points": 200,
-   "question": "فاكهة يبدأ بحرف «ت»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "تفاح",
-    "تمر",
-    "تين",
-    "توت"
-   ],
+   "question": "وش اطول سورة في القران؟ (ب)",
+   "answer": "البقرة",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/تفاح",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:51:37.761Z",
+   "edited": true
   },
   {
    "id": "letters-e-03",
    "category": "letters",
    "difficulty": "easy",
    "points": 200,
-   "question": "دولة يبدأ بحرف «م»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "مصر",
-    "ماليزيا",
-    "موريتانيا",
-    "مالي",
-    "المكسيك"
-   ],
+   "question": "وش اسم اول من اسلم من النساء؟ (خ)",
+   "answer": "خديجة بنت خويلد",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/مصر",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:52:26.973Z",
+   "edited": true
   },
   {
    "id": "letters-e-04",
    "category": "letters",
    "difficulty": "easy",
    "points": 200,
-   "question": "مدينة يبدأ بحرف «ب»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "بغداد",
-    "بيروت",
-    "باريس",
-    "برلين"
-   ],
+   "question": "يطْلَق على المرأة التي سبق لها الزواج ؟ (ث)",
+   "answer": "ثيب",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/بغداد",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:53:12.212Z",
+   "edited": true
   },
   {
    "id": "letters-e-05",
    "category": "letters",
    "difficulty": "easy",
    "points": 200,
-   "question": "حيوان يبدأ بحرف «ف»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "فيل",
-    "فهد",
-    "فأر",
-    "فرس النهر"
-   ],
+   "question": "وش عملة ماليزيا؟ (ر)",
+   "answer": "رنقت",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/فيل",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:53:58.461Z",
+   "edited": true
   },
   {
    "id": "letters-e-06",
    "category": "letters",
    "difficulty": "easy",
    "points": 200,
-   "question": "خضار يبدأ بحرف «ب»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "بطاطس",
-    "بصل",
-    "باذنجان",
-    "بامية"
-   ],
+   "question": "هو اللباس في النار و جاء وصفه في القرآن ؟ (س)",
+   "answer": "سرسبيل",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/بصل",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:54:40.021Z",
+   "edited": true
   },
   {
    "id": "letters-e-07",
    "category": "letters",
    "difficulty": "easy",
    "points": 200,
-   "question": "دولة يبدأ بحرف «ك»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "كندا",
-    "الكويت",
-    "كينيا",
-    "كوبا",
-    "كولومبيا"
-   ],
+   "question": "أحد فصائل القرود ؟ (س)",
+   "answer": "السعدان",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/كندا",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:55:08.437Z",
+   "edited": true
   },
   {
    "id": "letters-e-08",
    "category": "letters",
    "difficulty": "easy",
    "points": 200,
-   "question": "شيء في المطبخ يبدأ بحرف «م»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "ملعقة",
-    "مقلاة",
-    "مغسلة"
-   ],
+   "question": "هو نوع من أنواع الأخشاب غالية الثمن ؟",
+   "answer": "الصندل",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/ملعقة",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:56:11.748Z",
+   "edited": true
   },
   {
    "id": "letters-e-09",
    "category": "letters",
    "difficulty": "easy",
    "points": 200,
-   "question": "حيوان يبدأ بحرف «ح»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "حصان",
-    "حمار",
-    "حوت",
-    "حرباء"
-   ],
+   "question": "في اللغة بمعنى المكر ؟ (د)",
+   "answer": "الدهاء",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/حمار",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:56:44.676Z",
+   "edited": true
   },
   {
    "id": "letters-e-10",
    "category": "letters",
    "difficulty": "easy",
    "points": 200,
-   "question": "مدينة يبدأ بحرف «د»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "دبي",
-    "دمشق",
-    "الدوحة",
-    "دلهي"
-   ],
+   "question": "ماذا يسمى ذكر الضفدع ؟ (ع)",
+   "answer": "العلجوم",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/دبي",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:57:11.801Z",
+   "edited": true
   },
   {
    "id": "letters-m-01",
    "category": "letters",
    "difficulty": "medium",
    "points": 400,
-   "question": "حيوان يبدأ بحرف «ق»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "قرد",
-    "قط",
-    "قنفذ",
-    "قرش",
-    "قندس"
-   ],
+   "question": "هو بيت السيف ؟ (غ)",
+   "answer": "الغمد",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/قنفذ",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:57:34.896Z",
+   "edited": true
   },
   {
    "id": "letters-m-02",
    "category": "letters",
    "difficulty": "medium",
    "points": 400,
-   "question": "دولة يبدأ بحرف «ت»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "تونس",
-    "تركيا",
-    "تشاد",
-    "تايلاند",
-    "تنزانيا"
-   ],
+   "question": "أعلى درجات الجنة ؟ (ف)",
+   "answer": "الفردوس (دعواتكم)",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/تونس",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:58:07.173Z",
+   "edited": true
   },
   {
    "id": "letters-m-03",
    "category": "letters",
    "difficulty": "medium",
    "points": 400,
-   "question": "فاكهة يبدأ بحرف «م»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "موز",
-    "مانجو",
-    "مشمش"
-   ],
+   "question": "ما هو أكبر عضو في الجسم ؟ (ك)",
+   "answer": "الكبد",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/موز",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:58:35.958Z",
+   "edited": true
   },
   {
    "id": "letters-m-04",
    "category": "letters",
    "difficulty": "medium",
    "points": 400,
-   "question": "مدينة يبدأ بحرف «ع»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "عمّان",
-    "عدن",
-    "العين",
-    "عجمان",
-    "العقبة"
-   ],
+   "question": "ما هو اسم الطين الرقيق ؟ (و)",
+   "answer": "وحل",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/عدن",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:59:31.991Z",
+   "edited": true
   },
   {
    "id": "letters-m-05",
    "category": "letters",
    "difficulty": "medium",
    "points": 400,
-   "question": "حيوان أو طائر يبدأ بحرف «ن»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "نمر",
-    "نعامة",
-    "نحلة",
-    "نسر",
-    "نمس"
-   ],
+   "question": "اجمل اسم عربي؟ (ص)",
+   "answer": "صهيب",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/نعامة",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T03:59:50.175Z",
+   "edited": true
   },
   {
    "id": "letters-m-06",
    "category": "letters",
    "difficulty": "medium",
    "points": 400,
-   "question": "مهنة يبدأ بحرف «ط»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "طبيب",
-    "طيار",
-    "طاهٍ"
-   ],
+   "question": "هو الخال الوحيد لأبناء عمتك ؟",
+   "answer": "ابوك",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/طبيب",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:00:41.371Z",
+   "edited": true
   },
   {
    "id": "letters-m-07",
    "category": "letters",
    "difficulty": "medium",
    "points": 400,
-   "question": "لون يبدأ بحرف «ب»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "بني",
-    "برتقالي",
-    "بنفسجي"
-   ],
+   "question": "من الثدييات التي تطير بالليل ؟ (و)",
+   "answer": "وطواط",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/بنفسجي",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:01:15.307Z",
+   "edited": true
   },
   {
    "id": "letters-m-08",
    "category": "letters",
    "difficulty": "medium",
    "points": 400,
-   "question": "رياضة يبدأ بحرف «ك»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "كرة القدم",
-    "كرة السلة",
-    "كاراتيه",
-    "كريكيت"
-   ],
+   "question": "بمعنى السهو و سرحان العقل ؟ (ذ)",
+   "answer": "ذهول",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/كاراتيه",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:01:39.172Z",
+   "edited": true
   },
   {
    "id": "letters-m-09",
    "category": "letters",
    "difficulty": "medium",
    "points": 400,
-   "question": "دولة يبدأ بحرف «ص»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "الصين",
-    "الصومال",
-    "صربيا"
-   ],
+   "question": "الانكسار و الخضوع و الهوان ؟ (ذ)",
+   "answer": "ذل",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/صربيا",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:02:03.364Z",
+   "edited": true
   },
   {
    "id": "letters-m-10",
    "category": "letters",
    "difficulty": "medium",
    "points": 400,
-   "question": "حيوان يبدأ بحرف «خ»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "خروف",
-    "خفاش",
-    "خيل",
-    "خلد"
-   ],
+   "question": "من أقسام الكلمة ؟ (ح)",
+   "answer": "الحرف",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/خلد",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:02:27.638Z",
+   "edited": true
   },
   {
    "id": "letters-h-01",
    "category": "letters",
    "difficulty": "hard",
    "points": 600,
-   "question": "حيوان يبدأ بحرف «ظ»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "ظبي",
-    "ظربان"
-   ],
+   "question": "من أسماء الصخر ؟ (ج)",
+   "answer": "جلمود",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/ظبي",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:02:57.577Z",
+   "edited": true
   },
   {
    "id": "letters-h-02",
    "category": "letters",
    "difficulty": "hard",
    "points": 600,
-   "question": "حيوان يبدأ بحرف «ض»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "ضبع",
-    "ضفدع",
-    "ضب"
-   ],
+   "question": "نوع من أنواع النباتات يستعمله الإنسان كشراب بعد غليه ؟ (ز)",
+   "answer": "زنجبيل",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/ضبع",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:03:34.583Z",
+   "edited": true
   },
   {
    "id": "letters-h-03",
    "category": "letters",
    "difficulty": "hard",
    "points": 600,
-   "question": "حيوان يبدأ بحرف «ث»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "ثعلب",
-    "ثعبان",
-    "ثور"
-   ],
+   "question": "ما وحدة الوزن التي يوزن بها الماس و الأحجار الكريمة و تساوي خمسة جرامات ؟ (ق)",
+   "answer": "القيراط",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/ثعلب",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:03:59.502Z",
+   "edited": true
   },
   {
    "id": "letters-h-04",
    "category": "letters",
    "difficulty": "hard",
    "points": 600,
-   "question": "دولة أو مدينة يبدأ بحرف «غ»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "غانا",
-    "غينيا",
-    "غواتيمالا",
-    "غرناطة"
-   ],
+   "question": "ما أهم نهر في أفغانستان ؟ (ك)",
+   "answer": "كابل",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/غانا",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:04:49.425Z",
+   "edited": true
   },
   {
    "id": "letters-h-05",
    "category": "letters",
    "difficulty": "hard",
    "points": 600,
-   "question": "دولة يبدأ بحرف «ز»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "زامبيا",
-    "زيمبابوي"
-   ],
+   "question": "من أمراض العين ؟ (ر)",
+   "answer": "رمد",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/زامبيا",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:05:18.728Z",
+   "edited": true
   },
   {
    "id": "letters-h-06",
    "category": "letters",
    "difficulty": "hard",
    "points": 600,
-   "question": "جزء من جسم الإنسان يبدأ بحرف «ظ»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "ظهر",
-    "ظفر"
-   ],
+   "question": "ما معنى كلمة بترول ؟ (ز)",
+   "answer": "زيت الصخر",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/ظفر",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:05:43.826Z",
+   "edited": true
   },
   {
    "id": "letters-h-07",
    "category": "letters",
    "difficulty": "hard",
    "points": 600,
-   "question": "جزء من جسم الإنسان يبدأ بحرف «ذ»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "ذراع",
-    "ذقن"
-   ],
+   "question": "هي إحدى مراحل تطور الدودة في خلقتها ؟ (ش)",
+   "answer": "شرنقة",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/ذقن",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:06:40.581Z",
+   "edited": true
   },
   {
    "id": "letters-h-08",
    "category": "letters",
    "difficulty": "hard",
    "points": 600,
-   "question": "حيوان أو طائر يبدأ بحرف «غ»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "غزال",
-    "غراب",
-    "غوريلا"
-   ],
+   "question": "كلمة تعني نشر الخبر و أعلنه ؟ (ذ)",
+   "answer": "ذاعه",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/غوريلا",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:07:18.475Z",
+   "edited": true
   },
   {
    "id": "letters-h-09",
    "category": "letters",
    "difficulty": "hard",
    "points": 600,
-   "question": "دولة يبدأ بحرف «هـ»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "الهند",
-    "هولندا",
-    "هنغاريا",
-    "هايتي",
-    "هندوراس"
-   ],
+   "question": "هو صوت النمل ؟ (د)",
+   "answer": "دبيب",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/هايتي",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:07:38.785Z",
+   "edited": true
   },
   {
    "id": "letters-h-10",
    "category": "letters",
    "difficulty": "hard",
    "points": 600,
-   "question": "مدينة يبدأ بحرف «ط»",
-   "answer": "أي إجابة صحيحة تبدأ بالحرف",
-   "examples": [
-    "طرابلس",
-    "طنجة",
-    "طوكيو",
-    "الطائف"
-   ],
+   "question": "يطلق على الأسد القوي الشجاع ؟ (د)",
+   "answer": "درغام",
+   "examples": [],
    "image": null,
-   "source": "https://ar.wikipedia.org/wiki/طنجة",
+   "source": null,
    "verified": true,
-   "note": ""
+   "note": "",
+   "review": "approved",
+   "reviewedAt": "2026-10-05T04:08:02.238Z",
+   "edited": true
   }
  ]
 }

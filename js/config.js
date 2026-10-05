@@ -31,7 +31,7 @@ export const CONFIG = {
 
   // Your own review (review.html). false = play every fact-checked question except ones you marked wrong.
   // Set to true before launch so the game only uses questions you approved.
-  REQUIRE_REVIEW: false,
+  REQUIRE_REVIEW: true,
 
   // Guests (not signed in) can play this many full games, then must sign in.
   // Only enforced once Supabase is configured below.

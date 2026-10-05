@@ -74,6 +74,7 @@ The dev server is like `python -m http.server` but also lets review.html save in
 
 ## Current status
 (updated after every step)
+- Owner review finished: all 180 approved, 57 edited by the owner (owner chose to keep every edit exactly as written, in the same categories — do NOT change questions). REQUIRE_REVIEW is now true.
 - 2026-10-04: Steps 1–2 done (minus helpers). Tested: setup validation, board, timers (answer → steal → auto reveal), إنهاء, award, رجوع + turn change, greyed tiles, full 36-question game → winner, no-repeat history.
 - When the steal timer also runs out, the answer is shown automatically (host still picks who gets points).
 - Helpers built & tested (bet double/lose, breather +20, glimpse pattern).
