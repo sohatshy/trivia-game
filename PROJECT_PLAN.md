@@ -46,14 +46,15 @@ Then open http://localhost:8080 (the app uses ES modules + fetch, so it must be 
 ## Build order / status
 - [x] Step 0 — skills installed (frontend-design, web-design-guidelines) in ~/.claude/skills
 - [x] Step 1 — board with geography (30 verified questions)
-- [~] Step 2 — full flow setup → board → question → winner ✅ done & tested; helpers NOT built yet (waiting for user's pick)
+- [x] Step 2 — full flow setup → board → question → winner + helpers
 - [ ] Step 3 — all 6 categories (180 questions)
 - [ ] Step 4 — review page
 - [ ] Step 5 — design polish + web-design-guidelines review
 - [ ] Step 6 — Supabase Google login
 
 ## Decisions / open questions
-- Helpers: 5 ideas proposed, waiting for the user to pick 3.
+- Helpers chosen by user: الرهان (bet: before opening a tile; right = double, wrong/stolen/nobody = lose the points; stealer gets normal points; can be cancelled before opening), نَفَس (+20s, `BREATHER_SECONDS` in config), لمحة (first letter + dash per letter; text in parentheses is ignored; disabled for حروف).
+- Rejected helper ideas: الدرع (no-steal shield), الدور الذهبي (two turns in a row).
 - Removed a "Strait of Hormuz" question (the gulf's name is a political dispute). Keep questions away from disputed names/borders.
 
 ## Testing tips
@@ -67,4 +68,6 @@ Then open http://localhost:8080 (the app uses ES modules + fetch, so it must be 
 (updated after every step)
 - 2026-10-04: Steps 1–2 done (minus helpers). Tested: setup validation, board, timers (answer → steal → auto reveal), إنهاء, award, رجوع + turn change, greyed tiles, full 36-question game → winner, no-repeat history.
 - When the steal timer also runs out, the answer is shown automatically (host still picks who gets points).
-- NEXT: build helpers once the user picks 3 of the 5 ideas, then Step 3 (other 5 categories).
+- Helpers built & tested (bet double/lose, breather +20, glimpse pattern).
+- NEXT: Step 3 (other 5 categories).
+- Note: Windows Python can't open files in the long scratchpad path; helper scripts live in `.work/` (gitignored).

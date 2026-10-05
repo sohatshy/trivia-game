@@ -213,6 +213,7 @@ function renderTeamPanels(bumpTeam = null) {
     panel.classList.toggle('is-turn', st.turn === i);
     panel.innerHTML = `
       <span class="team-name">${esc(t.name)}</span>
+      <span class="helpers" role="group" aria-label="مساعدات ${esc(t.name)}">${CONFIG.HELPERS.map((h) => boardHelperHtml(i, h)).join('')}</span>
       <span class="team-score${bumpTeam === i ? ' bump' : ''}" aria-label="نقاط ${esc(t.name)}">${t.score}</span>`;
   });
   const [color, ink] = teamVars(st.turn);
@@ -221,6 +222,33 @@ function renderTeamPanels(bumpTeam = null) {
   pill.style.setProperty('--turn-ink', ink);
   pill.textContent = `الدور على: ${st.teams[st.turn].name}`;
 }
+
+function boardHelperHtml(team, h) {
+  const st = game.getState();
+  const used = game.helperUsed(team, h.id);
+  const armed = h.id === 'bet' && st.betArmed === team;
+  // On the board only الرهان can be pressed, and only by the team whose turn it is
+  const usable = h.id === 'bet' && st.turn === team && (!used || armed);
+  const note = armed ? 'مفعّل، اضغط للإلغاء' : used ? 'مُستخدم' : h.when === 'question' ? 'يُستخدم أثناء السؤال' : '';
+  return `<button type="button" class="helper-btn${used && !armed ? ' is-used' : ''}${armed ? ' is-armed' : ''}"
+    data-team="${team}" data-helper="${h.id}" ${usable ? '' : 'disabled'}
+    aria-label="${esc(`${h.name}: ${h.desc}${note ? ` (${note})` : ''}`)}" title="${esc(`${h.name}: ${h.desc}`)}">${ICONS[h.id]}</button>`;
+}
+
+$('.topbar').addEventListener('click', (e) => {
+  const b = e.target.closest('.helper-btn');
+  if (!b || b.disabled || b.dataset.helper !== 'bet') return;
+  const team = Number(b.dataset.team);
+  const st = game.getState();
+  if (st.betArmed === team) {
+    game.cancelBet(team);
+    toast('أُلغي الرهان');
+  } else if (game.useHelper(team, 'bet')) {
+    sound.helper();
+    toast(`رهان ${st.teams[team].name}! السؤال القادم بضعف النقاط… أو خصمها`);
+  }
+  renderTeamPanels();
+});
 
 function renderBoard(bumpTeam = null) {
   const st = game.getState();
@@ -284,6 +312,8 @@ async function openQuestion(resumed = false) {
     flag.removeAttribute('src');
   }
   $('#q-answer').hidden = true;
+  $('#q-glimpse').hidden = true;
+  $('#q-bet').hidden = !cur.bet;
   show('screen-question');
 
   if (cur.awardedTo !== undefined) return showAnswer(true);
@@ -303,6 +333,7 @@ function startStage(stage) {
   const who = $('#q-who');
   who.textContent = stage === 'answer' ? `يجيب: ${st.teams[team].name}` : `فرصة سرقة: ${st.teams[team].name}`;
   who.classList.toggle('is-steal', stage === 'steal');
+  renderQuestionHelpers(team);
 
   $('#q-actions').innerHTML = `<button type="button" class="btn btn-big" id="btn-end">إنهاء وإظهار الإجابة</button>`;
   $('#btn-end').addEventListener('click', () => {
@@ -321,13 +352,66 @@ function startStage(stage) {
   });
 }
 
+function renderQuestionHelpers(team) {
+  const box = $('#q-helpers');
+  const isLetters = catById[currentQ.category]?.type === 'letters';
+  const name = game.getState().teams[team].name;
+  box.innerHTML = CONFIG.HELPERS.filter((h) => h.when === 'question')
+    .map((h) => {
+      const used = game.helperUsed(team, h.id);
+      const blocked = h.id === 'glimpse' && isLetters;
+      const label = h.id === 'breather' ? `${h.name} +${CONFIG.BREATHER_SECONDS}ث` : h.name;
+      return `<button type="button" class="btn q-helper" data-helper="${h.id}" data-team="${team}" ${used || blocked ? 'disabled' : ''}
+        aria-label="${esc(`${label} لفريق ${name}: ${h.desc}${used ? ' (مُستخدم)' : blocked ? ' (غير متاح في هذه الفئة)' : ''}`)}">${ICONS[h.id]}<span>${esc(label)}</span></button>`;
+    })
+    .join('');
+}
+
+$('#q-helpers').addEventListener('click', (e) => {
+  const b = e.target.closest('.q-helper');
+  if (!b || b.disabled || !timer) return;
+  const team = Number(b.dataset.team);
+  if (!game.useHelper(team, b.dataset.helper)) return;
+  sound.helper();
+  b.disabled = true;
+  if (b.dataset.helper === 'breather') {
+    addTime(CONFIG.BREATHER_SECONDS);
+    toast(`+${CONFIG.BREATHER_SECONDS} ثانية لـ ${game.getState().teams[team].name}`);
+  } else if (b.dataset.helper === 'glimpse') {
+    const g = $('#q-glimpse');
+    g.innerHTML = glimpseHtml(currentQ.answer);
+    g.hidden = false;
+  }
+});
+
+/** "جبل إيفرست" → first letter + one dash per remaining letter, words kept apart */
+function glimpseHtml(answer) {
+  const clean = String(answer).replace(/\(.*?\)/g, '').replace(/[\u064B-\u0652\u0640]/g, '').trim();
+  const words = clean.split(/\s+/);
+  const count = words.join('').length;
+  const pattern = words
+    .map((w, wi) => [...w].map((ch, ci) => (wi === 0 && ci === 0 ? `<b>${esc(ch)}</b>` : '<i></i>')).join(''))
+    .join('<span class="gap"></span>');
+  return `<span class="visually-hidden">لمحة: تبدأ الإجابة بحرف ${esc(clean[0])} وعدد حروفها ${count}</span>
+    <span class="glimpse-pattern" aria-hidden="true">${pattern}</span><span class="glimpse-count" aria-hidden="true">${count} حروف</span>`;
+}
+
+let endAt = 0;
+let timerTotal = 0;
+
+function addTime(seconds) {
+  endAt += seconds * 1000;
+  timerTotal += seconds;
+}
+
 function runTimer(total, onEnd) {
   stopTimer();
   const el = $('#timer');
   const num = $('#timer-num');
   const fill = $('#timer .fill');
   el.classList.remove('is-low', 'is-done');
-  const endAt = Date.now() + total * 1000;
+  endAt = Date.now() + total * 1000;
+  timerTotal = total;
   let last = null;
 
   // jump the ring to full instantly, then let CSS animate each second
@@ -341,7 +425,7 @@ function runTimer(total, onEnd) {
     if (left !== last) {
       last = left;
       num.textContent = left;
-      fill.style.strokeDashoffset = String(100 * (1 - (left - 1 < 0 ? 0 : left - 1) / total));
+      fill.style.strokeDashoffset = String(100 * (1 - Math.max(0, left - 1) / timerTotal));
       const low = left <= CONFIG.TICK_WARNING_AT;
       el.classList.toggle('is-low', low && left > 0);
       if (left > 0) sound.tick(low);
@@ -378,14 +462,16 @@ function showAnswer(alreadyAwarded = false) {
   if (cur.stage !== 'revealed') game.setStage('revealed');
   $('#timer').classList.add('is-done');
   $('#q-who').classList.remove('is-steal');
+  $('#q-helpers').innerHTML = '';
   const ans = $('#q-answer');
   ans.innerHTML = answerHtml(currentQ);
   ans.hidden = false;
 
   if (alreadyAwarded) return showBack();
 
+  const betNote = cur.bet ? ` (رهان ${esc(st.teams[cur.chooser].name)}: ${cur.points * 2} إن أصابوا، وخصم ${cur.points} إن أخطؤوا)` : ` (${cur.points} نقطة)`;
   $('#q-actions').innerHTML = `
-    <p class="award-label" id="award-label">من يأخذ ${cur.points} نقطة؟</p>
+    <p class="award-label" id="award-label">من يأخذ النقاط؟${betNote}</p>
     <button type="button" class="btn btn-big btn-t1" data-award="0">${esc(st.teams[0].name)}</button>
     <button type="button" class="btn btn-big btn-t2" data-award="1">${esc(st.teams[1].name)}</button>
     <button type="button" class="btn btn-big btn-ghost" data-award="none">لا أحد</button>`;
@@ -397,14 +483,13 @@ function onAward(e) {
   if (!b) return;
   $('#q-actions').removeEventListener('click', onAward);
   const team = b.dataset.award === 'none' ? null : Number(b.dataset.award);
+  const st = game.getState();
+  const delta = game.scoreChanges(st.current, team);
   game.award(team);
-  if (team === null) {
-    sound.wrong();
-    toast('لا نقاط لأحد هذه المرة');
-  } else {
-    sound.correct();
-    toast(`+${game.getState().current.points} لـ ${game.getState().teams[team].name}`);
-  }
+  if (team === null) sound.wrong();
+  else sound.correct();
+  const parts = delta.map((d, i) => (d ? `${d > 0 ? '+' : '−'}${Math.abs(d)} لـ ${st.teams[i].name}` : '')).filter(Boolean);
+  toast(parts.length ? parts.join('، ') : 'لا نقاط لأحد هذه المرة');
   showBack();
 }
 

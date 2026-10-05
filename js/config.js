@@ -13,6 +13,14 @@ export const CONFIG = {
   // Start ticking louder when this many seconds are left
   TICK_WARNING_AT: 10,
 
+  // Helpers (each team can use each one once per game)
+  BREATHER_SECONDS: 20, // نَفَس adds this many seconds
+  HELPERS: [
+    { id: 'bet', name: 'الرهان', when: 'board', desc: 'قبل فتح السؤال: الإجابة الصحيحة بضعف النقاط، والخطأ يخصمها' },
+    { id: 'breather', name: 'نَفَس', when: 'question', desc: 'يضيف ثوانٍ إلى وقتكم' },
+    { id: 'glimpse', name: 'لمحة', when: 'question', desc: 'يكشف أول حرف من الإجابة وعدد حروفها' },
+  ],
+
   // Board layout: how many questions of each points value per category
   BOARD: [
     { difficulty: 'easy', points: 200, count: 2 },

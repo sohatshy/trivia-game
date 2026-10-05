@@ -62,6 +62,7 @@ export async function newGame(names, picks) {
     categories,
     board,
     turn: 0,
+    betArmed: null, // team index that armed الرهان for its next question
     current: null,
   };
   save();
@@ -75,7 +76,9 @@ export function ownerOf(catId) {
 export function openTile(catId, index) {
   const tile = state.board[catId][index];
   if (!tile || tile.played) return null;
-  state.current = { catId, index, qid: tile.qid, points: tile.points, chooser: state.turn, stage: 'answer', awardedTo: undefined };
+  const bet = state.betArmed === state.turn;
+  state.betArmed = null;
+  state.current = { catId, index, qid: tile.qid, points: tile.points, chooser: state.turn, stage: 'answer', bet, awardedTo: undefined };
   state.phase = 'question';
   markPlayed(tile.qid);
   save();
@@ -92,11 +95,20 @@ export function award(team) {
   const cur = state.current;
   if (!cur || cur.awardedTo !== undefined) return;
   cur.awardedTo = team;
-  if (team === 0 || team === 1) state.teams[team].score += cur.points;
+  const delta = scoreChanges(cur, team);
+  delta.forEach((d, i) => (state.teams[i].score += d));
   const tile = state.board[cur.catId][cur.index];
   tile.played = true;
   tile.wonBy = team;
   save();
+}
+
+/** Points each team gains/loses for this award, e.g. [400, 0]. Handles الرهان. */
+export function scoreChanges(cur, team) {
+  const d = [0, 0];
+  if (team === 0 || team === 1) d[team] += cur.bet && team === cur.chooser ? cur.points * 2 : cur.points;
+  if (cur.bet && team !== cur.chooser) d[cur.chooser] -= cur.points;
+  return d;
 }
 
 export function backToBoard() {
@@ -117,10 +129,23 @@ export function winner() {
   return a === b ? null : a > b ? 0 : 1;
 }
 
+export function helperUsed(team, helperId) {
+  return state.teams[team].helpersUsed.includes(helperId);
+}
+
 export function useHelper(team, helperId) {
-  const t = state.teams[team];
-  if (t.helpersUsed.includes(helperId)) return false;
-  t.helpersUsed.push(helperId);
+  if (helperUsed(team, helperId)) return false;
+  state.teams[team].helpersUsed.push(helperId);
+  if (helperId === 'bet') state.betArmed = team;
   save();
   return true;
+}
+
+/** Undo an armed bet before a tile is opened (gives the helper back). */
+export function cancelBet(team) {
+  if (state.betArmed !== team) return;
+  state.betArmed = null;
+  const used = state.teams[team].helpersUsed;
+  used.splice(used.indexOf('bet'), 1);
+  save();
 }
