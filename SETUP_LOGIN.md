@@ -73,4 +73,4 @@ Tell Claude when it's done so the sign-in can be tested together.
   (This limit is stored in the browser, so a determined guest can get around it. That's fine for a free game;
   paid games will be checked on the server with Stripe + Supabase.)
 - Signed-in players' "already played" history is saved in Supabase, so it follows them to any device.
-- `review.html` only opens for `OWNER_EMAIL` (your Gmail).
+- `review.html` only opens for the owner account (`OWNER_EMAIL_SHA256` in `js/config.js` is a fingerprint of your Gmail, so the address itself is not public).

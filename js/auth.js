@@ -52,9 +52,14 @@ export async function signOut() {
   if (sb) await sb.auth.signOut();
 }
 
+async function sha256(text) {
+  const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(bytes)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 /** Can the current visitor open owner-only pages (review.html)? */
 export async function isOwner() {
   const user = await getUser();
-  if (user) return user.email?.toLowerCase() === CONFIG.OWNER_EMAIL.toLowerCase();
+  if (user) return Boolean(user.email) && (await sha256(user.email.toLowerCase())) === CONFIG.OWNER_EMAIL_SHA256;
   return !isConfigured() && isLocal; // before login exists: only on your own computer
 }

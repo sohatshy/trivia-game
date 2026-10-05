@@ -37,8 +37,10 @@ export const CONFIG = {
   // Only enforced once Supabase is configured below.
   GUEST_FREE_GAMES: 1,
 
-  // Only this account can open review.html
-  OWNER_EMAIL: 'owner@example.com',
+  // Only this account can open review.html.
+  // Stored as a SHA-256 fingerprint (not the email itself) because this file is public.
+  // To change owner: python -c "import hashlib;print(hashlib.sha256('you@example.com'.lower().encode()).hexdigest())"
+  OWNER_EMAIL_SHA256: 'baad4e43edd317eb67f19338d4b17ec17e3fcb72b38de175ae7d7575c0e04b76',
 
   // Supabase: Project Settings → API. Paste the Project URL and the "anon public" key.
   // The anon key is meant to be public (security comes from row-level security rules).
