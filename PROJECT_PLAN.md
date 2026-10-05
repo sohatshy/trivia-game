@@ -23,6 +23,7 @@ The dev server is like `python -m http.server` but also lets review.html save in
 | `js/questions.js` | The ONLY module that loads questions. Swap its source to Supabase later for paid packs |
 | `js/history.js` | Remembers which questions each player has already played |
 | `js/game.js` | Game rules/state (turns, scores, played tiles), saved to localStorage |
+| `js/categoryArt.js` | Setup-card illustrations (SVG in code) + short category descriptions — rules in ILLUSTRATION_STYLE.md |
 | `js/sound.js` | Sound effects (generated in the browser, no audio files) + mute |
 | `js/app.js` | Connects the screens to the game logic |
 | `data/questions.json` | All questions + category list |
@@ -97,3 +98,4 @@ The dev server is like `python -m http.server` but also lets review.html save in
   - Before the first push the history was rewritten: commit emails → 266081240+sohatshy@users.noreply.github.com, and the Gmail removed from old js/config.js versions (owner check now uses OWNER_EMAIL_SHA256). Pre-rewrite backup: .work/before-rewrite.bundle (local only). Never commit the Gmail address.
 - Later ideas: review verdicts saved to Supabase when online; paid packs from Supabase (questions.js is the only loader); daily video generator from questions.json.
 - Note: Windows Python can't open files in the long scratchpad path; helper scripts live in `.work/` (gitignored).
+- 2026-10-05: setup cards became picture cards (illustration + name + "i" description button). Rules for new drawings: ILLUSTRATION_STYLE.md. Test page: tests/setup-preview.html. Checked at 1920×1080, 1280×720 and phone 375px.

@@ -9,6 +9,7 @@ import * as game from './game.js';
 import { sound } from './sound.js';
 import * as auth from './auth.js';
 import { setPlayer } from './history.js';
+import { artFor, descFor } from './categoryArt.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -170,12 +171,22 @@ function initSetup() {
     grid.innerHTML = categories
       .map((c) => {
         const ready = playableIds.has(c.id);
-        return `<button type="button" class="cat-chip" data-cat="${c.id}" aria-pressed="false" ${ready ? '' : 'disabled'}>
-          ${ICONS[c.icon] || ''}<span>${esc(c.name)}</span>${ready ? '<span class="taken-by"></span>' : '<span class="taken-by">قريباً</span>'}
-        </button>`;
+        const descId = `desc-${team}-${c.id}`;
+        // The "i" button is a sibling of the pick button (a button can't contain another button)
+        return `<div class="cat-card" data-cat="${c.id}">
+          <button type="button" class="cat-chip" data-cat="${c.id}" aria-pressed="false" ${ready ? '' : 'disabled'}>
+            <span class="cat-art">${artFor(c.id)}</span>
+            <span class="cat-name">${esc(c.name)}</span>
+            <span class="taken-by">${ready ? '' : 'قريباً'}</span>
+          </button>
+          <button type="button" class="cat-info" aria-expanded="false" aria-controls="${descId}" aria-label="عن فئة ${esc(c.name)}">i</button>
+          <p class="cat-desc" id="${descId}" role="note" hidden>${esc(descFor(c.id))}</p>
+        </div>`;
       })
       .join('');
     grid.addEventListener('click', (e) => {
+      const info = e.target.closest('.cat-info');
+      if (info) return toggleInfo(info);
       const chip = e.target.closest('.cat-chip');
       if (!chip || chip.disabled) return;
       togglePick(team, chip.dataset.cat);
@@ -183,6 +194,28 @@ function initSetup() {
   });
   $('#setup-form').addEventListener('submit', startGame);
 }
+
+// ---------- "i" description bubbles (one open at a time) ----------
+function toggleInfo(btn, force) {
+  const open = force ?? btn.getAttribute('aria-expanded') !== 'true';
+  $$('.cat-info[aria-expanded="true"]').forEach((b) => {
+    if (b !== btn) toggleInfo(b, false);
+  });
+  btn.setAttribute('aria-expanded', String(open));
+  document.getElementById(btn.getAttribute('aria-controls')).hidden = !open;
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.cat-info, .cat-desc')) $$('.cat-info[aria-expanded="true"]').forEach((b) => toggleInfo(b, false));
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  const open = $('.cat-info[aria-expanded="true"]');
+  if (open) {
+    toggleInfo(open, false);
+    open.focus();
+  }
+});
 
 function togglePick(team, catId) {
   const mine = picks[team];
@@ -212,6 +245,7 @@ function paintPicks() {
       const taken = picks[1 - team].includes(id);
       chip.setAttribute('aria-pressed', String(mine));
       chip.classList.toggle('is-taken', taken);
+      chip.closest('.cat-card').classList.toggle('is-taken', taken);
       chip.disabled = taken;
       $('.taken-by', chip).textContent = taken ? 'اختارها الفريق الآخر' : '';
     });

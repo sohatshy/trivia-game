@@ -1,0 +1,22 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Setup preview</title>
+<!-- Test helper: opens the real game in a frame, goes to the setup screen, picks a few
+     categories and opens one "i" description, so the setup page can be screenshotted. -->
+<style>html,body,iframe{margin:0;border:0;width:100%;height:100%;display:block}</style>
+<iframe id="f" src="load-state.html?state=none"></iframe>
+<script>
+  const f = document.getElementById('f');
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  f.addEventListener('load', async () => {
+    if (!f.contentWindow.location.pathname.endsWith('index.html')) return;
+    await wait(700);
+    const d = f.contentDocument;
+    d.querySelector('#btn-guest').click();
+    const g = [...d.querySelectorAll('.team-setup')];
+    g[0].querySelector('.cat-chip[data-cat=geo]').click();
+    g[0].querySelector('.cat-chip[data-cat=riddles]').click();
+    g[1].querySelector('.cat-chip[data-cat=math]').click();
+    g[0].querySelector('.cat-card[data-cat=flags] .cat-info').click();
+  });
+</script>
