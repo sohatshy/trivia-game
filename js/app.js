@@ -314,6 +314,9 @@ async function openQuestion(resumed = false) {
   $('#q-answer').hidden = true;
   $('#q-glimpse').hidden = true;
   $('#q-bet').hidden = !cur.bet;
+  const answering = cur.stage === 'steal' ? 1 - cur.chooser : cur.chooser;
+  $('#screen-question').dataset.team = answering;
+  $('#q-who').textContent = `${cur.stage === 'steal' ? 'فرصة سرقة' : 'يجيب'}: ${st.teams[answering].name}`;
   show('screen-question');
 
   if (cur.awardedTo !== undefined) return showAnswer(true);

@@ -21,6 +21,7 @@ Then open http://localhost:8080 (the app uses ES modules + fetch, so it must be 
 | `js/sound.js` | Sound effects (generated in the browser, no audio files) + mute |
 | `js/app.js` | Connects the screens to the game logic |
 | `data/questions.json` | All questions + category list |
+| `tools/build_questions.py` | Source lists for flags/rivals/math/riddles/letters → writes questions.json (keeps existing ids unless `--fresh`) |
 | `assets/flags/` | Flag SVGs (flag-icons, MIT licence) |
 
 ## Question format (`data/questions.json`)
@@ -47,7 +48,7 @@ Then open http://localhost:8080 (the app uses ES modules + fetch, so it must be 
 - [x] Step 0 — skills installed (frontend-design, web-design-guidelines) in ~/.claude/skills
 - [x] Step 1 — board with geography (30 verified questions)
 - [x] Step 2 — full flow setup → board → question → winner + helpers
-- [ ] Step 3 — all 6 categories (180 questions)
+- [x] Step 3 — all 6 categories (180 questions, all verified with sources)
 - [ ] Step 4 — review page
 - [ ] Step 5 — design polish + web-design-guidelines review
 - [ ] Step 6 — Supabase Google login
@@ -69,5 +70,11 @@ Then open http://localhost:8080 (the app uses ES modules + fetch, so it must be 
 - 2026-10-04: Steps 1–2 done (minus helpers). Tested: setup validation, board, timers (answer → steal → auto reveal), إنهاء, award, رجوع + turn change, greyed tiles, full 36-question game → winner, no-repeat history.
 - When the steal timer also runs out, the answer is shown automatically (host still picks who gets points).
 - Helpers built & tested (bet double/lose, breather +20, glimpse pattern).
-- NEXT: Step 3 (other 5 categories).
+- Step 3 done: 180 questions. How each category was verified:
+  - flags: flag-icons (MIT) SVGs in assets/flags; ISO codes checked against flag-icons country.json; look-alike notes checked on Wikipedia.
+  - rivals: Wikipedia + marvelrivals.fandom.com via its API (`.work/mr.py`; the normal web page returns HTTP 402). Avoided team-up names (they rotate per season). Every question notes "checked in Season 10, Oct 2026".
+  - math: answers computed by the build script.
+  - riddles: answers matched on mawdoo3.com / sayidaty.net collections; dropped riddles with disputed answers (comb vs zipper). Letter-trick riddles checked by code.
+  - letters: every example checked to exist on Arabic Wikipedia (`.work/wiki.py`).
+- NEXT: Step 4 review page.
 - Note: Windows Python can't open files in the long scratchpad path; helper scripts live in `.work/` (gitignored).
