@@ -6,18 +6,28 @@ This file is the hand-off note. A new session should read it first and continue 
 ```
 python tools/dev_server.py
 ```
-Then open http://localhost:8080 (game) or http://localhost:8080/review.html (review).
-The dev server is like `python -m http.server` but also lets review.html save into data/questions.json (backups go to .work/backups/).
+Then open http://localhost:8080 (game) or http://localhost:8080/admin.html (admin panel; review.html redirects there).
+The dev server is like `python -m http.server` plus a small API used only by admin.html (save questions/trash, upload + compress media with ffmpeg, delete media). Backups of every save go to .work/backups/.
 
 ## File map
 | File | What it does |
 |---|---|
 | `index.html` | The game (one page; screens are shown/hidden: login → setup → board → question → winner) |
-| `review.html` + `js/review.js` + `css/review.css` | Owner-only question review page (approve / wrong / edit) |
+| `admin.html` + `css/admin.css` + `js/admin/*` | Owner-only admin panel (replaced the review page). User guide: ADMIN_GUIDE.md (Arabic) |
+| `js/admin/store.js` | The ONLY module that knows where admin data is saved (local dev server now; add a Supabase backend here later) |
+| `js/admin/state.js` | Shared admin state, batched saving (trash first, then questions), confirm popup, toast |
+| `js/admin/questions-view.js` | Questions tab (list, filters in URL, quick review, editor, duplicates, delete → trash) + trash tab |
+| `js/admin/media.js` | Editor media section (local preview, upload on save, show with question / with answer) |
+| `js/admin/categories-view.js` | Categories tab: dashboard (red: <100 total or <6 per level) + add/rename/describe/hide + image |
+| `js/admin/io-view.js` | Import CSV/Excel with preview + duplicates; export CSV + JSON backup |
+| `js/admin/util.js` | Arabic normalisation, duplicate detection (trigram Dice + containment, answer-aware), ids, CSV |
+| `data/trash.json` | Deleted questions (restorable). The game never reads it |
+| `media/` | Question media (`<question id>.webp/mp4/mp3`) and `media/categories/<category id>.webp` |
+| `templates/` | template.xlsx + template.csv for bulk import (made by `tools/make_templates.py`) |
 | `js/auth.js` | Supabase Google sign-in, `getUser()`, `isOwner()` (before config: review works only on localhost) |
 | `supabase/schema.sql` | Table `played_questions` + row-level security (user runs it in Supabase SQL editor) |
 | `SETUP_LOGIN.md` | Step-by-step guide for the user: Supabase project, Google OAuth client, redirect URLs |
-| `tools/dev_server.py` | Local server with the save endpoint for the review page |
+| `tools/dev_server.py` | Local server + admin API. API requires header `X-Admin: 1` and a localhost Origin (blocks other websites) |
 | `css/style.css` | All game styles + design tokens |
 | `js/config.js` | **Settings you can change**: timer lengths, owner email, Supabase keys |
 | `js/questions.js` | The ONLY module that loads questions. Swap its source to Supabase later for paid packs |
@@ -40,7 +50,10 @@ The dev server is like `python -m http.server` but also lets review.html save in
 - `examples`: only for the حروف category (answer is "any correct answer").
 - `image`: path to a flag for أعلام الدول.
 - `note`: e.g. the Marvel Rivals season a fact was checked in.
-- `review`: set by the owner on review.html — `"approved"`, `"rejected"`, or missing (= not reviewed). Also `reviewedAt`, `edited`.
+- `media` (optional): `{ "type": "image|video|audio", "src": "media/<id>.<ext>", "show": "question|answer", "bytes": n }` (added in the admin panel).
+- Also optional: `createdAt`, `editedAt`, `importedAt`.
+- Categories may have `description`, `image` (media/categories/...), `hidden: true` (game skips it), `type: "text|letters|flag"`.
+- `review`: set by the owner in the admin panel — `"approved"`, `"rejected"`, or missing (= not reviewed). Also `reviewedAt`, `edited`.
 - Game uses: `verified === true` AND `review !== "rejected"` (AND `review === "approved"` when `CONFIG.REQUIRE_REVIEW` is true — turn this on before launch).
 - The game uses only `verified: true`.
 
@@ -99,3 +112,9 @@ The dev server is like `python -m http.server` but also lets review.html save in
 - Later ideas: review verdicts saved to Supabase when online; paid packs from Supabase (questions.js is the only loader); daily video generator from questions.json.
 - Note: Windows Python can't open files in the long scratchpad path; helper scripts live in `.work/` (gitignored).
 - 2026-10-05: setup cards became picture cards (illustration + name + "i" description button). Rules for new drawings: ILLUSTRATION_STYLE.md. Test page: tests/setup-preview.html. Checked at 1920×1080, 1280×720 and phone 375px.
+- 2026-10-06: ADMIN PANEL built (6 commits "Admin part 1..5" + docs). Tested in the browser with test questions, all removed afterwards; data/questions.json verified byte-identical to before (sha256 in .work/questions-before-admin.sha256).
+  - Rules: saving an edit clears `verified` unless re-ticked; deleted questions go to data/trash.json; ids never reused (nextId checks trash too); media uploaded only on save (rejected >15 MB after compression → nothing saved).
+  - Live site: admin.html shows a lock screen unless on localhost (and later: Supabase owner). GitHub Pages has no API, so nothing can be written there. Tested with headless Edge + --host-resolver-rules "MAP fakelive.test 127.0.0.1".
+  - NOT pushed to GitHub yet (ask the user first).
+  - Later: implement a Supabase backend in js/admin/store.js (tables for questions/categories/trash + Storage bucket for media), and make the game's js/questions.js read from Supabase.
+
