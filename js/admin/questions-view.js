@@ -242,7 +242,9 @@ async function onSave(e) {
   try {
     newMedia = await media.commit(id);
   } catch {
-    return fail('لم يُحفظ السؤال لأن ملف الوسائط رُفض (السبب مكتوب في قسم الوسائط).', null);
+    fail('لم يُحفظ السؤال لأن ملف الوسائط رُفض. السبب مكتوب في قسم الوسائط.', null);
+    $('#media-msg').scrollIntoView({ block: 'center', behavior: 'smooth' });
+    return;
   } finally {
     saveBtn.disabled = false;
   }
@@ -268,11 +270,17 @@ async function onSave(e) {
   delete form.dataset.dirty;
   $('#editor').close();
   renderList();
-  toast(isNew ? `أُضيف السؤال ${q.id}` : `حُفظ السؤال ${q.id}${q.verified ? '' : ' — غير مُتحقق منه، فلن يظهر في اللعبة'}`);
+  const notes = media.lastNotes();
+  toast(
+    (isNew ? `أُضيف السؤال ${q.id}` : `حُفظ السؤال ${q.id}`) +
+      (q.verified ? '' : ' — غير مُتحقق منه، فلن يظهر في اللعبة') +
+      (notes ? ` — ${notes}` : ''),
+  );
 
   function fail(msg, el) {
     err.textContent = msg;
-    el?.focus();
+    if (el) el.focus();
+    else err.scrollIntoView({ block: 'nearest' });
   }
 }
 

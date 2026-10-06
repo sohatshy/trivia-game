@@ -27,6 +27,7 @@ function show(screenId) {
     s.hidden = s.id !== screenId; // only one <main> is exposed at a time
   });
   $('#btn-quit').hidden = !['screen-board', 'screen-question'].includes(screenId);
+  if (screenId !== 'screen-question') clearMedia(); // stop any video/audio when leaving the question
   window.scrollTo(0, 0);
 }
 
@@ -400,6 +401,8 @@ async function openQuestion(resumed = false) {
   }
   $('#q-answer').hidden = true;
   $('#q-glimpse').hidden = true;
+  clearMedia();
+  if (q.media?.src && q.media.show !== 'answer') renderMedia(q.media);
   $('#q-bet').hidden = !cur.bet;
   const answering = cur.stage === 'steal' ? 1 - cur.chooser : cur.chooser;
   $('#screen-question').dataset.team = answering;
@@ -519,7 +522,7 @@ function runTimer(total, onEnd) {
       fill.style.strokeDashoffset = String(100 * (1 - Math.max(0, left - 1) / timerTotal));
       const low = left <= CONFIG.TICK_WARNING_AT;
       el.classList.toggle('is-low', low && left > 0);
-      if (left > 0) sound.tick(low);
+      if (left > 0 && !mediaPlaying()) sound.tick(low); // quiet while a video/audio clip plays
     }
     if (left <= 0) {
       stopTimer();
@@ -535,6 +538,31 @@ function stopTimer() {
   clearInterval(timer);
   timer = null;
 }
+
+// ---------- question media (image / video / audio attached in the admin panel) ----------
+function renderMedia(m) {
+  const box = $('#q-media');
+  const src = esc(m.src);
+  box.dataset.type = m.type;
+  box.innerHTML =
+    m.type === 'video'
+      ? `<video src="${src}" controls autoplay playsinline preload="auto"></video>`
+      : m.type === 'audio'
+        ? `<div class="q-audio">${ICONS.soundOn}<audio src="${src}" controls autoplay preload="auto"></audio></div>`
+        : `<img src="${src}" alt="صورة مرفقة بالسؤال">`;
+  box.hidden = false;
+  // Browsers may block autoplay with sound; the controls stay visible so the host can press play.
+  box.querySelector('video, audio')?.play().catch(() => {});
+}
+
+function clearMedia() {
+  const box = $('#q-media');
+  box.querySelectorAll('video, audio').forEach((el) => el.pause());
+  box.innerHTML = '';
+  box.hidden = true;
+}
+
+const mediaPlaying = () => [...$('#q-media').querySelectorAll('video, audio')].some((el) => !el.paused && !el.ended);
 
 function answerHtml(q) {
   const isLetters = catById[q.category]?.type === 'letters';
@@ -557,6 +585,7 @@ function showAnswer(alreadyAwarded = false) {
   const ans = $('#q-answer');
   ans.innerHTML = answerHtml(currentQ);
   ans.hidden = false;
+  if (currentQ.media?.src && currentQ.media.show === 'answer') renderMedia(currentQ.media);
 
   if (alreadyAwarded) return showBack();
 

@@ -12,6 +12,10 @@ let picked = null; // File chosen but not uploaded yet
 let removed = false;
 let uploading = false;
 let objectUrl = null;
+let notes = '';
+
+/** What the server changed in the last upload, e.g. "cut to 60 seconds" ('' if nothing). */
+export const lastNotes = () => notes;
 
 export const label = (m) => `${TYPE_NAME[m.type] || 'وسائط'}${m.show === 'answer' ? ' (مع الإجابة)' : ''}`;
 export const busy = () => uploading;
@@ -92,6 +96,7 @@ function msg(text, kind = '') {
  */
 export async function commit(id) {
   const show = $('#editor-form').querySelector('[name="mediaShow"]:checked').value;
+  notes = '';
   if (picked) {
     uploading = true;
     const bar = progressBar();
@@ -107,7 +112,8 @@ export async function commit(id) {
         },
       });
       if (original && original.src !== res.src) await store.deleteMedia(original.src).catch(() => {});
-      msg(res.notes?.join(' ') || '');
+      notes = res.notes?.join(' ') || '';
+      msg(notes);
       return { type: res.type, src: res.src, show, bytes: res.bytes };
     } catch (err) {
       msg(err.message, 'bad');
