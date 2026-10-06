@@ -27,6 +27,10 @@ function show(screenId) {
     s.hidden = s.id !== screenId; // only one <main> is exposed at a time
   });
   $('#btn-quit').hidden = !['screen-board', 'screen-question'].includes(screenId);
+  // Copyright footer: on the menu screens only, so the TV board and questions stay clean
+  const withFooter = ['screen-login', 'screen-setup', 'screen-winner'].includes(screenId);
+  $('#site-footer').hidden = !withFooter;
+  document.body.classList.toggle('has-footer', withFooter);
   if (screenId !== 'screen-question') clearMedia(); // stop any video/audio when leaving the question
   window.scrollTo(0, 0);
 }

@@ -1,0 +1,22 @@
+Copyright (c) 2026 Sohatshy. All rights reserved.
+
+This repository and everything in it, including the source code, questions and answers,
+illustrations, designs, text and other content, is the property of the copyright holder.
+
+No license is granted. You may not copy, modify, distribute, redistribute, publish, sublicense,
+sell, or create derivative works from any part of this repository, in whole or in part,
+without prior written permission from the copyright holder.
+
+The repository is publicly visible on GitHub only so the game can be hosted with GitHub Pages.
+Being able to view it does not give you any right to use it. (GitHub's Terms of Service let
+GitHub users view and fork public repositories on GitHub itself; no other rights are granted.)
+
+THIRD-PARTY COMPONENTS
+The following parts are NOT covered by the notice above and stay under their own licenses:
+
+- assets/flags/*.svg: flag-icons by Panayiotis Lipiridis, MIT License.
+  The license text is in assets/flags/LICENSE.txt and must be kept with those files.
+- Lalezar and Readex Pro fonts: loaded from Google Fonts under the SIL Open Font License.
+  They are not included in this repository.
+- SheetJS (Excel import in the admin panel) and supabase-js: loaded from their own CDNs
+  under their own licenses. They are not included in this repository.

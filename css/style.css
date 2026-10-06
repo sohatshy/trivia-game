@@ -48,6 +48,13 @@ button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulat
 button:disabled { cursor: not-allowed; }
 :focus-visible { outline: 4px solid var(--t1); outline-offset: 3px; border-radius: var(--r-sm); }
 
+/* ---------- copyright footer (login / setup / winner screens) ---------- */
+.site-footer { --footer-h: 44px; min-height: var(--footer-h); display: flex; align-items: center; justify-content: center;
+  padding: 0 72px max(10px, env(safe-area-inset-bottom)); color: var(--muted); font-size: 0.85rem; text-align: center; }
+.site-footer p { margin: 0; }
+.site-footer[hidden] { display: none; }
+body.has-footer .screen.is-active { min-height: calc(100dvh - 44px); } /* keep the footer on screen without scrolling */
+
 .visually-hidden {
   position: absolute !important; width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap;

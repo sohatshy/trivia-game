@@ -115,6 +115,6 @@ The dev server is like `python -m http.server` plus a small API used only by adm
 - 2026-10-06: ADMIN PANEL built (6 commits "Admin part 1..5" + docs). Tested in the browser with test questions, all removed afterwards; data/questions.json verified byte-identical to before (sha256 in .work/questions-before-admin.sha256).
   - Rules: saving an edit clears `verified` unless re-ticked; deleted questions go to data/trash.json; ids never reused (nextId checks trash too); media uploaded only on save (rejected >15 MB after compression → nothing saved).
   - Live site: admin.html shows a lock screen unless on localhost (and later: Supabase owner). GitHub Pages has no API, so nothing can be written there. Tested with headless Edge + --host-resolver-rules "MAP fakelive.test 127.0.0.1".
-  - NOT pushed to GitHub yet (ask the user first).
+  - Pushed to GitHub 2026-10-06 (live admin.html shows the lock screen; checked).
   - Later: implement a Supabase backend in js/admin/store.js (tables for questions/categories/trash + Storage bucket for media), and make the game's js/questions.js read from Supabase.
-
+- Copyright: footer "© 2026 Sohatshy. All rights reserved." on login/setup/winner screens (hidden on board/question). LICENSE = all rights reserved, with third-party exceptions (flag-icons MIT in assets/flags/LICENSE.txt must stay; fonts/SheetJS/supabase-js loaded from CDNs).
