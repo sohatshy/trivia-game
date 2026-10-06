@@ -65,7 +65,31 @@
     </section>
 
     <!-- ================= CATEGORIES + DASHBOARD ================= -->
-    <section id="panel-categories" role="tabpanel" aria-labelledby="tab-categories" hidden></section>
+    <section id="panel-categories" role="tabpanel" aria-labelledby="tab-categories" hidden>
+      <div class="ad-toolbar">
+        <p class="ad-hint">الهدف لكل فئة: <strong>100 سؤال</strong> على الأقل، و<strong>6</strong> على الأقل في كل مستوى. الفئات الناقصة باللون الأحمر.</p>
+        <button type="button" class="btn btn-t1" id="btn-add-cat">+ فئة جديدة</button>
+      </div>
+      <div class="table-wrap">
+        <table class="dash" id="dash">
+          <caption class="visually-hidden">عدد الأسئلة في كل فئة ومستوى</caption>
+          <thead>
+            <tr>
+              <th scope="col">الفئة</th>
+              <th scope="col">المجموع</th>
+              <th scope="col">سهل 200</th>
+              <th scope="col">متوسط 400</th>
+              <th scope="col">صعب 600</th>
+              <th scope="col">في اللعبة</th>
+              <th scope="col">الحالة</th>
+              <th scope="col"><span class="visually-hidden">إجراءات</span></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot></tfoot>
+        </table>
+      </div>
+    </section>
 
     <!-- ================= IMPORT / EXPORT ================= -->
     <section id="panel-io" role="tabpanel" aria-labelledby="tab-io" hidden></section>
@@ -137,6 +161,45 @@
         <button type="submit" class="btn btn-t1" id="editor-save" value="save">حفظ</button>
         <button type="button" class="btn btn-ghost" data-close>إلغاء</button>
         <button type="button" class="btn btn-danger" id="editor-delete" hidden>حذف السؤال</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- ================= CATEGORY EDITOR ================= -->
+  <dialog id="cat-editor" class="ad-dialog" aria-labelledby="cat-title">
+    <form id="cat-form" method="dialog" novalidate>
+      <header class="dlg-head">
+        <h2 id="cat-title">فئة جديدة</h2>
+        <code id="cat-id" dir="ltr"></code>
+        <button type="button" class="icon-btn dlg-close" data-close aria-label="إغلاق بدون حفظ">✕</button>
+      </header>
+      <div class="dlg-body">
+        <div class="row2">
+          <label>اسم الفئة<input name="name" required maxlength="30" autocomplete="off"></label>
+          <label>نوع الإجابات
+            <select name="type">
+              <option value="text">إجابة واحدة لكل سؤال</option>
+              <option value="letters">حروف: أي إجابة صحيحة (مع أمثلة)</option>
+              <option value="flag" disabled>أعلام (صورة علم)</option>
+            </select>
+          </label>
+        </div>
+        <label>وصف قصير (يظهر عند الضغط على زر «i» في صفحة اختيار الفئات)<textarea name="description" rows="2" maxlength="140" autocomplete="off"></textarea></label>
+        <fieldset class="media-box">
+          <legend>صورة الفئة أو أيقونتها</legend>
+          <div class="cat-art-preview" id="cat-preview"></div>
+          <div class="media-actions">
+            <label class="btn btn-ghost file-btn">رفع صورة…<input type="file" id="cat-file" accept="image/*,.svg"></label>
+            <button type="button" class="btn btn-ghost" id="cat-image-remove" hidden>إزالة الصورة</button>
+          </div>
+          <p class="media-msg" id="cat-msg" role="status" aria-live="polite">بدون صورة تظهر أيقونة بسيطة. أفضل مقاس: صورة عرضية 16:10 بخلفية فاتحة.</p>
+        </fieldset>
+        <label class="check"><input type="checkbox" name="hidden"> <span>إخفاء الفئة من اللعبة<small>لا تظهر في صفحة اختيار الفئات، وتبقى أسئلتها محفوظة هنا.</small></span></label>
+        <p class="form-error" id="cat-error" role="alert"></p>
+      </div>
+      <footer class="dlg-foot">
+        <button type="submit" class="btn btn-t1" id="cat-save">حفظ</button>
+        <button type="button" class="btn btn-ghost" data-close>إلغاء</button>
       </footer>
     </form>
   </dialog>

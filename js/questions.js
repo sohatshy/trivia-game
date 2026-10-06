@@ -20,15 +20,20 @@ async function loadAll() {
   return cache;
 }
 
-/** All categories (id, name, type). */
+/** Categories offered in the game (hidden ones, set in the admin panel, are left out). */
 export async function getCategories() {
+  return (await loadAll()).categories.filter((c) => !c.hidden);
+}
+
+/** Every category including hidden ones (a saved game may still use a category hidden later). */
+export async function getAllCategories() {
   return (await loadAll()).categories;
 }
 
 /** Categories that have enough verified questions to fill a board column. */
 export async function getPlayableCategories(boardSpec) {
   const { categories, questions } = await loadAll();
-  return categories.filter((c) =>
+  return categories.filter((c) => !c.hidden).filter((c) =>
     boardSpec.every(
       (slot) => verified(questions).filter((q) => q.category === c.id && q.difficulty === slot.difficulty).length >= slot.count,
     ),

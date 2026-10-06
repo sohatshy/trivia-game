@@ -4,7 +4,7 @@
 
 import { CONFIG } from './config.js';
 import { ICONS, starPoints } from './icons.js';
-import { getCategories, getPlayableCategories, getQuestionById } from './questions.js';
+import { getCategories, getAllCategories, getPlayableCategories, getQuestionById } from './questions.js';
 import * as game from './game.js';
 import { sound } from './sound.js';
 import * as auth from './auth.js';
@@ -58,8 +58,8 @@ async function boot() {
   document.addEventListener('pointerdown', () => sound.unlock(), { once: true });
 
   try {
-    categories = await getCategories();
-    catById = Object.fromEntries(categories.map((c) => [c.id, c]));
+    categories = await getCategories(); // offered in setup (not hidden)
+    catById = Object.fromEntries((await getAllCategories()).map((c) => [c.id, c])); // all, for saved games
     playableIds = new Set((await getPlayableCategories(CONFIG.BOARD)).map((c) => c.id));
   } catch (err) {
     document.body.innerHTML = `<p style="padding:2rem;font-size:1.5rem">تعذّر تحميل الأسئلة. شغّل اللعبة عبر خادم محلي: python tools/dev_server.py ثم افتح http://localhost:8080</p>`;
@@ -160,6 +160,11 @@ function initLogin() {
   paintLogin();
 }
 
+// ---------- category pictures: the owner's uploaded image, else the built-in drawing / placeholder ----------
+const categoryArt = (c) => (c.image ? `<img src="${esc(c.image)}" alt="" loading="lazy">` : artFor(c.id));
+const categoryIcon = (c) =>
+  ICONS[c.icon] || (c.image ? `<img class="col-img" src="${esc(c.image)}" alt="" width="36" height="36">` : ICONS.star);
+
 // ============================================================
 //  SETUP
 // ============================================================
@@ -176,12 +181,12 @@ function initSetup() {
         // The "i" button is a sibling of the pick button (a button can't contain another button)
         return `<div class="cat-card" data-cat="${c.id}">
           <button type="button" class="cat-chip" data-cat="${c.id}" aria-pressed="false" ${ready ? '' : 'disabled'}>
-            <span class="cat-art">${artFor(c.id)}</span>
+            <span class="cat-art">${categoryArt(c)}</span>
             <span class="cat-name">${esc(c.name)}</span>
             <span class="taken-by">${ready ? '' : 'قريباً'}</span>
           </button>
           <button type="button" class="cat-info" aria-expanded="false" aria-controls="${descId}" aria-label="عن فئة ${esc(c.name)}">i</button>
-          <p class="cat-desc" id="${descId}" role="note" hidden>${esc(descFor(c.id))}</p>
+          <p class="cat-desc" id="${descId}" role="note" hidden>${esc(c.description || descFor(c.id))}</p>
         </div>`;
       })
       .join('');
@@ -349,7 +354,7 @@ function renderBoard(bumpTeam = null) {
       const rows = [];
       for (let i = 0; i < tiles.length; i += 2) rows.push(tiles.slice(i, i + 2).map((t, k) => tileHtml(cat, t, i + k)).join(''));
       return `<section class="board-col" aria-label="${esc(cat.name)}">
-        <h2 class="col-head" data-owner="${game.ownerOf(catId)}">${ICONS[cat.icon] || ''}<span>${esc(cat.name)}</span></h2>
+        <h2 class="col-head" data-owner="${game.ownerOf(catId)}">${categoryIcon(cat)}<span>${esc(cat.name)}</span></h2>
         ${rows.map((r) => `<div class="tile-row">${r}</div>`).join('')}
       </section>`;
     })

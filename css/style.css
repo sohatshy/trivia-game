@@ -152,6 +152,7 @@ h1, h2 { text-wrap: balance; }
 }
 /* illustration plate: lilac like the board tiles, so the dark outlines read on the night background */
 .cat-art { display: block; aspect-ratio: 16 / 10; border-radius: calc(var(--r-md) - 6px); background: var(--tile); overflow: hidden; }
+.cat-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .cat-art svg { display: block; width: 100%; height: 100%; transition: transform 0.25s var(--ease-pop); }
 .cat-chip[aria-pressed='true'] .cat-art svg { transform: scale(1.06) rotate(-2deg); }
 .cat-name { overflow-wrap: anywhere; line-height: 1.25; padding-inline: 30px; min-height: 28px; display: flex; align-items: center; justify-content: center; }
@@ -239,6 +240,7 @@ h1, h2 { text-wrap: balance; }
   border-bottom: 6px solid var(--owner-color, var(--night-3));
   text-align: center; font-weight: 700; font-size: clamp(0.95rem, 1.5vw, 1.6rem); line-height: 1.2;
 }
+.col-head .col-img { width: clamp(22px, 2.4vw, 36px); height: clamp(22px, 2.4vw, 36px); border-radius: 6px; object-fit: cover; }
 .col-head svg { width: clamp(22px, 2.4vw, 36px); height: clamp(22px, 2.4vw, 36px); color: var(--owner-color, var(--muted)); }
 .col-head[data-owner='0'] { --owner-color: var(--t1); }
 .col-head[data-owner='1'] { --owner-color: var(--t2); }

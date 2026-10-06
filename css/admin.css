@@ -126,6 +126,27 @@
 .media-msg[data-kind='bad'] { color: var(--danger); font-weight: 700; }
 .media-progress { width: 100%; height: 10px; accent-color: var(--t2); }
 
+/* ---------- categories dashboard ---------- */
+.table-wrap { overflow-x: auto; max-width: 1200px; border-radius: var(--r-md); }
+.dash { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--night-2); font-variant-numeric: tabular-nums; }
+.dash th, .dash td { padding: 10px 12px; text-align: start; border-bottom: 1px solid var(--night-3); vertical-align: middle; }
+.dash thead th { color: var(--muted); font-size: 0.9rem; font-weight: 700; background: var(--night); position: sticky; top: 0; }
+.dash tbody th { font-weight: 700; }
+.dash .num { text-align: center; font-size: 1.15rem; font-weight: 700; }
+.dash tfoot th, .dash tfoot td { color: var(--muted); border-bottom: 0; }
+.dash tr.is-low th:first-child { box-shadow: inset -6px 0 0 var(--danger); }
+.dash td.low { color: #fff; background: color-mix(in srgb, var(--danger) 55%, transparent); }
+.dash tr.is-hidden { opacity: 0.6; }
+.dash-cat { display: flex; align-items: center; gap: 12px; min-width: 220px; }
+.dash-thumb { width: 64px; height: 40px; flex: none; border-radius: 8px; overflow: hidden; background: var(--tile); }
+.dash-thumb svg, .dash-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.dash-missing { display: block; color: #ff9aac; font-weight: 400; font-size: 0.8rem; margin-top: 2px; }
+.dash-actions { white-space: nowrap; }
+.dash-actions .btn { min-height: 38px; font-size: 0.9rem; padding: 0.25em 0.8em; box-shadow: none; }
+.ad-badge.ok { background: color-mix(in srgb, var(--t2) 25%, transparent); color: var(--t2); }
+.cat-art-preview { width: 240px; aspect-ratio: 16 / 10; border-radius: var(--r-sm); overflow: hidden; background: var(--tile); }
+.cat-art-preview svg, .cat-art-preview img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
 /* toast colour for errors */
 .toast[data-kind='bad'] { background: var(--danger); color: #fff; }
 
