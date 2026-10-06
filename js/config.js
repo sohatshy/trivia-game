@@ -7,7 +7,7 @@ export const CONFIG = {
   GAME_NAME: 'ميدان',
 
   // The public address of the game (shown after "نشر التحديثات" in the admin panel)
-  SITE_URL: 'https://sohatshy.github.io/trivia-game/',
+  SITE_URL: 'https://trivia-game-1br.pages.dev/',
 
   // Timers (seconds)
   ANSWER_TIME: 60, // the team that picked the question

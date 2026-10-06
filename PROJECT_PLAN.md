@@ -105,8 +105,9 @@ The dev server is like `python -m http.server` plus a small API used only by adm
 - Headless Edge has a minimum window width (~500px), so phone screenshots must be taken in the in-app browser with resize_window preset "mobile".
 - Step 6 code: auth.js loads supabase-js from jsdelivr only when configured; login screen shows Google button / welcome + sign out; guest limit (GUEST_FREE_GAMES=1, counted when a guest reaches the winner screen, only enforced when Supabase is configured); history synced to Supabase for signed-in users; review gate with sign-in button.
 - Tested: without config (unchanged behaviour) and with FAKE config (guest blocked after 1 game, new game → login, review gate shows sign-in). Real Google round trip NOT tested yet (needs the user's Supabase project).
-- NEXT: user follows SETUP_LOGIN.md → paste URL + anon key → test real sign-in (add the GitHub Pages URL to Google origins + Supabase redirect URLs).
-- PUBLISHED 2026-10-04: repo https://github.com/sohatshy/trivia-game (public), site https://sohatshy.github.io/trivia-game/ (Pages from main, root, .nojekyll).
+- NEXT: user follows SETUP_LOGIN.md → paste URL + anon key → test real sign-in (the Cloudflare URL is already written into SETUP_LOGIN.md).
+- PUBLISHED 2026-10-04: repo https://github.com/sohatshy/trivia-game (public — the owner decided to KEEP IT PUBLIC; do not make it private).
+- HOSTING 2026-10-06: Cloudflare Pages https://trivia-game-1br.pages.dev (connected to GitHub main, no build command, output "/"; every push redeploys). Cloudflare shortens /admin.html → /admin (308), which works. The old GitHub Pages site https://sohatshy.github.io/trivia-game/ is still on too (also updates on every push).
   - GitHub CLI installed at C:\Program Files\GitHub CLI\gh.exe, logged in as sohatshy (keyring). Always ask the user before pushing.
   - Before the first push the history was rewritten: commit emails → 266081240+sohatshy@users.noreply.github.com, and the Gmail removed from old js/config.js versions (owner check now uses OWNER_EMAIL_SHA256). Pre-rewrite backup: .work/before-rewrite.bundle (local only). Never commit the Gmail address.
 - Later ideas: review verdicts saved to Supabase when online; paid packs from Supabase (questions.js is the only loader); daily video generator from questions.json.
@@ -114,7 +115,7 @@ The dev server is like `python -m http.server` plus a small API used only by adm
 - 2026-10-05: setup cards became picture cards (illustration + name + "i" description button). Rules for new drawings: ILLUSTRATION_STYLE.md. Test page: tests/setup-preview.html. Checked at 1920×1080, 1280×720 and phone 375px.
 - 2026-10-06: ADMIN PANEL built (6 commits "Admin part 1..5" + docs). Tested in the browser with test questions, all removed afterwards; data/questions.json verified byte-identical to before (sha256 in .work/questions-before-admin.sha256).
   - Rules: saving an edit clears `verified` unless re-ticked; deleted questions go to data/trash.json; ids never reused (nextId checks trash too); media uploaded only on save (rejected >15 MB after compression → nothing saved).
-  - Live site: admin.html shows a lock screen unless on localhost (and later: Supabase owner). GitHub Pages has no API, so nothing can be written there. Tested with headless Edge + --host-resolver-rules "MAP fakelive.test 127.0.0.1".
+  - Live site: admin.html shows a lock screen unless on localhost (and later: Supabase owner). The static host has no API, so nothing can be written there. Tested with headless Edge + --host-resolver-rules "MAP fakelive.test 127.0.0.1".
   - Pushed to GitHub 2026-10-06 (live admin.html shows the lock screen; checked).
   - Later: implement a Supabase backend in js/admin/store.js (tables for questions/categories/trash + Storage bucket for media), and make the game's js/questions.js read from Supabase.
 - Copyright: footer "© 2026 Sohatshy. All rights reserved." on login/setup/winner screens (hidden on board/question). LICENSE = all rights reserved, with third-party exceptions (flag-icons MIT in assets/flags/LICENSE.txt must stay; fonts/SheetJS/supabase-js loaded from CDNs).

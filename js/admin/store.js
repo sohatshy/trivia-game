@@ -7,7 +7,7 @@
 //          so the panel works on the live site for the signed-in owner. Nothing else changes.
 //
 //  On the live site without Supabase there is NO backend, so the panel refuses to open
-//  (and GitHub Pages has no API anyway, so nothing could be written).
+//  (and the static host, Cloudflare Pages, has no API anyway, so nothing could be written).
 // ============================================================
 
 import { isConfigured } from '../auth.js';

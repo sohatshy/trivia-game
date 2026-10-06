@@ -35,7 +35,7 @@ or Supabase's *service_role / secret* key. The only two values the game needs ar
 4. Go to **Clients** → **Create client**.
    - Application type: **Web application**. Name: `Maydan web`.
    - **Authorized JavaScript origins** → add `http://localhost:8080`
-     (later, when the site is on GitHub Pages, also add `https://YOUR-GITHUB-NAME.github.io`).
+     and also add the live site: `https://trivia-game-1br.pages.dev`
 5. **Authorized redirect URIs** → add the Supabase callback address:
    - In Supabase: **Authentication** → **Sign In / Providers** → **Google**. Copy the **Callback URL (for OAuth)**,
      which looks like `https://abcdxyz.supabase.co/auth/v1/callback`.
@@ -50,10 +50,10 @@ or Supabase's *service_role / secret* key. The only two values the game needs ar
 ## Part C — Tell Supabase where the game lives
 
 1. Supabase → **Authentication** → **URL Configuration**.
-2. **Site URL**: `http://localhost:8080` (change it to your GitHub Pages address at launch).
+2. **Site URL**: `https://trivia-game-1br.pages.dev` (the live game on Cloudflare Pages).
 3. **Redirect URLs** → **Add URL**:
    - `http://localhost:8080/**`
-   - later: `https://YOUR-GITHUB-NAME.github.io/REPO-NAME/**`
+   - `https://trivia-game-1br.pages.dev/**`
 4. **Save**.
 
 ## Part D — Connect the game
