@@ -6,6 +6,9 @@ export const CONFIG = {
   // Placeholder name until the real one is chosen
   GAME_NAME: 'ميدان',
 
+  // The public address of the game (shown after "نشر التحديثات" in the admin panel)
+  SITE_URL: 'https://sohatshy.github.io/trivia-game/',
+
   // Timers (seconds)
   ANSWER_TIME: 60, // the team that picked the question
   STEAL_TIME: 30,  // the other team, after the first timer runs out

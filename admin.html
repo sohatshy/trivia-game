@@ -31,6 +31,7 @@
         <button type="button" role="tab" id="tab-trash" aria-controls="panel-trash" aria-selected="false" tabindex="-1">سلة المحذوفات <span class="count" id="trash-count"></span></button>
       </nav>
       <span id="save-status" role="status" aria-live="polite"></span>
+      <button type="button" class="btn btn-t1" id="btn-publish">نشر التحديثات</button>
     </header>
 
     <!-- ================= QUESTIONS ================= -->
@@ -241,6 +242,21 @@
       <footer class="dlg-foot">
         <button type="submit" class="btn btn-t1" id="cat-save">حفظ</button>
         <button type="button" class="btn btn-ghost" data-close>إلغاء</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- ================= PUBLISH ================= -->
+  <dialog id="publish-dialog" class="ad-dialog" aria-labelledby="publish-title">
+    <form method="dialog" id="publish-form">
+      <header class="dlg-head">
+        <h2 id="publish-title">نشر التحديثات على الموقع</h2>
+        <button type="button" class="icon-btn dlg-close" data-close aria-label="إغلاق">✕</button>
+      </header>
+      <div class="dlg-body" id="publish-body" aria-live="polite"></div>
+      <footer class="dlg-foot">
+        <button type="submit" class="btn btn-t1" id="publish-go" hidden>نشر الآن</button>
+        <button type="button" class="btn btn-ghost" data-close id="publish-close">إغلاق</button>
       </footer>
     </form>
   </dialog>

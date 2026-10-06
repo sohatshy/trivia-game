@@ -9,6 +9,9 @@
 #                                       -> compresses with ffmpeg and saves media/ID.webp|mp4|mp3
 #                                          (categories: media/categories/ID.webp|svg)
 #   POST /api/media-delete  (JSON {"path": "media/..."}) -> deletes one file inside media/
+#   GET  /api/publish                  -> what changed compared with the live site (GitHub)
+#   POST /api/publish                  -> commit ONLY the content (data/questions.json, data/trash.json,
+#                                         media/) and push it to GitHub. Never stages code files.
 #
 # Safety: listens on this computer only, and only accepts API calls that carry the header
 # "X-Admin: 1" from a localhost page. Browsers won't let other websites send that header,
@@ -30,6 +33,11 @@ MAX_VIDEO_SECONDS = 60
 SAFE_ID = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
 FFMPEG = shutil.which("ffmpeg")
 FFPROBE = shutil.which("ffprobe")
+GIT = shutil.which("git") or r"C:\Program Files\Git\cmd\git.exe"
+REMOTE = os.environ.get("PUBLISH_REMOTE", "origin")   # tests point this at a local practice copy
+BRANCH = os.environ.get("PUBLISH_BRANCH", "main")
+CONTENT = ["data/questions.json", "data/trash.json", "media"]  # the only paths "publish" commits
+publish_lock = threading.Lock()
 
 
 class ApiError(Exception):
@@ -130,6 +138,122 @@ def compress(src, kind, out_base):
     return out, "audio", notes
 
 
+# ---------------------------------------------------------------- publishing (git)
+def git(*args, check=True, timeout=120):
+    env = {**os.environ, "GIT_TERMINAL_PROMPT": "0", "GCM_INTERACTIVE": "never"}
+    try:
+        p = subprocess.run([GIT, *args], cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", timeout=timeout, env=env)
+    except FileNotFoundError:
+        raise ApiError(500, "برنامج Git غير موجود على هذا الجهاز.")
+    except subprocess.TimeoutExpired:
+        raise ApiError(504, "استغرق الاتصال بـ GitHub وقتاً طويلاً. تأكد من الإنترنت وحاول مرة أخرى.")
+    if check and p.returncode != 0:
+        raise ApiError(500, explain_git_error(p.stderr + p.stdout))
+    return p.stdout
+
+
+def explain_git_error(text):
+    """Turn git's English error into a short Arabic sentence the owner can act on."""
+    t = text.lower()
+    if any(k in t for k in ("could not resolve host", "network is unreachable", "timed out", "failed to connect", "connection refused")):
+        return "لا يوجد اتصال بالإنترنت أو GitHub لا يستجيب. تأكد من الإنترنت ثم حاول مرة أخرى."
+    if any(k in t for k in ("authentication failed", "could not read username", "permission denied", "403")):
+        return "GitHub رفض الدخول. افتح الطرفية مرة واحدة واكتب: gh auth login ثم حاول مرة أخرى."
+    if any(k in t for k in ("rejected", "non-fast-forward", "fetch first")):
+        return "على GitHub تحديثات ليست على جهازك (ربما عُدّل شيء من مكان آخر). لم يُرفع شيء. اطلب المساعدة لدمج التغييرات أولاً."
+    if any(k in t for k in ("repository not found", "does not appear to be a git repository", "not found")):
+        return "لم يُعثر على مستودع GitHub. تأكد أن المستودع ما زال موجوداً وأن لك صلاحية عليه."
+    if "index.lock" in t:
+        return "برنامج Git مشغول بعملية أخرى. انتظر قليلاً ثم حاول مرة أخرى."
+    return "حدث خطأ أثناء النشر. التفاصيل: " + text.strip()[-300:]
+
+
+def json_at(ref, path):
+    p = subprocess.run([GIT, "show", f"{ref}:{path}"], cwd=ROOT, capture_output=True)
+    if p.returncode != 0:
+        return None
+    try:
+        return json.loads(p.stdout.decode("utf-8"))
+    except json.JSONDecodeError:
+        return None
+
+
+def read_json_file(path, fallback):
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return fallback
+
+
+def publish_summary(fetch=True):
+    """Compare the content on this computer with the last version on GitHub (= the live site)."""
+    if fetch:
+        git("fetch", "--quiet", REMOTE, BRANCH, timeout=60)
+    live_ref = f"{REMOTE}/{BRANCH}"
+    live = json_at(live_ref, "data/questions.json") or {"questions": [], "categories": []}
+    now = read_json_file(DATA, {"questions": [], "categories": []})
+
+    def canon(o):
+        return json.dumps(o, sort_keys=True, ensure_ascii=False)
+
+    old_q = {q["id"]: q for q in live.get("questions", [])}
+    new_q = {q["id"]: q for q in now.get("questions", [])}
+    added = [i for i in new_q if i not in old_q]
+    deleted = [i for i in old_q if i not in new_q]
+    edited = [i for i in new_q if i in old_q and canon(new_q[i]) != canon(old_q[i])]
+    old_c = {c["id"]: c for c in live.get("categories", [])}
+    new_c = {c["id"]: c for c in now.get("categories", [])}
+    cats = {
+        "added": [new_c[i]["name"] for i in new_c if i not in old_c],
+        "changed": [new_c[i]["name"] for i in new_c if i in old_c and canon(new_c[i]) != canon(old_c[i])],
+    }
+    media = {"added": [], "changed": [], "deleted": []}
+    for line in git("diff", "--name-status", live_ref, "--", "media").splitlines():
+        status, _, name = line.partition("\t")
+        key = {"A": "added", "M": "changed", "D": "deleted"}.get(status[:1])
+        if key:
+            media[key].append(name)
+    media["added"] += [n for n in git("ls-files", "--others", "--exclude-standard", "--", "media").splitlines() if n]
+    media_bytes = sum(os.path.getsize(os.path.join(ROOT, n)) for n in media["added"] + media["changed"]
+                      if os.path.isfile(os.path.join(ROOT, n)))
+    trash_changed = canon(json_at(live_ref, "data/trash.json") or {"items": []}) != canon(read_json_file(TRASH, {"items": []}))
+    # commits waiting on this computer that are NOT content publishes (e.g. code updates)
+    other = [l for l in git("log", "--format=%s", f"{live_ref}..HEAD").splitlines()
+             if l and not l.startswith("Publish content update")]
+    waiting = bool(git("status", "--porcelain", "--", *CONTENT).strip())
+    has_changes = bool(added or edited or deleted or cats["added"] or cats["changed"]
+                       or any(media.values()) or trash_changed or other or waiting)
+    return {
+        "questions": {"added": added, "edited": edited, "deleted": deleted, "total": len(new_q)},
+        "categories": cats, "media": media, "mediaBytes": media_bytes, "trashChanged": trash_changed,
+        "otherCommits": other, "hasChanges": has_changes,
+    }
+
+
+def publish():
+    if not publish_lock.acquire(blocking=False):
+        raise ApiError(409, "النشر يعمل الآن بالفعل. انتظر حتى ينتهي.")
+    try:
+        s = publish_summary()
+        if not s["hasChanges"]:
+            return {"ok": True, "nothing": True}
+        git("add", "-A", "--", *CONTENT)
+        if git("diff", "--cached", "--name-only").strip():
+            q = s["questions"]
+            parts = [f"+{len(q['added'])}" if q["added"] else "", f"~{len(q['edited'])}" if q["edited"] else "",
+                     f"-{len(q['deleted'])}" if q["deleted"] else ""]
+            label = " ".join(p for p in parts if p) or "content"
+            git("commit", "--quiet", "-m", f"Publish content update ({label} questions)",
+                "-m", "Published from the admin panel button.")
+        git("push", "--quiet", REMOTE, f"HEAD:{BRANCH}", timeout=300)
+        commit = git("rev-parse", "--short", "HEAD").strip()
+        return {"ok": True, "commit": commit, "summary": s}
+    finally:
+        publish_lock.release()
+
+
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, directory=ROOT, **kw)
@@ -174,8 +298,11 @@ class Handler(SimpleHTTPRequestHandler):
         if self.path.startswith("/api/"):
             try:
                 self.check_allowed()
-                if urlparse(self.path).path == "/api/status":
+                route = urlparse(self.path).path
+                if route == "/api/status":
                     return self.send_json(200, {"ok": True, "ffmpeg": bool(FFMPEG)})
+                if route == "/api/publish":
+                    return self.send_json(200, publish_summary())
                 raise ApiError(404, "Unknown API")
             except ApiError as e:
                 return self.send_json(e.status, {"error": e.message})
@@ -202,6 +329,8 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.send_json(200, {"ok": True})
             if route == "/api/media":
                 return self.upload_media()
+            if route == "/api/publish":
+                return self.send_json(200, publish())
             if route == "/api/media-delete":
                 rel = str(self.read_json().get("path", "")).split("?")[0]
                 full = os.path.normpath(os.path.join(ROOT, rel))

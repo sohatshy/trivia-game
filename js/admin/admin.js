@@ -11,6 +11,7 @@ import { $, $$, state, isDirty, flush } from './state.js';
 import * as questions from './questions-view.js';
 import * as categories from './categories-view.js';
 import * as io from './io-view.js';
+import * as publish from './publish.js';
 
 const views = { questions, categories, io };
 
@@ -37,6 +38,7 @@ async function boot() {
 
   $('#app').hidden = false;
   for (const v of Object.values(views)) v.init?.();
+  publish.init();
   setupTabs();
   window.addEventListener('beforeunload', (e) => {
     if (isDirty() || document.querySelector('dialog[open]#editor')) e.preventDefault();

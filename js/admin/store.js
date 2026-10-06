@@ -62,6 +62,17 @@ export async function loadAll() {
 }
 
 export const saveQuestions = (data) => api('api/questions', data);
+
+/** What changed compared with the live site: { questions: {added, edited, deleted}, media, categories, ... } */
+export async function publishStatus() {
+  const res = await fetch('api/publish', { headers: API_HEADERS, cache: 'no-store' });
+  const out = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(out.error || `خطأ ${res.status}`);
+  return out;
+}
+
+/** Commit the content (questions, trash, media) and push it to the live site. */
+export const publish = () => api('api/publish', {});
 export const saveTrash = (trash) => api('api/trash', trash);
 export const deleteMedia = (path) => api('api/media-delete', { path });
 
