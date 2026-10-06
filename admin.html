@@ -92,7 +92,48 @@
     </section>
 
     <!-- ================= IMPORT / EXPORT ================= -->
-    <section id="panel-io" role="tabpanel" aria-labelledby="tab-io" hidden></section>
+    <section id="panel-io" role="tabpanel" aria-labelledby="tab-io" hidden>
+      <div class="io-grid">
+        <section class="io-card" aria-labelledby="io-import-title">
+          <h2 id="io-import-title">استيراد أسئلة كثيرة مرة واحدة</h2>
+          <p>املأ القالب في Excel أو Google Sheets، ثم اختر الملف هنا. ستظهر معاينة قبل أي حفظ.</p>
+          <p class="io-links">القوالب: <a href="templates/template.xlsx" download>template.xlsx</a> · <a href="templates/template.csv" download>template.csv</a></p>
+          <label class="btn btn-t1 file-btn">اختيار ملف CSV أو Excel…<input type="file" id="import-file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"></label>
+          <p class="media-msg" id="import-msg" role="status" aria-live="polite"></p>
+        </section>
+        <section class="io-card" aria-labelledby="io-export-title">
+          <h2 id="io-export-title">تصدير نسخة احتياطية</h2>
+          <p>نزّل كل الأسئلة. ملف JSON نسخة كاملة (مع الفئات وسلة المحذوفات)، وملف CSV يُفتح في Excel.</p>
+          <div class="io-actions">
+            <button type="button" class="btn btn-ghost" id="export-csv">تنزيل CSV</button>
+            <button type="button" class="btn btn-ghost" id="export-json">تنزيل JSON</button>
+          </div>
+          <p class="ad-hint">ملفات الوسائط (الصور والفيديو) موجودة في مجلد <code dir="ltr">media/</code> داخل المشروع.</p>
+        </section>
+      </div>
+
+      <section class="io-preview" id="import-preview" aria-labelledby="preview-title" hidden>
+        <div class="ad-toolbar">
+          <h2 id="preview-title">معاينة الاستيراد</h2>
+          <p class="ad-hint" id="preview-summary"></p>
+        </div>
+        <div class="table-wrap">
+          <table class="dash preview-table">
+            <thead><tr>
+              <th scope="col"><span class="visually-hidden">استيراد هذا الصف</span></th>
+              <th scope="col">الصف</th><th scope="col">الحالة</th><th scope="col">الفئة</th><th scope="col">الصعوبة</th>
+              <th scope="col">السؤال</th><th scope="col">الإجابة</th><th scope="col">المصدر</th>
+            </tr></thead>
+            <tbody id="preview-body"></tbody>
+          </table>
+        </div>
+        <div class="io-foot">
+          <label class="check"><input type="checkbox" id="import-ready"> <span>علّمها «مُتحقق منها» و«صحيحة» لتظهر في اللعبة فوراً<small>اتركها بدون علامة لتراجعها واحدة واحدة في تبويب الأسئلة أولاً.</small></span></label>
+          <button type="button" class="btn btn-t1" id="import-go">استيراد</button>
+          <button type="button" class="btn btn-ghost" id="import-cancel">إلغاء</button>
+        </div>
+      </section>
+    </section>
 
     <!-- ================= TRASH ================= -->
     <section id="panel-trash" role="tabpanel" aria-labelledby="tab-trash" hidden>

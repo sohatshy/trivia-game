@@ -10,8 +10,9 @@ import * as store from './store.js';
 import { $, $$, state, isDirty, flush } from './state.js';
 import * as questions from './questions-view.js';
 import * as categories from './categories-view.js';
+import * as io from './io-view.js';
 
-const views = { questions, categories };
+const views = { questions, categories, io };
 
 async function boot() {
   $$('[data-icon]').forEach((el) => (el.outerHTML = ICONS[el.dataset.icon]));
