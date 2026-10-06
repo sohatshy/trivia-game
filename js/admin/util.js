@@ -58,17 +58,37 @@ export function similarity(a, b) {
 
 export const DUPLICATE_AT = 0.72; // warn at or above this similarity
 
-/** Questions very similar to `text` (best first). `exceptId` skips the question being edited. */
-export function findSimilar(text, questions, { exceptId = null, limit = 3, min = DUPLICATE_AT } = {}) {
+/** Same answer? (exact after normalising, or very close spelling) */
+export function sameAnswer(a, b) {
+  // ignore notes in brackets and the article "ال", compare whole words
+  const words = (s) => normalize(String(s ?? '').replace(/\(.*?\)/g, '')).split(' ').filter(Boolean).map((w) => w.replace(/^ال(?=..)/, ''));
+  const x = words(a);
+  const y = words(b);
+  if (!x.length || !y.length) return true; // unknown → can't rule it out
+  const [short, long] = x.length <= y.length ? [x, y] : [y, x];
+  return short.every((w) => long.includes(w)) || similarity(x.join(' '), y.join(' ')) >= 0.75;
+}
+
+/**
+ * Questions very similar to `text` (best first). `exceptId` skips the question being edited.
+ * If `answer` is given, a question with a clearly different answer is NOT a duplicate
+ * (e.g. 30 flag questions share the same wording but have different answers).
+ */
+export function findSimilar(text, questions, { exceptId = null, answer = '', limit = 3, min = DUPLICATE_AT } = {}) {
   if (normalize(text).length < 6) return [];
   const mine = trigrams(text);
   return questions
-    .filter((q) => q.id !== exceptId)
+    .filter((q) => q.id !== exceptId && sameAnswer(answer, q.answer || (q.examples || []).join(' ')))
     .map((q) => {
       const other = trigrams(q.question);
       let common = 0;
       for (const g of mine) if (other.has(g)) common++;
-      return { q, score: (2 * common) / (mine.size + other.size || 1) };
+      const dice = (2 * common) / (mine.size + other.size || 1);
+      // Also catch "same question with extra words": the shorter one is almost fully inside the longer.
+      // Only for questions long enough that this isn't just a few shared words.
+      const smaller = Math.min(mine.size, other.size);
+      const contained = smaller >= 10 ? common / smaller : 0;
+      return { q, score: Math.max(dice, 0.85 * contained) };
     })
     .filter((r) => r.score >= min)
     .sort((x, y) => y.score - x.score)

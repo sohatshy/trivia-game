@@ -2,68 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>مراجعة الأسئلة — ميدان</title>
-  <meta name="robots" content="noindex">
-  <meta name="theme-color" content="#1e1650">
-  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/review.css">
+  <meta name="robots" content="noindex, nofollow">
+  <title>نُقلت المراجعة إلى لوحة التحكم</title>
+  <meta http-equiv="refresh" content="0; url=admin.html">
 </head>
-<body class="review-page">
-  <div id="gate" class="gate" hidden>
-    <h1>هذه الصفحة لصاحب اللعبة فقط</h1>
-    <p id="gate-msg">سجّل الدخول بحساب صاحب اللعبة لفتحها.</p>
-    <button type="button" class="btn btn-big btn-google" id="gate-signin" hidden>الدخول بحساب Google</button>
-    <button type="button" class="btn btn-ghost" id="gate-signout" hidden>تسجيل الخروج</button>
-    <a class="btn btn-ghost" href="index.html">العودة إلى اللعبة</a>
-  </div>
-
-  <div id="app" hidden>
-    <header class="rv-head">
-      <div class="rv-title">
-        <a class="logo" href="index.html" aria-label="العودة إلى اللعبة"><span data-icon="logo"></span><span class="logo-word" data-game-name translate="no">ميدان</span></a>
-        <h1>مراجعة الأسئلة</h1>
-      </div>
-      <div class="rv-progress" aria-live="polite">
-        <div class="rv-bar" aria-hidden="true"><span class="ok" id="bar-ok"></span><span class="bad" id="bar-bad"></span></div>
-        <p id="progress-text"></p>
-      </div>
-      <div class="rv-save">
-        <span id="save-status" role="status" aria-live="polite"></span>
-        <button type="button" class="btn btn-ghost" id="btn-download">تنزيل questions.json</button>
-      </div>
-    </header>
-
-    <form class="rv-filters" id="filters" role="search" aria-label="تصفية الأسئلة">
-      <label>الفئة
-        <select name="category" id="f-category"><option value="">الكل</option></select>
-      </label>
-      <label>الصعوبة
-        <select name="difficulty"><option value="">الكل</option><option value="easy">سهل · 200</option><option value="medium">متوسط · 400</option><option value="hard">صعب · 600</option></select>
-      </label>
-      <label>الحالة
-        <select name="status">
-          <option value="pending">لم تُراجع بعد</option>
-          <option value="">الكل</option>
-          <option value="approved">صحيح</option>
-          <option value="rejected">خطأ</option>
-          <option value="unverified">غير مُتحقق منه</option>
-        </select>
-      </label>
-      <label class="grow">بحث
-        <input type="search" name="q" placeholder="كلمة من السؤال أو الإجابة…" autocomplete="off" spellcheck="false">
-      </label>
-    </form>
-
-    <p class="rv-count" id="count" aria-live="polite"></p>
-    <ol class="rv-list" id="list"></ol>
-  </div>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="js/review.js"></script>
+<body>
+  <p>صفحة المراجعة أصبحت جزءاً من <a href="admin.html">لوحة التحكم</a>.</p>
 </body>
 </html>

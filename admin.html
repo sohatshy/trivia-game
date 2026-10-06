@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>لوحة التحكم — ميدان</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1e1650">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-page">
+  <!-- Shown instead of the panel when it can't be used here (live site, server not running, not the owner) -->
+  <div id="gate" class="gate" hidden>
+    <h1>لوحة التحكم مغلقة هنا</h1>
+    <p id="gate-msg"></p>
+    <a class="btn btn-ghost" href="index.html">العودة إلى اللعبة</a>
+  </div>
+
+  <div id="app" hidden>
+    <header class="ad-head">
+      <a class="logo" href="index.html" aria-label="العودة إلى اللعبة"><span data-icon="logo"></span><span class="logo-word" data-game-name translate="no">ميدان</span></a>
+      <nav class="ad-tabs" role="tablist" aria-label="أقسام لوحة التحكم">
+        <button type="button" role="tab" id="tab-questions" aria-controls="panel-questions" aria-selected="true">الأسئلة</button>
+        <button type="button" role="tab" id="tab-categories" aria-controls="panel-categories" aria-selected="false" tabindex="-1">الفئات</button>
+        <button type="button" role="tab" id="tab-io" aria-controls="panel-io" aria-selected="false" tabindex="-1">استيراد وتصدير</button>
+        <button type="button" role="tab" id="tab-trash" aria-controls="panel-trash" aria-selected="false" tabindex="-1">سلة المحذوفات <span class="count" id="trash-count"></span></button>
+      </nav>
+      <span id="save-status" role="status" aria-live="polite"></span>
+    </header>
+
+    <!-- ================= QUESTIONS ================= -->
+    <section id="panel-questions" role="tabpanel" aria-labelledby="tab-questions">
+      <div class="ad-toolbar">
+        <form class="ad-filters" id="filters" role="search" aria-label="تصفية الأسئلة">
+          <label class="grow">بحث
+            <input type="search" name="q" placeholder="كلمة من السؤال أو الإجابة أو رقم السؤال…" autocomplete="off" spellcheck="false">
+          </label>
+          <label>الفئة<select name="category" id="f-category"><option value="">الكل</option></select></label>
+          <label>الصعوبة
+            <select name="difficulty"><option value="">الكل</option><option value="easy">سهل 200</option><option value="medium">متوسط 400</option><option value="hard">صعب 600</option></select>
+          </label>
+          <label>المراجعة
+            <select name="status">
+              <option value="">الكل</option>
+              <option value="pending">لم يُراجع</option>
+              <option value="approved">صحيح</option>
+              <option value="rejected">خطأ</option>
+              <option value="unverified">غير مُتحقق منه</option>
+              <option value="hidden">لا يظهر في اللعبة</option>
+            </select>
+          </label>
+          <label>الوسائط
+            <select name="media"><option value="">الكل</option><option value="yes">فيه وسائط</option><option value="no">بدون وسائط</option></select>
+          </label>
+        </form>
+        <button type="button" class="btn btn-t1" id="btn-add">+ سؤال جديد</button>
+      </div>
+      <p class="ad-count" id="count" aria-live="polite"></p>
+      <ol class="ad-list" id="list"></ol>
+    </section>
+
+    <!-- ================= CATEGORIES + DASHBOARD ================= -->
+    <section id="panel-categories" role="tabpanel" aria-labelledby="tab-categories" hidden></section>
+
+    <!-- ================= IMPORT / EXPORT ================= -->
+    <section id="panel-io" role="tabpanel" aria-labelledby="tab-io" hidden></section>
+
+    <!-- ================= TRASH ================= -->
+    <section id="panel-trash" role="tabpanel" aria-labelledby="tab-trash" hidden>
+      <div class="ad-toolbar">
+        <p class="ad-hint">الأسئلة المحذوفة تبقى هنا حتى تسترجعها أو تحذفها نهائياً. لا تظهر في اللعبة.</p>
+        <button type="button" class="btn btn-danger" id="btn-empty-trash">إفراغ السلة</button>
+      </div>
+      <ol class="ad-list" id="trash-list"></ol>
+    </section>
+  </div>
+
+  <!-- ================= QUESTION EDITOR ================= -->
+  <dialog id="editor" class="ad-dialog" aria-labelledby="editor-title">
+    <form id="editor-form" method="dialog" novalidate>
+      <header class="dlg-head">
+        <h2 id="editor-title">سؤال جديد</h2>
+        <code id="editor-id" dir="ltr"></code>
+        <button type="button" class="icon-btn dlg-close" data-close aria-label="إغلاق بدون حفظ">✕</button>
+      </header>
+      <div class="dlg-body">
+        <div class="row2">
+          <label>الفئة<select name="category" id="e-category" required></select></label>
+          <fieldset class="seg">
+            <legend>الصعوبة</legend>
+            <label><input type="radio" name="difficulty" value="easy" required> سهل 200</label>
+            <label><input type="radio" name="difficulty" value="medium"> متوسط 400</label>
+            <label><input type="radio" name="difficulty" value="hard"> صعب 600</label>
+          </fieldset>
+        </div>
+        <label>نص السؤال<textarea name="question" id="e-question" rows="3" required autocomplete="off"></textarea></label>
+        <div class="dup-box" id="dup-box" role="status" aria-live="polite" hidden></div>
+        <label id="e-answer-label"><span id="e-answer-text">الإجابة</span><input name="answer" id="e-answer" autocomplete="off"></label>
+        <label id="e-examples-wrap">أمثلة لإجابات صحيحة (كل مثال في سطر)<textarea name="examples" rows="3" autocomplete="off"></textarea></label>
+        <div class="row2">
+          <label>رابط المصدر (اختياري)<input name="source" type="url" dir="ltr" autocomplete="off" spellcheck="false" placeholder="https://…"></label>
+          <label>ملاحظات (لك فقط)<input name="note" autocomplete="off"></label>
+        </div>
+
+        <fieldset class="media-box" id="media-box">
+          <legend>وسائط (صورة أو فيديو أو صوت)</legend>
+          <div id="media-preview" class="media-preview"></div>
+          <div class="media-actions">
+            <label class="btn btn-ghost file-btn">اختيار ملف…<input type="file" id="media-file" accept="image/*,video/*,audio/*,.svg"></label>
+            <button type="button" class="btn btn-ghost" id="media-remove" hidden>إزالة الوسائط</button>
+            <fieldset class="seg" id="media-show">
+              <legend>متى تظهر؟</legend>
+              <label><input type="radio" name="mediaShow" value="question" checked> مع السؤال</label>
+              <label><input type="radio" name="mediaShow" value="answer"> عند كشف الإجابة فقط</label>
+            </fieldset>
+          </div>
+          <p class="media-msg" id="media-msg" role="status" aria-live="polite"></p>
+        </fieldset>
+
+        <div class="row2">
+          <fieldset class="seg">
+            <legend>المراجعة</legend>
+            <label><input type="radio" name="review" value=""> لم يُراجع</label>
+            <label><input type="radio" name="review" value="approved"> صحيح</label>
+            <label><input type="radio" name="review" value="rejected"> خطأ</label>
+          </fieldset>
+          <label class="check"><input type="checkbox" name="verified"> <span>تحققتُ من صحة المعلومة<small id="verified-hint">بدون هذه العلامة لن يظهر السؤال في اللعبة.</small></span></label>
+        </div>
+        <p class="form-error" id="editor-error" role="alert"></p>
+      </div>
+      <footer class="dlg-foot">
+        <button type="submit" class="btn btn-t1" id="editor-save" value="save">حفظ</button>
+        <button type="button" class="btn btn-ghost" data-close>إلغاء</button>
+        <button type="button" class="btn btn-danger" id="editor-delete" hidden>حذف السؤال</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- ================= CONFIRM POPUP ================= -->
+  <dialog id="confirm-dialog" class="ad-dialog small" aria-labelledby="confirm-title" aria-describedby="confirm-text">
+    <form method="dialog">
+      <h2 id="confirm-title"></h2>
+      <p id="confirm-text"></p>
+      <footer class="dlg-foot">
+        <button value="ok" id="confirm-ok" class="btn btn-danger">تأكيد</button>
+        <button value="cancel" id="confirm-cancel" class="btn btn-ghost">إلغاء</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="js/admin/admin.js"></script>
+</body>
+</html>
