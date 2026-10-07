@@ -239,7 +239,12 @@ def publish():
         s = publish_summary()
         if not s["hasChanges"]:
             return {"ok": True, "nothing": True}
-        git("add", "-A", "--", *CONTENT)
+        # Only paths that exist now OR are already tracked (so deleting media/ or trash.json still
+        # gets published). Git refuses to "add" a path that is neither (e.g. no media/ folder yet).
+        paths = [p for p in CONTENT
+                 if os.path.exists(os.path.join(ROOT, p)) or git("ls-files", "--", p).strip()]
+        if paths:
+            git("add", "-A", "--", *paths)
         if git("diff", "--cached", "--name-only").strip():
             q = s["questions"]
             parts = [f"+{len(q['added'])}" if q["added"] else "", f"~{len(q['edited'])}" if q["edited"] else "",
