@@ -9,18 +9,13 @@ export const CONFIG = {
   // The public address of the game (shown after "نشر التحديثات" in the admin panel)
   SITE_URL: 'https://trivia-game-1br.pages.dev/',
 
-  // Timers (seconds)
-  ANSWER_TIME: 60, // the team that picked the question
-  STEAL_TIME: 30,  // the other team, after the first timer runs out
-
-  // Start ticking louder when this many seconds are left
-  TICK_WARNING_AT: 10,
+  // No time limit: each question has a stopwatch that counts up from 0:00 and the host
+  // pauses / resumes / resets it. The host passes a question to the other team with "سرقة".
 
   // Helpers (each team can use each one once per game)
-  BREATHER_SECONDS: 20, // نَفَس adds this many seconds
   HELPERS: [
     { id: 'bet', name: 'الرهان', when: 'board', desc: 'قبل فتح السؤال: الإجابة الصحيحة بضعف النقاط، والخطأ يخصمها' },
-    { id: 'breather', name: 'نَفَس', when: 'question', desc: 'يضيف ثوانٍ إلى وقتكم' },
+    { id: 'swap', name: 'تبديل', when: 'question', desc: 'يستبدل السؤال بسؤال آخر من الفئة نفسها وبالنقاط نفسها' },
     { id: 'glimpse', name: 'لمحة', when: 'question', desc: 'يكشف أول حرف من الإجابة وعدد حروفها' },
   ],
 

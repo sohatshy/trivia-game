@@ -1,11 +1,11 @@
 // ============================================================
 //  Category icons + short descriptions (setup draft, board towers).
 //  Style rules: ILLUSTRATION_STYLE.md — duotone line icons on a 48×48 grid:
-//  one light line colour (currentColor) + ONE lime accent shape, no faces, no characters, no logos.
+//  one line colour (currentColor) + ONE accent shape in the category colour, no faces, no characters, no logos.
 // ============================================================
 
 const LINE = `fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"`;
-const ACCENT = 'fill="var(--accent, #D4EF3B)"';
+const ACCENT = 'fill="var(--accent, #ec6142)"';
 
 /** Shared 48×48 canvas. `accent` is drawn first (behind), `line` on top. */
 const icon = (accent, line) =>

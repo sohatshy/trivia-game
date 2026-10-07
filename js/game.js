@@ -90,6 +90,26 @@ export function setStage(stage) {
   save();
 }
 
+/** Stopwatch of the open question: { elapsed: ms counted so far, since: start time while running, else null } */
+export function setClock(clock) {
+  state.current.clock = clock;
+  save();
+}
+
+/** تبديل: put another question (same category + points) in place of the open one. */
+export function swapQuestion(qid) {
+  const cur = state.current;
+  cur.qid = qid;
+  state.board[cur.catId][cur.index].qid = qid;
+  markPlayed(qid);
+  save();
+}
+
+/** Question ids already on the board (so a replacement never repeats one of them). */
+export function boardQuestionIds() {
+  return new Set(Object.values(state.board).flatMap((tiles) => tiles.map((t) => t.qid)));
+}
+
 /** @param {0|1|null} team - who gets the points (null = nobody) */
 export function award(team) {
   const cur = state.current;

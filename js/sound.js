@@ -52,14 +52,13 @@ export const sound = {
       /* no audio support */
     }
   },
-  tick(urgent = false) {
-    tone({ freq: urgent ? 1200 : 900, dur: 0.05, type: 'square', gain: urgent ? 0.12 : 0.05 });
-  },
   open() {
     tone({ freq: 420, dur: 0.18, type: 'triangle', gain: 0.18, slideTo: 840 });
   },
-  timeUp() {
-    tone({ freq: 300, dur: 0.5, type: 'sawtooth', gain: 0.12, slideTo: 150 });
+  /** The host passes the question to the other team */
+  steal() {
+    tone({ freq: 660, dur: 0.22, type: 'triangle', gain: 0.16, slideTo: 330 });
+    tone({ freq: 440, start: 0.16, dur: 0.22, type: 'triangle', gain: 0.16, slideTo: 880 });
   },
   correct() {
     [523, 659, 784, 1047].forEach((f, i) => tone({ freq: f, start: i * 0.08, dur: 0.2, type: 'triangle', gain: 0.2 }));

@@ -29,7 +29,7 @@ The dev server is like `python -m http.server` plus a small API used only by adm
 | `SETUP_LOGIN.md` | Step-by-step guide for the user: Supabase project, Google OAuth client, redirect URLs |
 | `tools/dev_server.py` | Local server + admin API. API requires header `X-Admin: 1` and a localhost Origin (blocks other websites) |
 | `css/style.css` | All game styles + design tokens |
-| `js/config.js` | **Settings you can change**: timer lengths, owner email, Supabase keys |
+| `js/config.js` | **Settings you can change**: helpers, board layout, owner email, Supabase keys |
 | `js/questions.js` | The ONLY module that loads questions. Swap its source to Supabase later for paid packs |
 | `js/history.js` | Remembers which questions each player has already played |
 | `js/game.js` | Game rules/state (turns, scores, played tiles), saved to localStorage |
@@ -57,13 +57,14 @@ The dev server is like `python -m http.server` plus a small API used only by adm
 - Game uses: `verified === true` AND `review !== "rejected"` (AND `review === "approved"` when `CONFIG.REQUIRE_REVIEW` is true — turn this on before launch).
 - The game uses only `verified: true`.
 
-## Design plan (frontend-design skill)
-- **Subject**: family/friends game night around a TV, Arabic-speaking audience.
-- **Colour**: Night indigo `#1E1650` (background), Deep indigo `#2C2170` (panels), Lilac tile `#F1ECFF`, Saffron `#FFB627` (team 1), Turquoise `#1FC7B3` (team 2), Pomegranate `#FF4F6E` (timer danger / wrong).
-- **Type**: Lalezar (chunky Arabic display: points, titles, logo), Readex Pro (body, questions, buttons).
-- **Motif**: 8-point star (khatam) from Arabic geometric tiles. Used in the logo, the faint background pattern and the timer.
-- **Layout**: the board is a wall of tiles (6 columns). Team panels sit at the top corners and the active team's panel glows. The question screen is full-bleed with a giant question and a star-shaped countdown.
-- **Boldness spent on**: the board tiles and the star timer. Everything else stays quiet.
+## Design plan (redesign, Oct 2026)
+- **Subject**: family/friends game night around a TV, Arabic-speaking audience, adults and teens.
+- **Look**: "warm & sunny", softened for a big TV. Warm cream page `#f6e6cf`, off-white cards `#fdf7ee`, soft shadows, plum text `#45293a`. Our own warm header gradient (coral `#ec5a70` → tangerine `#ee7d4a` → sun `#eeae3c`) on the draft header, login logo, main buttons and the winner badge.
+- **Colour rules**: strong colour only in small accents. Each category takes one of 6 colours by its place in the list (`--cat-1..6`): it fills the draft card, but on the board it is only the name strip and a tint around the picture. Team colours (berry `#c92a68` + circle, cobalt `#2a6bcf` + diamond) only on the score bar, the turn pill, the question-screen team pill, stopwatch ring and played questions. Unplayed question buttons are plain off-white with dark numbers.
+- **Type**: Lalezar (chunky Arabic display: titles, numbers, buttons), Tajawal (questions, body text).
+- **Board**: 6 category cards in a 3×2 grid that fits one TV/laptop screen; picture + name strip in the middle, 200/400/600 on each side; team badge in the card corner. Small score bar with a "الدور على" pill.
+- **Question**: category pill + points, helpers, team pill on top; question card with a category-coloured top edge; stopwatch on the side; host buttons at the bottom.
+- Rejected directions (don't bring back): graphite + lime ("dull and gloomy"), boards with strong colour fills everywhere ("hurts the eyes"), neon arcade, sticker/cartoon prototypes.
 
 ## Build order / status
 - [x] Step 0 — skills installed (frontend-design, web-design-guidelines) in ~/.claude/skills
@@ -75,7 +76,8 @@ The dev server is like `python -m http.server` plus a small API used only by adm
 - [~] Step 6 — Supabase Google login: code done & tested with fake config; WAITING for user to create Supabase + Google OAuth (SETUP_LOGIN.md) and paste URL + anon key into js/config.js, then test a real sign-in
 
 ## Decisions / open questions
-- Helpers chosen by user: الرهان (bet: before opening a tile; right = double, wrong/stolen/nobody = lose the points; stealer gets normal points; can be cancelled before opening), نَفَس (+20s, `BREATHER_SECONDS` in config), لمحة (first letter + dash per letter; text in parentheses is ignored; disabled for حروف).
+- Helpers: الرهان (bet: before opening a tile; right = double, wrong/stolen/nobody = lose the points; stealer gets normal points; can be cancelled before opening), تبديل (swap, added Oct 2026 in place of نَفَس: replaces the open question with another one from the same category and points — unseen first, never one already on the board; only for the team that picked the question, not during a steal; the stopwatch restarts at 0:00), لمحة (first letter + dash per letter; text in parentheses is ignored; disabled for حروف).
+- No time limit (Oct 2026): every question has a stopwatch that counts up from 0:00, with big pause/resume and "من الصفر" (reset) buttons. The host presses "سرقة" to pass the question to the other team (the stopwatch keeps running), and "إنهاء" to reveal the answer. The clock is saved in the game (`current.clock`), so a refresh keeps it. The countdown, the automatic steal, the ticking sound and نَفَس were removed.
 - Rejected helper ideas: الدرع (no-steal shield), الدور الذهبي (two turns in a row).
 - Removed a "Strait of Hormuz" question (the gulf's name is a political dispute). Keep questions away from disputed names/borders.
 
@@ -84,13 +86,12 @@ The dev server is like `python -m http.server` plus a small API used only by adm
 - `tests/load-state.html?state=board|question|winner&data=...` jumps straight to a screen using `tests/states/*.json`.
 - Screenshots: the in-app browser pane was tiny (400x225), so headless Edge was used:
   `msedge --headless=new --window-size=1280,720 --virtual-time-budget=4000 --screenshot=out.png <url>`
-- In the console you can shorten timers: `(await import('/js/config.js')).CONFIG.ANSWER_TIME = 2`
 
 ## Current status
 (updated after every step)
 - Owner review finished: all 180 approved, 57 edited by the owner (owner chose to keep every edit exactly as written, in the same categories — do NOT change questions). REQUIRE_REVIEW is now true.
 - 2026-10-04: Steps 1–2 done (minus helpers). Tested: setup validation, board, timers (answer → steal → auto reveal), إنهاء, award, رجوع + turn change, greyed tiles, full 36-question game → winner, no-repeat history.
-- When the steal timer also runs out, the answer is shown automatically (host still picks who gets points).
+- (Old, replaced in Oct 2026 by the stopwatch:) when the steal timer also ran out, the answer was shown automatically.
 - Helpers built & tested (bet double/lose, breather +20, glimpse pattern).
 - Step 3 done: 180 questions. How each category was verified:
   - flags: flag-icons (MIT) SVGs in assets/flags; ISO codes checked against flag-icons country.json; look-alike notes checked on Wikipedia.
@@ -120,4 +121,5 @@ The dev server is like `python -m http.server` plus a small API used only by adm
   - Later: implement a Supabase backend in js/admin/store.js (tables for questions/categories/trash + Storage bucket for media), and make the game's js/questions.js read from Supabase.
 - Copyright: footer "© 2026 Sohatshy. All rights reserved." on login/setup/winner screens (hidden on board/question). LICENSE = all rights reserved, with third-party exceptions (flag-icons MIT in assets/flags/LICENSE.txt must stay; fonts/SheetJS/supabase-js loaded from CDNs).
 - "نشر التحديثات" button (admin header): GET /api/publish compares data/questions.json, data/trash.json and media/ on this computer with origin/main (after git fetch) → added/edited/deleted questions, category and media changes, other unpushed commits. POST /api/publish stages ONLY those content paths, commits "Publish content update (+a ~e -d questions)" and pushes HEAD:main. git errors are translated to Arabic (explain_git_error). Tested against a local practice remote (PUBLISH_REMOTE env var / clone pointing at a bare repo): happy path, rejected push, missing repo, no internet. CONFIG.SITE_URL is the link shown after publishing (update it when hosting moves).
-
+- 2026-10-06/07: REDESIGN (branch `redesign`, merged into main): warm cream style everywhere (login, draft, board, question, stopwatch, answer reveal, helpers, winner, admin panel), new 3×2 board, stopwatch + "سرقة" button instead of countdowns, helper تبديل instead of نَفَس. ILLUSTRATION_STYLE.md rewritten for the duotone icons + category colours. Tested a full 36-question game at 1920×1080, the board/question at 1366×768 and the phone (375px): draft, bet, swap, glimpse, pause/resume/reset, steal, reveal, scoring, refresh mid-question, flag pictures, winner, admin panel. Questions unchanged.
+  - Screenshots: headless Edge now hands the job to a background process and the PNG appears 1–3 minutes later; only one capture at a time works. Prefer the in-app browser for quick checks.

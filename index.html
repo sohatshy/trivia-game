@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>ميدان — لعبة أسئلة للفريقين</title>
   <meta name="description" content="لعبة أسئلة عربية لفريقين على شاشة واحدة">
-  <meta name="theme-color" content="#fff6e8">
+  <meta name="theme-color" content="#f6e6cf">
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,9 +106,16 @@
         <div class="q-media" id="q-media" hidden></div>
         <div class="q-answer" id="q-answer" hidden aria-live="polite"></div>
       </div>
-      <div class="timer" id="timer" role="timer" aria-label="الوقت المتبقي">
-        <svg viewBox="-10 -10 220 220" aria-hidden="true"><polygon class="track"/><polygon class="fill" pathLength="100" stroke-dasharray="100"/></svg>
-        <span class="num" id="timer-num">60</span>
+      <!-- Stopwatch: counts up from 0:00, the host pauses / resumes / resets it -->
+      <div class="stopwatch" id="stopwatch">
+        <div class="sw-face" role="timer" aria-label="الوقت منذ فتح السؤال">
+          <svg viewBox="0 0 200 200" aria-hidden="true"><circle class="track" cx="100" cy="100" r="88"/><circle class="fill" cx="100" cy="100" r="88" pathLength="60" stroke-dasharray="60" stroke-dashoffset="60"/></svg>
+          <span class="num" id="sw-num">0:00</span>
+        </div>
+        <div class="sw-controls">
+          <button type="button" class="btn sw-toggle" id="sw-toggle"></button>
+          <button type="button" class="btn btn-ghost sw-reset" id="sw-reset" aria-label="إعادة الوقت إلى الصفر"></button>
+        </div>
       </div>
     </div>
     <div class="q-actions" id="q-actions"></div>

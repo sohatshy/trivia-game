@@ -80,6 +80,14 @@ export async function pickFresh(categoryId, difficulty, count) {
   return fresh.slice(0, count);
 }
 
+/** One question to swap in (helper تبديل): unseen first, never one of `exclude`. null if none is left. */
+export async function pickReplacement(categoryId, difficulty, exclude) {
+  const pool = (await getQuestions(categoryId, difficulty)).filter((q) => !exclude.has(q.id));
+  const seen = read();
+  const fresh = pool.filter((q) => !seen.has(q.id));
+  return shuffle(fresh.length ? fresh : pool)[0] || null;
+}
+
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {

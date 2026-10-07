@@ -3,12 +3,12 @@
 // ============================================================
 
 import { CONFIG } from './config.js';
-import { ICONS, starPoints } from './icons.js';
+import { ICONS } from './icons.js';
 import { getCategories, getAllCategories, getPlayableCategories, getQuestionById } from './questions.js';
 import * as game from './game.js';
 import { sound } from './sound.js';
 import * as auth from './auth.js';
-import { setPlayer } from './history.js';
+import { setPlayer, pickReplacement } from './history.js';
 import { artFor, descFor } from './categoryArt.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -102,7 +102,7 @@ function setupMute() {
 
 function quitGame() {
   if (!confirm('إنهاء هذه اللعبة والعودة لصفحة تجهيز الفريقين؟')) return;
-  stopTimer();
+  stopClock();
   game.clear();
   resetSetup();
   show('screen-setup');
@@ -397,6 +397,7 @@ function flyToSlot(ghost, from, slot) {
   };
   anim.onfinish = done;
   anim.oncancel = done;
+  setTimeout(done, 800); // safety net: animations pause in a hidden tab, never leave a copy on screen
 }
 
 function onSlotClick(e) {
@@ -543,23 +544,34 @@ $('#board').addEventListener('click', (e) => {
 
 // ============================================================
 //  QUESTION
+//  No time limit: a stopwatch counts up and the host controls it (pause / resume / reset).
+//  The host passes the question to the other team with "سرقة", and reveals it with "إنهاء".
 // ============================================================
-let timer = null;
+let clockTimer = null;
 let currentQ = null;
-
-const STAR = starPoints(100, 100, 100, 78);
-$('#timer .track').setAttribute('points', STAR);
-$('#timer .fill').setAttribute('points', STAR);
 
 async function openQuestion(resumed = false) {
   const st = game.getState();
   const cur = st.current;
   const q = await getQuestionById(cur.qid);
-  currentQ = q;
   const cat = catById[cur.catId];
 
+  $('#screen-question').setAttribute('style', catStyle(cur.catId));
   $('#q-cat').textContent = cat.name;
   $('#q-points').textContent = cur.points;
+  $('#q-bet').hidden = !cur.bet;
+  showQuestionContent(q);
+  if (!cur.clock) game.setClock({ elapsed: 0, since: Date.now() }); // a new question starts at 0:00 and runs
+  show('screen-question');
+
+  if (cur.awardedTo !== undefined) return showAnswer(true);
+  if (cur.stage === 'revealed') return showAnswer();
+  startStage(cur.stage === 'steal' ? 'steal' : 'answer');
+}
+
+/** Question text, flag and media (also used when تبديل swaps the question) */
+function showQuestionContent(q) {
+  currentQ = q;
   $('#q-text').textContent = q.question;
   const flag = $('#q-flag');
   if (q.image) {
@@ -573,16 +585,6 @@ async function openQuestion(resumed = false) {
   $('#q-glimpse').hidden = true;
   clearMedia();
   if (q.media?.src && q.media.show !== 'answer') renderMedia(q.media);
-  $('#q-bet').hidden = !cur.bet;
-  const answering = cur.stage === 'steal' ? 1 - cur.chooser : cur.chooser;
-  $('#screen-question').dataset.team = answering;
-  $('#q-who').textContent = `${cur.stage === 'steal' ? 'فرصة سرقة' : 'يجيب'}: ${st.teams[answering].name}`;
-  show('screen-question');
-
-  if (cur.awardedTo !== undefined) return showAnswer(true);
-  if (cur.stage === 'revealed') return showAnswer();
-  if (cur.stage === 'steal') return startStage('steal');
-  startStage('answer');
 }
 
 function startStage(stage) {
@@ -590,58 +592,72 @@ function startStage(stage) {
   const cur = st.current;
   game.setStage(stage);
   const team = stage === 'answer' ? cur.chooser : 1 - cur.chooser;
-  const seconds = stage === 'answer' ? CONFIG.ANSWER_TIME : CONFIG.STEAL_TIME;
-  const screen = $('#screen-question');
-  screen.dataset.team = team;
+  $('#screen-question').dataset.team = team;
   const who = $('#q-who');
-  who.textContent = stage === 'answer' ? `يجيب: ${st.teams[team].name}` : `فرصة سرقة: ${st.teams[team].name}`;
+  who.innerHTML = `${teamMark(team)}<span>${stage === 'answer' ? 'يجيب' : 'فرصة سرقة'}: ${esc(st.teams[team].name)}</span>`;
+  who.dataset.team = team;
   who.classList.toggle('is-steal', stage === 'steal');
   renderQuestionHelpers(team);
+  $('#stopwatch').classList.remove('is-done');
+  $$('#stopwatch button').forEach((b) => (b.disabled = false));
+  runClock();
 
-  $('#q-actions').innerHTML = `<button type="button" class="btn btn-big" id="btn-end">إنهاء وإظهار الإجابة</button>`;
-  if (!document.activeElement?.closest('#q-helpers')) $('#btn-end').focus({ preventScroll: true });
-  $('#btn-end').addEventListener('click', () => {
-    stopTimer();
-    showAnswer();
-  });
-
-  runTimer(seconds, () => {
-    sound.timeUp();
-    if (stage === 'answer') {
-      toast(`انتهى الوقت! فرصة ${st.teams[1 - cur.chooser].name} للسرقة`);
-      startStage('steal');
-    } else {
-      showAnswer();
-    }
+  const other = st.teams[1 - cur.chooser].name;
+  $('#q-actions').innerHTML = `${
+    stage === 'answer'
+      ? `<button type="button" class="btn btn-big btn-steal" id="btn-steal" data-team="${1 - cur.chooser}">${ICONS.steal}<span>سرقة: ${esc(other)}</span></button>`
+      : ''
+  }<button type="button" class="btn btn-big btn-primary" id="btn-end">إنهاء وإظهار الإجابة</button>`;
+  if (!document.activeElement?.closest('#q-helpers, #stopwatch')) $('#btn-end').focus({ preventScroll: true });
+  $('#btn-end').addEventListener('click', () => showAnswer());
+  $('#btn-steal')?.addEventListener('click', () => {
+    sound.steal();
+    toast(`فرصة سرقة لـ ${other}`);
+    startStage('steal'); // the stopwatch keeps running; the host can reset it
   });
 }
 
 function renderQuestionHelpers(team) {
   const box = $('#q-helpers');
+  const cur = game.getState().current;
   const isLetters = catById[currentQ.category]?.type === 'letters';
   const name = game.getState().teams[team].name;
   box.innerHTML = CONFIG.HELPERS.filter((h) => h.when === 'question')
     .map((h) => {
       const used = game.helperUsed(team, h.id);
-      const blocked = h.id === 'glimpse' && isLetters;
-      const label = h.id === 'breather' ? `${h.name} +${CONFIG.BREATHER_SECONDS}ث` : h.name;
-      return `<button type="button" class="btn q-helper" data-helper="${h.id}" data-team="${team}" ${used || blocked ? 'disabled' : ''}
-        aria-label="${esc(`${label} لفريق ${name}: ${h.desc}${used ? ' (مُستخدم)' : blocked ? ' (غير متاح في هذه الفئة)' : ''}`)}">${ICONS[h.id]}<span>${esc(label)}</span></button>`;
+      // لمحة can't work when any word is a right answer; تبديل is only for the team that picked the question
+      const why = h.id === 'glimpse' && isLetters ? 'غير متاح في هذه الفئة' : h.id === 'swap' && cur.stage === 'steal' ? 'غير متاح عند السرقة' : '';
+      return `<button type="button" class="btn q-helper" data-helper="${h.id}" data-team="${team}" ${used || why ? 'disabled' : ''}
+        aria-label="${esc(`${h.name} لفريق ${name}: ${h.desc}${used ? ' (مُستخدم)' : why ? ` (${why})` : ''}`)}" title="${esc(h.desc)}">${ICONS[h.id]}<span>${esc(h.name)}</span></button>`;
     })
     .join('');
 }
 
-$('#q-helpers').addEventListener('click', (e) => {
+$('#q-helpers').addEventListener('click', async (e) => {
   const b = e.target.closest('.q-helper');
-  if (!b || b.disabled || !timer) return;
+  const cur = game.getState()?.current;
+  if (!b || b.disabled || !cur || cur.stage === 'revealed') return;
   const team = Number(b.dataset.team);
+  if (b.dataset.helper === 'swap') {
+    b.disabled = true;
+    const slot = CONFIG.BOARD.find((s) => s.points === cur.points);
+    const q = await pickReplacement(cur.catId, slot.difficulty, game.boardQuestionIds());
+    if (!q) {
+      b.disabled = false;
+      return toast('لا يوجد سؤال بديل في هذه الفئة الآن');
+    }
+    if (!game.useHelper(team, 'swap')) return;
+    sound.helper();
+    game.swapQuestion(q.id);
+    showQuestionContent(q);
+    resetClock();
+    toast(`سؤال جديد لـ ${game.getState().teams[team].name}`);
+    return renderQuestionHelpers(team);
+  }
   if (!game.useHelper(team, b.dataset.helper)) return;
   sound.helper();
   b.disabled = true;
-  if (b.dataset.helper === 'breather') {
-    addTime(CONFIG.BREATHER_SECONDS);
-    toast(`+${CONFIG.BREATHER_SECONDS} ثانية لـ ${game.getState().teams[team].name}`);
-  } else if (b.dataset.helper === 'glimpse') {
+  if (b.dataset.helper === 'glimpse') {
     const g = $('#q-glimpse');
     g.innerHTML = glimpseHtml(currentQ.answer);
     g.hidden = false;
@@ -650,7 +666,7 @@ $('#q-helpers').addEventListener('click', (e) => {
 
 /** "جبل إيفرست" → first letter + one dash per remaining letter, words kept apart */
 function glimpseHtml(answer) {
-  const clean = String(answer).replace(/\(.*?\)/g, '').replace(/[\u064B-\u0652\u0640]/g, '').trim();
+  const clean = String(answer).replace(/\(.*?\)/g, '').replace(/[ً-ْـ]/g, '').trim();
   const words = clean.split(/\s+/);
   const count = words.join('').length;
   const pattern = words
@@ -660,54 +676,52 @@ function glimpseHtml(answer) {
     <span class="glimpse-pattern" aria-hidden="true">${pattern}</span><span class="glimpse-count" aria-hidden="true">${count} حروف</span>`;
 }
 
-let endAt = 0;
-let timerTotal = 0;
+// ---------- stopwatch ----------
+const elapsedMs = (c) => c.elapsed + (c.since ? Date.now() - c.since : 0);
+let clockPaused = null;
 
-function addTime(seconds) {
-  endAt += seconds * 1000;
-  timerTotal += seconds;
+function paintClock() {
+  const c = game.getState()?.current?.clock;
+  if (!c) return;
+  const s = Math.floor(elapsedMs(c) / 1000);
+  $('#sw-num').textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+  $('#stopwatch .fill').style.strokeDashoffset = String(60 - (s % 60)); // the ring fills once a minute
+  const paused = !c.since;
+  if (paused !== clockPaused) {
+    clockPaused = paused;
+    $('#stopwatch').classList.toggle('is-paused', paused);
+    const t = $('#sw-toggle');
+    t.innerHTML = paused ? `${ICONS.play}<span>استئناف</span>` : `${ICONS.pause}<span>إيقاف مؤقت</span>`;
+    t.setAttribute('aria-label', paused ? 'استئناف الوقت' : 'إيقاف الوقت مؤقتاً');
+  }
 }
 
-function runTimer(total, onEnd) {
-  stopTimer();
-  const el = $('#timer');
-  const num = $('#timer-num');
-  const fill = $('#timer .fill');
-  el.classList.remove('is-low', 'is-done');
-  endAt = Date.now() + total * 1000;
-  timerTotal = total;
-  let last = null;
-
-  // jump the ring to full instantly, then let CSS animate each second
-  fill.style.transition = 'none';
-  fill.style.strokeDashoffset = '0';
-  fill.getBoundingClientRect();
-  fill.style.transition = '';
-
-  const step = () => {
-    const left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
-    if (left !== last) {
-      last = left;
-      num.textContent = left;
-      fill.style.strokeDashoffset = String(100 * (1 - Math.max(0, left - 1) / timerTotal));
-      const low = left <= CONFIG.TICK_WARNING_AT;
-      el.classList.toggle('is-low', low && left > 0);
-      if (left > 0 && !mediaPlaying()) sound.tick(low); // quiet while a video/audio clip plays
-    }
-    if (left <= 0) {
-      stopTimer();
-      el.classList.add('is-done');
-      onEnd();
-    }
-  };
-  step();
-  timer = setInterval(step, 200);
+function runClock() {
+  stopClock();
+  clockPaused = null;
+  paintClock();
+  clockTimer = setInterval(paintClock, 250);
 }
 
-function stopTimer() {
-  clearInterval(timer);
-  timer = null;
+function stopClock() {
+  clearInterval(clockTimer);
+  clockTimer = null;
 }
+
+function resetClock() {
+  const c = game.getState().current.clock;
+  game.setClock({ elapsed: 0, since: c?.since ? Date.now() : null });
+  paintClock();
+}
+
+$('#sw-reset').innerHTML = `${ICONS.reset}<span>من الصفر</span>`;
+$('#sw-toggle').addEventListener('click', () => {
+  const c = game.getState()?.current?.clock;
+  if (!c) return;
+  game.setClock(c.since ? { elapsed: elapsedMs(c), since: null } : { elapsed: c.elapsed, since: Date.now() });
+  paintClock();
+});
+$('#sw-reset').addEventListener('click', resetClock);
 
 // ---------- question media (image / video / audio attached in the admin panel) ----------
 function renderMedia(m) {
@@ -745,11 +759,14 @@ function answerHtml(q) {
 }
 
 function showAnswer(alreadyAwarded = false) {
-  stopTimer();
   const st = game.getState();
   const cur = st.current;
+  if (cur.clock?.since) game.setClock({ elapsed: elapsedMs(cur.clock), since: null }); // freeze the time on the answer
   if (cur.stage !== 'revealed') game.setStage('revealed');
-  $('#timer').classList.add('is-done');
+  paintClock();
+  stopClock();
+  $('#stopwatch').classList.add('is-done');
+  $$('#stopwatch button').forEach((b) => (b.disabled = true));
   $('#q-who').classList.remove('is-steal');
   $('#q-helpers').innerHTML = '';
   const ans = $('#q-answer');
@@ -845,7 +862,7 @@ function confetti(w) {
     canvas.height = innerHeight * dpr;
   };
   resize();
-  const colors = w === 1 ? ['#1fc7b3', '#f1ecff', '#7fe8da'] : w === 0 ? ['#ffb627', '#f1ecff', '#ffd77a'] : ['#ffb627', '#1fc7b3', '#f1ecff'];
+  const colors = w === 1 ? ['#2a6bcf', '#f0bf33', '#8fb3ea', '#ec6142'] : w === 0 ? ['#c92a68', '#f0bf33', '#e88aad', '#1a97aa'] : ['#c92a68', '#2a6bcf', '#f0bf33', '#23996a'];
   const parts = Array.from({ length: reduce ? 40 : 160 }, () => ({
     x: Math.random() * canvas.width,
     y: reduce ? Math.random() * canvas.height : -Math.random() * canvas.height,
