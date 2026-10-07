@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>ميدان — لعبة أسئلة للفريقين</title>
   <meta name="description" content="لعبة أسئلة عربية لفريقين على شاشة واحدة">
-  <meta name="theme-color" content="#1e1650">
+  <meta name="theme-color" content="#16181b">
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Readex+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -26,43 +26,67 @@
     </div>
   </main>
 
-  <!-- ========== SETUP ========== -->
+  <!-- ========== SETUP: category draft ========== -->
   <main id="screen-setup" class="screen" hidden aria-labelledby="setup-title">
-    <div class="setup-head">
+    <header class="draft-head">
       <span class="logo"><span data-icon="logo"></span><span class="logo-word" data-game-name translate="no">ميدان</span></span>
-      <h1 id="setup-title">جهّزوا الفريقين</h1>
-    </div>
-    <form id="setup-form" novalidate>
-      <div class="setup-teams">
-        <section class="team-setup" data-team="0" aria-labelledby="t0-label">
-          <label id="t0-label" for="t0-name">اسم الفريق الأول</label>
-          <input id="t0-name" class="team-name-input" name="team0" autocomplete="off" spellcheck="false" maxlength="24" placeholder="مثلاً: الصقور…">
-          <p class="pick-count">اختاروا <strong>3</strong> فئات — <span data-count>0</span> من 3</p>
-          <div class="cat-grid" role="group" aria-label="فئات الفريق الأول"></div>
+      <h1 id="setup-title">اختيار الفئات</h1>
+    </header>
+    <form id="setup-form" class="draft" novalidate>
+      <div class="draft-top">
+        <label class="team-field" data-team="0">
+          <span class="team-field-label"><span class="team-mark" aria-hidden="true"></span>الفريق الأول</span>
+          <input id="t0-name" name="team0" autocomplete="off" spellcheck="false" maxlength="24" placeholder="اكتبوا اسم فريقكم…">
+        </label>
+        <div class="draft-turn">
+          <p class="draft-turn-text" id="draft-turn-text" aria-live="polite"></p>
+          <ol class="draft-order" id="draft-order" aria-label="ترتيب الاختيار"></ol>
+        </div>
+        <label class="team-field" data-team="1">
+          <span class="team-field-label"><span class="team-mark" aria-hidden="true"></span>الفريق الثاني</span>
+          <input id="t1-name" name="team1" autocomplete="off" spellcheck="false" maxlength="24" placeholder="اكتبوا اسم فريقكم…">
+        </label>
+      </div>
+
+      <div class="draft-body">
+        <section class="draft-side" data-team="0" aria-labelledby="side0-title">
+          <h2 class="visually-hidden" id="side0-title">فئات الفريق الأول</h2>
+          <ol class="slots" id="slots-0"></ol>
         </section>
-        <section class="team-setup" data-team="1" aria-labelledby="t1-label">
-          <label id="t1-label" for="t1-name">اسم الفريق الثاني</label>
-          <input id="t1-name" class="team-name-input" name="team1" autocomplete="off" spellcheck="false" maxlength="24" placeholder="مثلاً: النجوم…">
-          <p class="pick-count">اختاروا <strong>3</strong> فئات — <span data-count>0</span> من 3</p>
-          <div class="cat-grid" role="group" aria-label="فئات الفريق الثاني"></div>
+
+        <section class="draft-pool" aria-labelledby="pool-title">
+          <h2 class="visually-hidden" id="pool-title">الفئات المتاحة</h2>
+          <div class="pool-tools">
+            <label class="pool-search">
+              <span class="visually-hidden">ابحث عن فئة</span>
+              <input type="search" id="pool-search" placeholder="ابحث عن فئة…" autocomplete="off" spellcheck="false">
+            </label>
+            <div class="chips" id="pool-filters" role="group" aria-label="تصفية الفئات"></div>
+          </div>
+          <div class="pool-grid" id="pool"></div>
+          <p class="pool-empty" id="pool-empty" hidden></p>
+        </section>
+
+        <section class="draft-side" data-team="1" aria-labelledby="side1-title">
+          <h2 class="visually-hidden" id="side1-title">فئات الفريق الثاني</h2>
+          <ol class="slots" id="slots-1"></ol>
         </section>
       </div>
-      <div class="setup-foot">
+
+      <div class="draft-foot">
         <p class="setup-error" id="setup-error" role="alert"></p>
-        <button type="submit" class="btn btn-big btn-t1" id="btn-start">ابدأ اللعب</button>
+        <button type="submit" class="btn btn-primary btn-big" id="btn-start" aria-describedby="start-hint" disabled>ابدأ اللعب</button>
+        <p class="start-hint" id="start-hint"></p>
       </div>
     </form>
   </main>
 
   <!-- ========== BOARD ========== -->
   <main id="screen-board" class="screen" hidden aria-label="لوحة الأسئلة">
-    <header class="topbar">
-      <div class="team-panel" data-team="0"></div>
-      <div class="turn-center">
-        <span class="logo"><span data-icon="logo"></span><span class="logo-word" data-game-name translate="no">ميدان</span></span>
-        <span class="turn-pill" id="turn-pill" aria-live="polite"></span>
-      </div>
-      <div class="team-panel" data-team="1"></div>
+    <header class="scorebar">
+      <div class="team-card" data-team="0"></div>
+      <div class="turn-indicator" id="turn-indicator" aria-live="polite"></div>
+      <div class="team-card" data-team="1"></div>
     </header>
     <div class="board" id="board"></div>
   </main>

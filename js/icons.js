@@ -15,11 +15,12 @@ export function starPoints(cx, cy, outer, inner) {
 }
 
 export const ICONS = {
-  logo: `<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-      <polygon points="${starPoints(50, 50, 48, 37)}" fill="currentColor"/>
-      <circle cx="50" cy="50" r="27" fill="#1e1650"/>
-      <path d="M41 42a9 9 0 1 1 13 8c-3 2-4 3-4 7" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-      <circle cx="50" cy="67" r="4.5" fill="currentColor"/>
+  logo: `<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
+        <rect x="11.5" y="11.5" width="25" height="25" rx="3"/>
+        <rect x="11.5" y="11.5" width="25" height="25" rx="3" transform="rotate(45 24 24)"/>
+      </g>
+      <circle cx="24" cy="24" r="4.2" fill="currentColor"/>
     </svg>`,
   globe: svg('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>'),
   flag: svg('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'),

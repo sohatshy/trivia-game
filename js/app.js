@@ -164,45 +164,163 @@ function initLogin() {
   paintLogin();
 }
 
-// ---------- category pictures: the owner's uploaded image, else the built-in drawing / placeholder ----------
-const categoryArt = (c) => (c.image ? `<img src="${esc(c.image)}" alt="" loading="lazy">` : artFor(c.id));
-const categoryIcon = (c) =>
-  ICONS[c.icon] || (c.image ? `<img class="col-img" src="${esc(c.image)}" alt="" width="36" height="36">` : ICONS.star);
+// ---------- category pictures: the owner's uploaded image, else the built-in duotone icon / placeholder ----------
+const categoryArt = (c) => (c.image ? `<img class="cat-img" src="${esc(c.image)}" alt="" loading="lazy">` : artFor(c.id));
+
+/** Team shape (circle / diamond) so teams differ by shape as well as colour */
+const teamMark = (i) => `<span class="team-mark" data-team="${i}" aria-hidden="true"></span>`;
+const teamName = (i) => $(`#t${i}-name`).value.trim() || (i === 0 ? 'الفريق الأول' : 'الفريق الثاني');
+
+// Simple Arabic-aware matching for the category search
+const norm = (s) =>
+  String(s ?? '')
+    .toLowerCase()
+    .replace(/[ً-ْـ]/g, '')
+    .replace(/[أإآ]/g, 'ا')
+    .replace(/ى/g, 'ي')
+    .replace(/ة/g, 'ه')
+    .trim();
 
 // ============================================================
-//  SETUP
+//  SETUP — category draft
+//  Shared pool in the middle, 3 slots per team, fair pick order 1-2-2-1-1-2.
 // ============================================================
+const PICK_ORDER = [0, 1, 1, 0, 0, 1];
 const picks = [[], []];
+let poolFilter = 'all';
+let poolQuery = '';
+
+/** Whose turn it is to pick (null when both teams are full). Works after a team sends a card back. */
+function nextPicker() {
+  const need = [0, 0];
+  for (const t of PICK_ORDER) {
+    need[t]++;
+    if (picks[t].length < need[t]) return t;
+  }
+  return null;
+}
+
+const isPicked = (id) => picks[0].includes(id) || picks[1].includes(id);
 
 function initSetup() {
-  $$('.team-setup').forEach((section) => {
-    const team = Number(section.dataset.team);
-    const grid = $('.cat-grid', section);
-    grid.innerHTML = categories
-      .map((c) => {
-        const ready = playableIds.has(c.id);
-        const descId = `desc-${team}-${c.id}`;
-        // The "i" button is a sibling of the pick button (a button can't contain another button)
-        return `<div class="cat-card" data-cat="${c.id}">
-          <button type="button" class="cat-chip" data-cat="${c.id}" aria-pressed="false" ${ready ? '' : 'disabled'}>
-            <span class="cat-art">${categoryArt(c)}</span>
-            <span class="cat-name">${esc(c.name)}</span>
-            <span class="taken-by">${ready ? '' : 'قريباً'}</span>
-          </button>
-          <button type="button" class="cat-info" aria-expanded="false" aria-controls="${descId}" aria-label="عن فئة ${esc(c.name)}">i</button>
-          <p class="cat-desc" id="${descId}" role="note" hidden>${esc(c.description || descFor(c.id))}</p>
-        </div>`;
+  $('#setup-form').addEventListener('submit', startGame);
+  $('#pool').addEventListener('click', onPoolClick);
+  $('#slots-0').addEventListener('click', onSlotClick);
+  $('#slots-1').addEventListener('click', onSlotClick);
+  $('#pool-search').addEventListener('input', (e) => {
+    poolQuery = norm(e.target.value);
+    renderPool();
+  });
+  $('#pool-filters').addEventListener('click', (e) => {
+    const chip = e.target.closest('[data-filter]');
+    if (!chip) return;
+    poolFilter = chip.dataset.filter;
+    renderFilters();
+    renderPool();
+  });
+  for (const i of [0, 1]) $(`#t${i}-name`).addEventListener('input', () => renderDraft());
+  renderFilters();
+  renderDraft();
+}
+
+function renderFilters() {
+  const groups = [...new Set(categories.map((c) => c.group).filter(Boolean))];
+  const hasSoon = categories.some((c) => !playableIds.has(c.id));
+  const chips = [
+    ['all', 'الكل'],
+    ['ready', 'جاهزة للعب'],
+    ...(hasSoon ? [['soon', 'قريباً']] : []),
+    ...groups.map((g) => [`g:${g}`, g]),
+  ];
+  $('#pool-filters').innerHTML = chips
+    .map(([id, label]) => `<button type="button" class="chip" data-filter="${esc(id)}" aria-pressed="${poolFilter === id}">${esc(label)}</button>`)
+    .join('');
+}
+
+function renderDraft() {
+  renderTurn();
+  renderSlots();
+  renderPool();
+  const done = picks[0].length === 3 && picks[1].length === 3;
+  $('#btn-start').disabled = !done;
+  $('#start-hint').textContent = done ? '' : `يختار كل فريق ${CONFIG.CATEGORIES_PER_TEAM} فئات ليبدأ اللعب.`;
+}
+
+function renderTurn() {
+  const t = nextPicker();
+  const text = $('#draft-turn-text');
+  text.dataset.team = t ?? '';
+  text.innerHTML = t === null ? 'اكتمل الاختيار' : `${teamMark(t)}<span>دور <strong>${esc(teamName(t))}</strong> في الاختيار</span>`;
+  // Order track: which picks are done, which is now, which are next
+  const used = [0, 0];
+  let currentShown = false;
+  $('#draft-order').innerHTML = PICK_ORDER.map((team, i) => {
+    used[team]++;
+    const done = picks[team].length >= used[team];
+    const now = !done && !currentShown && team === t;
+    if (now) currentShown = true;
+    const state = done ? 'done' : now ? 'now' : 'next';
+    const label = `الاختيار ${i + 1}: ${teamName(team)}${done ? ' (تم)' : now ? ' (الآن)' : ''}`;
+    return `<li class="order-step is-${state}" data-team="${team}"><span class="visually-hidden">${esc(label)}</span>${teamMark(team)}</li>`;
+  }).join('');
+  $$('.draft-side').forEach((side) => side.classList.toggle('is-turn', Number(side.dataset.team) === t));
+  $$('.team-field').forEach((f) => f.classList.toggle('is-turn', Number(f.dataset.team) === t));
+}
+
+function renderSlots() {
+  const t = nextPicker();
+  for (const team of [0, 1]) {
+    const list = $(`#slots-${team}`);
+    list.innerHTML = [0, 1, 2]
+      .map((i) => {
+        const id = picks[team][i];
+        if (id) {
+          const c = catById[id];
+          return `<li><button type="button" class="slot is-filled" data-team="${team}" data-cat="${esc(id)}"
+            aria-label="${esc(`${c.name}: اضغط لإرجاعها إلى القائمة`)}">
+            <span class="slot-icon">${categoryArt(c)}</span><span class="slot-name">${esc(c.name)}</span>
+            <span class="slot-remove" aria-hidden="true">×</span></button></li>`;
+        }
+        const isNext = team === t && i === picks[team].length;
+        return `<li><div class="slot is-empty${isNext ? ' is-next' : ''}"><span class="slot-num">${i + 1}</span><span class="slot-hint">${
+          isNext ? 'اختاروا فئة' : 'فارغ'
+        }</span></div></li>`;
       })
       .join('');
-    grid.addEventListener('click', (e) => {
-      const info = e.target.closest('.cat-info');
-      if (info) return toggleInfo(info);
-      const chip = e.target.closest('.cat-chip');
-      if (!chip || chip.disabled) return;
-      togglePick(team, chip.dataset.cat);
-    });
+  }
+}
+
+function renderPool() {
+  const t = nextPicker();
+  const shown = categories.filter((c) => {
+    if (isPicked(c.id)) return false;
+    const ready = playableIds.has(c.id);
+    if (poolFilter === 'ready' && !ready) return false;
+    if (poolFilter === 'soon' && ready) return false;
+    if (poolFilter.startsWith('g:') && c.group !== poolFilter.slice(2)) return false;
+    return !poolQuery || norm(c.name).includes(poolQuery) || norm(c.description || descFor(c.id)).includes(poolQuery);
   });
-  $('#setup-form').addEventListener('submit', startGame);
+  $('#pool').innerHTML = shown
+    .map((c) => {
+      const ready = playableIds.has(c.id);
+      const can = ready && t !== null;
+      const descId = `desc-${c.id}`;
+      return `<div class="cat-card${ready ? '' : ' is-soon'}" data-cat="${esc(c.id)}">
+        <button type="button" class="cat-pick" data-cat="${esc(c.id)}" ${can ? '' : 'disabled'}
+          aria-label="${esc(ready ? (t === null ? c.name : `اختيار ${c.name} لفريق ${teamName(t)}`) : `${c.name} (قريباً)`)}">
+          <span class="cat-art">${categoryArt(c)}</span>
+          <span class="cat-name">${esc(c.name)}</span>
+          ${ready ? '' : '<span class="cat-soon">قريباً</span>'}
+        </button>
+        <button type="button" class="cat-info" aria-expanded="false" aria-controls="${descId}" aria-label="عن فئة ${esc(c.name)}">i</button>
+        <p class="cat-desc" id="${descId}" role="note" hidden>${esc(c.description || descFor(c.id) || 'لا يوجد وصف لهذه الفئة.')}</p>
+      </div>`;
+    })
+    .join('');
+  const empty = $('#pool-empty');
+  const left = categories.filter((c) => !isPicked(c.id)).length;
+  empty.hidden = shown.length > 0;
+  empty.textContent = left === 0 ? 'اختيرت كل الفئات.' : poolQuery ? 'لا توجد فئة بهذا الاسم. جرّبوا كلمة أخرى.' : 'لا توجد فئات في هذا التصنيف.';
 }
 
 // ---------- "i" description bubbles (one open at a time) ----------
@@ -227,65 +345,86 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-function togglePick(team, catId) {
-  const mine = picks[team];
-  const other = picks[1 - team];
+const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function onPoolClick(e) {
+  const info = e.target.closest('.cat-info');
+  if (info) return toggleInfo(info);
+  const btn = e.target.closest('.cat-pick');
+  const team = nextPicker();
+  if (!btn || btn.disabled || team === null) return;
+  const id = btn.dataset.cat;
+  const from = btn.closest('.cat-card').getBoundingClientRect();
+  const ghost = btn.closest('.cat-card').cloneNode(true);
+  picks[team].push(id);
   $('#setup-error').textContent = '';
-  if (mine.includes(catId)) {
-    mine.splice(mine.indexOf(catId), 1);
-  } else if (other.includes(catId)) {
-    return;
-  } else if (mine.length >= CONFIG.CATEGORIES_PER_TEAM) {
-    $('#setup-error').textContent = 'كل فريق يختار 3 فئات فقط. ألغِ واحدة أولاً.';
-    return;
-  } else {
-    mine.push(catId);
-  }
-  paintPicks();
+  sound.open();
+  renderDraft();
+  flyToSlot(ghost, from, $(`#slots-${team} [data-cat="${CSS.escape(id)}"]`));
+  // keep keyboard users in the pool: focus the first available card
+  ($('#pool .cat-pick:not([disabled])') || $('#btn-start')).focus({ preventScroll: true });
 }
 
-function paintPicks() {
-  $$('.team-setup').forEach((section) => {
-    const team = Number(section.dataset.team);
-    $('[data-count]', section).textContent = picks[team].length;
-    $$('.cat-chip', section).forEach((chip) => {
-      const id = chip.dataset.cat;
-      if (!playableIds.has(id)) return;
-      const mine = picks[team].includes(id);
-      const taken = picks[1 - team].includes(id);
-      chip.setAttribute('aria-pressed', String(mine));
-      chip.classList.toggle('is-taken', taken);
-      chip.closest('.cat-card').classList.toggle('is-taken', taken);
-      chip.disabled = taken;
-      $('.taken-by', chip).textContent = taken ? 'اختارها الفريق الآخر' : '';
-    });
-  });
+/** The picked card glides from the pool into the team's slot (FLIP animation). */
+function flyToSlot(ghost, from, slot) {
+  if (!slot || reduceMotion()) return;
+  const to = slot.getBoundingClientRect();
+  slot.classList.add('is-arriving');
+  ghost.classList.add('cat-ghost');
+  Object.assign(ghost.style, { left: `${from.left}px`, top: `${from.top}px`, width: `${from.width}px`, height: `${from.height}px` });
+  document.body.append(ghost);
+  const dx = to.left + to.width / 2 - (from.left + from.width / 2);
+  const dy = to.top + to.height / 2 - (from.top + from.height / 2);
+  const sx = to.width / from.width;
+  const sy = to.height / from.height;
+  const anim = ghost.animate(
+    [
+      { transform: 'translate(0,0) scale(1)', opacity: 1 },
+      { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`, opacity: 0.2 },
+    ],
+    { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' },
+  );
+  const done = () => {
+    ghost.remove();
+    slot.classList.remove('is-arriving');
+  };
+  anim.onfinish = done;
+  anim.oncancel = done;
+}
+
+function onSlotClick(e) {
+  const btn = e.target.closest('.slot.is-filled');
+  if (!btn) return;
+  const team = Number(btn.dataset.team);
+  const id = btn.dataset.cat;
+  picks[team].splice(picks[team].indexOf(id), 1);
+  renderDraft();
+  const card = $(`#pool .cat-card[data-cat="${CSS.escape(id)}"]`);
+  if (card && !reduceMotion()) card.animate([{ opacity: 0, transform: 'scale(.94)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'ease-out' });
+  (card?.querySelector('.cat-pick') || $('#pool-search')).focus({ preventScroll: true });
 }
 
 function resetSetup() {
   picks[0].length = 0;
   picks[1].length = 0;
+  poolQuery = '';
+  poolFilter = 'all';
+  $('#pool-search').value = '';
   $('#setup-error').textContent = '';
-  paintPicks();
+  renderFilters();
+  renderDraft();
 }
 
 async function startGame(e) {
   e.preventDefault();
-  const names = [
-    $('#t0-name').value.trim() || 'الفريق الأول',
-    $('#t1-name').value.trim() || 'الفريق الثاني',
-  ];
+  const names = [teamName(0), teamName(1)];
   if (names[0] === names[1]) {
     $('#setup-error').textContent = 'اختاروا اسمين مختلفين للفريقين.';
     $('#t1-name').focus();
     return;
   }
   const n = CONFIG.CATEGORIES_PER_TEAM;
-  if (picks[0].length !== n || picks[1].length !== n) {
-    const who = picks[0].length !== n ? names[0] : names[1];
-    $('#setup-error').textContent = `${who}: اختاروا ${n} فئات.`;
-    return;
-  }
+  if (picks[0].length !== n || picks[1].length !== n) return;
   const btn = $('#btn-start');
   btn.disabled = true;
   btn.textContent = 'جارٍ التجهيز…';
@@ -300,24 +439,22 @@ async function startGame(e) {
 }
 
 // ============================================================
-//  BOARD
+//  BOARD — one "tower" per category, 3 levels × 2 questions
 // ============================================================
 function renderTeamPanels(bumpTeam = null) {
   const st = game.getState();
-  $$('.team-panel').forEach((panel) => {
-    const i = Number(panel.dataset.team);
+  $$('.team-card').forEach((card) => {
+    const i = Number(card.dataset.team);
     const t = st.teams[i];
-    panel.classList.toggle('is-turn', st.turn === i);
-    panel.innerHTML = `
-      <span class="team-name">${esc(t.name)}</span>
-      <span class="helpers" role="group" aria-label="مساعدات ${esc(t.name)}">${CONFIG.HELPERS.map((h) => boardHelperHtml(i, h)).join('')}</span>
-      <span class="team-score${bumpTeam === i ? ' bump' : ''}" aria-label="نقاط ${esc(t.name)}">${t.score}</span>`;
+    card.classList.toggle('is-turn', st.turn === i);
+    card.innerHTML = `
+      <div class="team-id">${teamMark(i)}<span class="team-name">${esc(t.name)}</span></div>
+      <span class="team-score${bumpTeam === i ? ' bump' : ''}" aria-label="نقاط ${esc(t.name)}">${t.score}</span>
+      <span class="helpers" role="group" aria-label="مساعدات ${esc(t.name)}">${CONFIG.HELPERS.map((h) => boardHelperHtml(i, h)).join('')}</span>`;
   });
-  const [color, ink] = teamVars(st.turn);
-  const pill = $('#turn-pill');
-  pill.style.setProperty('--turn-color', color);
-  pill.style.setProperty('--turn-ink', ink);
-  pill.textContent = `الدور على: ${st.teams[st.turn].name}`;
+  const ti = $('#turn-indicator');
+  ti.dataset.team = st.turn;
+  ti.innerHTML = `<span class="turn-label">الدور على</span><span class="turn-team">${teamMark(st.turn)}${esc(st.teams[st.turn].name)}</span>`;
 }
 
 function boardHelperHtml(team, h) {
@@ -329,10 +466,10 @@ function boardHelperHtml(team, h) {
   const note = armed ? 'مفعّل، اضغط للإلغاء' : used ? 'مُستخدم' : h.when === 'question' ? 'يُستخدم أثناء السؤال' : '';
   return `<button type="button" class="helper-btn${used && !armed ? ' is-used' : ''}${armed ? ' is-armed' : ''}"
     data-team="${team}" data-helper="${h.id}" ${usable ? '' : 'disabled'}
-    aria-label="${esc(`${h.name}: ${h.desc}${note ? ` (${note})` : ''}`)}" title="${esc(`${h.name}: ${h.desc}`)}">${ICONS[h.id]}</button>`;
+    aria-label="${esc(`${h.name}: ${h.desc}${note ? ` (${note})` : ''}`)}" title="${esc(`${h.name}: ${h.desc}${note ? ` (${note})` : ''}`)}">${ICONS[h.id]}</button>`;
 }
 
-$('.topbar').addEventListener('click', (e) => {
+$('.scorebar').addEventListener('click', (e) => {
   const b = e.target.closest('.helper-btn');
   if (!b || b.disabled || b.dataset.helper !== 'bet') return;
   const team = Number(b.dataset.team);
@@ -350,16 +487,20 @@ $('.topbar').addEventListener('click', (e) => {
 function renderBoard(bumpTeam = null) {
   const st = game.getState();
   renderTeamPanels(bumpTeam);
-  const board = $('#board');
-  board.innerHTML = st.categories
+  $('#board').innerHTML = st.categories
     .map((catId) => {
       const cat = catById[catId];
       const tiles = st.board[catId];
-      const rows = [];
-      for (let i = 0; i < tiles.length; i += 2) rows.push(tiles.slice(i, i + 2).map((t, k) => tileHtml(cat, t, i + k)).join(''));
-      return `<section class="board-col" aria-label="${esc(cat.name)}">
-        <h2 class="col-head" data-owner="${game.ownerOf(catId)}">${categoryIcon(cat)}<span>${esc(cat.name)}</span></h2>
-        ${rows.map((r) => `<div class="tile-row">${r}</div>`).join('')}
+      const owner = game.ownerOf(catId);
+      const levels = CONFIG.BOARD.map((slot) => {
+        const idx = tiles.map((t, i) => (t.points === slot.points ? i : -1)).filter((i) => i >= 0);
+        return `<div class="level" data-points="${slot.points}">${idx.map((i) => tileHtml(cat, tiles[i], i)).join('')}</div>`;
+      }).join('');
+      return `<section class="tower" data-owner="${owner}" aria-label="${esc(cat.name)}">
+        <h2 class="tower-head"><span class="tower-icon">${categoryArt(cat)}</span><span class="tower-name">${esc(cat.name)}</span>${
+          owner >= 0 ? `<span class="tower-owner" title="${esc(`اختارها ${st.teams[owner].name}`)}">${teamMark(owner)}</span>` : ''
+        }</h2>
+        <div class="tower-levels">${levels}</div>
       </section>`;
     })
     .join('');
@@ -367,9 +508,17 @@ function renderBoard(bumpTeam = null) {
 }
 
 function tileHtml(cat, t, index) {
-  const label = t.played ? `${cat.name} ${t.points} — تم لعبه` : `${cat.name}، ${t.points} نقطة`;
-  return `<button type="button" class="tile${t.played ? ' is-played' : ''}" data-cat="${cat.id}" data-index="${index}"
-    data-points="${t.points}" ${t.played ? `disabled data-won="${t.wonBy ?? ''}"` : ''} aria-label="${esc(label)}">${t.points}</button>`;
+  const st = game.getState();
+  if (t.played) {
+    const won = t.wonBy === 0 || t.wonBy === 1;
+    const label = `${cat.name} ${t.points}: ${won ? `أخذ النقاط ${st.teams[t.wonBy].name}` : 'لم يأخذ أحد النقاط'}`;
+    return `<button type="button" class="tile is-played" data-points="${t.points}" data-won="${won ? t.wonBy : 'none'}" disabled aria-label="${esc(label)}">
+      ${won ? teamMark(t.wonBy) : '<span class="tile-none" aria-hidden="true">—</span>'}<span class="tile-pts">${t.points}</span></button>`;
+  }
+  return `<button type="button" class="tile" data-cat="${cat.id}" data-index="${index}" data-points="${t.points}"
+    aria-label="${esc(`${cat.name}، ${t.points} نقطة`)}"><span class="tile-pts">${t.points}</span><span class="tile-dots" aria-hidden="true">${'<i></i>'.repeat(
+      Math.max(1, CONFIG.BOARD.findIndex((b) => b.points === t.points) + 1),
+    )}</span></button>`;
 }
 
 $('#board').addEventListener('click', (e) => {
