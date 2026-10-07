@@ -167,6 +167,13 @@ function initLogin() {
 // ---------- category pictures: the owner's uploaded image, else the built-in duotone icon / placeholder ----------
 const categoryArt = (c) => (c.image ? `<img class="cat-img" src="${esc(c.image)}" alt="" loading="lazy">` : artFor(c.id));
 
+/** Each category gets one of the palette colours (--cat-1 … --cat-6 in style.css), by its place in the list */
+const CAT_COLOURS = 6;
+const catStyle = (id) => {
+  const n = (Math.max(0, categories.findIndex((c) => c.id === id)) % CAT_COLOURS) + 1;
+  return `--cat: var(--cat-${n}); --cat-ink: var(--cat-${n}-ink)`;
+};
+
 /** Team shape (circle / diamond) so teams differ by shape as well as colour */
 const teamMark = (i) => `<span class="team-mark" data-team="${i}" aria-hidden="true"></span>`;
 const teamName = (i) => $(`#t${i}-name`).value.trim() || (i === 0 ? 'الفريق الأول' : 'الفريق الثاني');
@@ -276,7 +283,7 @@ function renderSlots() {
         const id = picks[team][i];
         if (id) {
           const c = catById[id];
-          return `<li><button type="button" class="slot is-filled" data-team="${team}" data-cat="${esc(id)}"
+          return `<li><button type="button" class="slot is-filled" data-team="${team}" data-cat="${esc(id)}" style="${catStyle(id)}"
             aria-label="${esc(`${c.name}: اضغط لإرجاعها إلى القائمة`)}">
             <span class="slot-icon">${categoryArt(c)}</span><span class="slot-name">${esc(c.name)}</span>
             <span class="slot-remove" aria-hidden="true">×</span></button></li>`;
@@ -305,7 +312,7 @@ function renderPool() {
       const ready = playableIds.has(c.id);
       const can = ready && t !== null;
       const descId = `desc-${c.id}`;
-      return `<div class="cat-card${ready ? '' : ' is-soon'}" data-cat="${esc(c.id)}">
+      return `<div class="cat-card${ready ? '' : ' is-soon'}" data-cat="${esc(c.id)}" style="${catStyle(c.id)}">
         <button type="button" class="cat-pick" data-cat="${esc(c.id)}" ${can ? '' : 'disabled'}
           aria-label="${esc(ready ? (t === null ? c.name : `اختيار ${c.name} لفريق ${teamName(t)}`) : `${c.name} (قريباً)`)}">
           <span class="cat-art">${categoryArt(c)}</span>
@@ -439,7 +446,7 @@ async function startGame(e) {
 }
 
 // ============================================================
-//  BOARD — one "tower" per category, 3 levels × 2 questions
+//  BOARD — one card per category: picture + name in the middle, 3 questions on each side
 // ============================================================
 function renderTeamPanels(bumpTeam = null) {
   const st = game.getState();
@@ -492,15 +499,22 @@ function renderBoard(bumpTeam = null) {
       const cat = catById[catId];
       const tiles = st.board[catId];
       const owner = game.ownerOf(catId);
-      const levels = CONFIG.BOARD.map((slot) => {
-        const idx = tiles.map((t, i) => (t.points === slot.points ? i : -1)).filter((i) => i >= 0);
-        return `<div class="level" data-points="${slot.points}">${idx.map((i) => tileHtml(cat, tiles[i], i)).join('')}</div>`;
-      }).join('');
-      return `<section class="tower" data-owner="${owner}" aria-label="${esc(cat.name)}">
-        <h2 class="tower-head"><span class="tower-icon">${categoryArt(cat)}</span><span class="tower-name">${esc(cat.name)}</span>${
-          owner >= 0 ? `<span class="tower-owner" title="${esc(`اختارها ${st.teams[owner].name}`)}">${teamMark(owner)}</span>` : ''
-        }</h2>
-        <div class="tower-levels">${levels}</div>
+      // Two columns of questions (one on each side of the picture), each 200 → 400 → 600 from top to bottom
+      const sides = [0, 1].map((side) =>
+        CONFIG.BOARD.map((slot) => {
+          const i = tiles.map((t, n) => (t.points === slot.points ? n : -1)).filter((n) => n >= 0)[side];
+          return i === undefined ? '' : tileHtml(cat, tiles[i], i);
+        }).join(''),
+      );
+      return `<section class="bcard" style="${catStyle(catId)}" aria-label="${esc(cat.name)}">
+        <div class="bcard-col">${sides[0]}</div>
+        <div class="bcard-mid">
+          <span class="bcard-art">${categoryArt(cat)}</span>
+          <h2 class="bcard-name">${esc(cat.name)}</h2>
+        </div>
+        <div class="bcard-col">${sides[1]}</div>${
+          owner >= 0 ? `<span class="bcard-owner" data-team="${owner}" title="${esc(`اختارها ${st.teams[owner].name}`)}">${teamMark(owner)}<span class="visually-hidden">اختارها ${esc(st.teams[owner].name)}</span></span>` : ''
+        }
       </section>`;
     })
     .join('');
@@ -513,12 +527,10 @@ function tileHtml(cat, t, index) {
     const won = t.wonBy === 0 || t.wonBy === 1;
     const label = `${cat.name} ${t.points}: ${won ? `أخذ النقاط ${st.teams[t.wonBy].name}` : 'لم يأخذ أحد النقاط'}`;
     return `<button type="button" class="tile is-played" data-points="${t.points}" data-won="${won ? t.wonBy : 'none'}" disabled aria-label="${esc(label)}">
-      ${won ? teamMark(t.wonBy) : '<span class="tile-none" aria-hidden="true">—</span>'}<span class="tile-pts">${t.points}</span></button>`;
+      <span class="tile-pts">${t.points}</span>${won ? teamMark(t.wonBy) : ''}</button>`;
   }
   return `<button type="button" class="tile" data-cat="${cat.id}" data-index="${index}" data-points="${t.points}"
-    aria-label="${esc(`${cat.name}، ${t.points} نقطة`)}"><span class="tile-pts">${t.points}</span><span class="tile-dots" aria-hidden="true">${'<i></i>'.repeat(
-      Math.max(1, CONFIG.BOARD.findIndex((b) => b.points === t.points) + 1),
-    )}</span></button>`;
+    aria-label="${esc(`${cat.name}، ${t.points} نقطة`)}"><span class="tile-pts">${t.points}</span></button>`;
 }
 
 $('#board').addEventListener('click', (e) => {
