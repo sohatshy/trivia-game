@@ -236,6 +236,11 @@ def publish():
     if not publish_lock.acquire(blocking=False):
         raise ApiError(409, "النشر يعمل الآن بالفعل. انتظر حتى ينتهي.")
     try:
+        # Never publish from a work-in-progress branch (e.g. while a redesign is being built)
+        branch = git("rev-parse", "--abbrev-ref", "HEAD").strip()
+        if branch != BRANCH:
+            raise ApiError(409, "لا يمكن النشر الآن: يجري العمل على تحديث في التصميم لم يكتمل بعد. "
+                                "انشر بعد انتهائه، وتغييراتك محفوظة على جهازك.")
         s = publish_summary()
         if not s["hasChanges"]:
             return {"ok": True, "nothing": True}
